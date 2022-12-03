@@ -7,6 +7,7 @@
     <title>Pleasure Venue</title>
 </head>
 <div th:each="user : ${users}">
-    <a th:href="@{/users/{id}(id=${user.getId()})}" text="${user.getName()}"></a>
+    <p>User info:</p>
+    <a th:href="@{/users/{id}(id=${user.getId()})}" th:text="${user.toString()}"></a>
 </div>
 </html>

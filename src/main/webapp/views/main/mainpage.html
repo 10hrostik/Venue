@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pleasure Venue</title>
+</head>
+<body>
+    <a align="center" href="/venue/users">Get userlist</a>
+    <div>
+        <form align="right" th:method="POST" th:action="@{/}" th:object="${user}">
+            <label for="username">Enter username: </label>
+            <input type="text" th:field="*{username}" id="username"/>
+            <br/>
+            <label for="password">Enter password: </label>
+            <input type="text" th:field="*{password}" id="password"/>
+            <br/>
+            <input type="submit" value="Sign up"/>
+        </form>
+        <form align="right" th:method="GET" th:action="@{/auth}">
+            <label for="username">Enter username: </label>
+            <input type="text" name="username" id="username"/>
+            <br/>
+            <label for="password">Enter password: </label>
+            <input type="text" name="password" id="password"/>
+            <br/>
+            <input type="submit" value="Log in"/>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,21 +1,29 @@
 package api.beans;
 
 public class User {
-    private Long id;
+    private int id;
     private String username;
     private String password;
     private String name;
     private String email;
     private Long phone;
 
-    public User(Long id, String username, String password, String name) {
+    public User() {
+
+    }
+
+    public User(int id, String username, String password, String name) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.name = name;
     }
 
-    public Long getId() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
         return id;
     }
 
@@ -57,5 +65,10 @@ public class User {
 
     public Long getPhone() {
         return phone;
+    }
+
+    @Override
+    public String toString() {
+        return id + " " + username + " " + name;
     }
 }

@@ -13,8 +13,8 @@ public class UserDao {
 
     {
         users = new ArrayList<>();
-        users.add(new User(1l, "rostikUser", "horban", "Rostik"));
-        users.add(new User(2L, "anyaUser", "horban", "Anya"));
+        users.add(new User(1, "rostikUser", "horban", "Rostik"));
+        users.add(new User(2, "anyaUser", "horban", "Anya"));
     }
 
     public List<User> getUsers() {
@@ -23,5 +23,15 @@ public class UserDao {
 
     public User getUserById(Long id) {
         return users.stream().filter(user -> user.getId() == id).findAny().orElse(null);
+    }
+
+    public void save(User user) {
+        user.setId(3);
+        users.add(user);
+    }
+
+    public User getUser(String username, String password) {
+        return users.stream().filter(user -> user.getUsername().equals(username))
+                .filter(user -> user.getPassword().equals(password)).findAny().orElse(null);
     }
 }

@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ExitController {
     @GetMapping("/exit")
     public String sayGoodbye() {
-        return "exit/Exit";
+        return "exit/exit";
     }
 }
