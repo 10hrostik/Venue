@@ -1,4 +1,4 @@
-package api.beans;
+package api.beans.accounts;
 
 public class User {
     private int id;

@@ -2,10 +2,9 @@ package api.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.stereotype.Component;
 
-import api.beans.User;
+import api.beans.accounts.User;
 
 @Component
 public class UserDao {
@@ -21,7 +20,7 @@ public class UserDao {
         return users;
     }
 
-    public User getUserById(Long id) {
+    public User getUserById(int id) {
         return users.stream().filter(user -> user.getId() == id).findAny().orElse(null);
     }
 
@@ -31,7 +30,13 @@ public class UserDao {
     }
 
     public User getUser(String username, String password) {
-        return users.stream().filter(user -> user.getUsername().equals(username))
-                .filter(user -> user.getPassword().equals(password)).findAny().orElse(null);
+        return users.stream().filter(user -> user.getUsername().equals(username) && user.getPassword().equals(password))
+                .findAny().orElse(null);
+    }
+
+    public void edit(User user) {
+        User foundUser = getUserById(user.getId());
+        foundUser.setName(user.getName());
+        foundUser.setPassword(user.getPassword());
     }
 }

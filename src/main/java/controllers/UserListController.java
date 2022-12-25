@@ -19,7 +19,7 @@ public class UserListController {
     }
 
     @GetMapping("/user/{id}")
-    public String getUser(@PathVariable("id") long id, Model model) {
+    public String getUser(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userDao.getUserById(id));
         return "userinfo";
     }
