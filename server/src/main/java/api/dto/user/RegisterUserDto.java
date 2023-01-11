@@ -2,11 +2,18 @@ package api.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RegisterUserDto extends UserDto {
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
+public class RegisterUserDto {
+    
+    @Size(min = 5, max = 15, message = "Username should be 5 - 15 chars long")
+    @NotEmpty(message = "Fill username box")
     @JsonProperty("username")
     private String username;
 
+    @Size(min = 5, max = 15, message = "Password should be 5 - 15 chars long")
+    @NotEmpty(message = "Fill username box")
     @JsonProperty("password")
     private String password;
 

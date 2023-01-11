@@ -2,7 +2,7 @@ package api.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class EditUserDto extends UserDto {
+public class EditUserDto {
 
     @JsonProperty("username")
     private String username;
