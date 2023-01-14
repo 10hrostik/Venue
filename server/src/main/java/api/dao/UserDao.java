@@ -5,6 +5,10 @@ import org.springframework.stereotype.Component;
 import api.configs.EntityManagerConfig;
 import api.entities.accounts.User;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -42,5 +46,24 @@ public class UserDao {
             exception.printStackTrace();
             return null;
         }  
+    }
+
+    public List<User> getAllUsers() {
+        try {
+            em = EntityManagerConfig.getEntityManagerFactory();
+            Query query = em.createQuery("SELECT c FROM User c");
+
+            return castList(User.class, query.getResultList());
+        } catch (NoResultException | IllegalStateException exception) {
+            exception.printStackTrace();
+            return null;
+        }
+    }
+
+    private <T> List<T> castList(Class<? extends T> entityClass, Collection<?> collection) {
+        List<T> list = new ArrayList<T>(collection.size());
+        for(Object object: collection)
+          list.add(entityClass.cast(object));
+        return list;
     }
 }

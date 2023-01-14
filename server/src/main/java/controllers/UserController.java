@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ import api.services.ValidationService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/secured")
+@RequestMapping("/api/secured/users")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -43,7 +45,7 @@ public class UserController {
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE
                                     , produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<UserDto> register(@RequestBody @Valid RegisterUserDto client, 
-                                            BindingResult bindingResult) {
+                                               BindingResult bindingResult) {
         BatchResponseDto<UserDto> response = new BatchResponseDto<>(); 
         if (validationService.getErrorMessages(bindingResult.getAllErrors()).length() > 1) {
             response.setMessage(validationService.getErrorMessages(bindingResult.getAllErrors()));
@@ -63,7 +65,7 @@ public class UserController {
     @ResponseBody
     @GetMapping(value = "/login/{username}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<UserDto> login(@PathVariable(value = "username") String username, 
-                                        @PathVariable(value = "password") String password) {
+                                           @PathVariable(value = "password") String password) {
         BatchResponseDto<UserDto> response = new BatchResponseDto<>(); 
         UserDto user = userService.getUser(username, password);
         if (user == null) {
@@ -82,5 +84,11 @@ public class UserController {
     public User edit(@RequestBody EditUserDto editUserDto) {
          System.out.println(editUserDto.getUserName());
          return new User();
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE) 
+    public List<UserDto> getAllUsers() {
+        return userService.getAllUsers();
     }
 }
