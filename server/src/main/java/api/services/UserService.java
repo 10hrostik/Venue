@@ -2,9 +2,10 @@ package api.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import api.dao.UserDao;
+import api.dto.user.EditUserDto;
+import api.dto.user.FullInfoUserDto;
 import api.dto.user.RegisterUserDto;
 import api.dto.user.UserDto;
 import api.dto.user.builder.UserDtoBuilder;
@@ -14,14 +15,12 @@ import api.entities.accounts.UserBuilder;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-
 @Service
 public class UserService {
     @Autowired
     private UserDao userDao;
 
-    public UserDto save(RegisterUserDto user, BindingResult bindingResult) {       
+    public UserDto save(RegisterUserDto user) {       
         User newUser = UserBuilder.getRegisteredUser(user);
         if (userDao.getUserByUsername(user.getUserName()) == null) {
             userDao.save(newUser);
@@ -31,8 +30,12 @@ public class UserService {
         }
     }
 
-    public User edit(User user, EntityManager em) {
-         return null;   
+    public UserDto edit(EditUserDto user) {
+        User editUser = UserBuilder.getEditedUser(user);
+        editUser = userDao.editUser(editUser);
+        UserDto result = UserDtoBuilder.getEditedUser(editUser);
+
+        return result;
     }
 
     public UserDto getUser(String username, String password) {
@@ -40,10 +43,14 @@ public class UserService {
         return UserDtoBuilder.getLogginedUser(user);
     }
 
-    public List<UserDto> getAllUsers() {
+    public List<FullInfoUserDto> getAllUsers() {
         List<User> users = userDao.getAllUsers();
      
-        return users.stream().map(x -> UserDtoBuilder.getLogginedUser(x)).collect(Collectors.toList());
+        return users.stream().map(x -> UserDtoBuilder.getFullUser(x)).collect(Collectors.toList());
+    }
+
+    public String delete(Integer id) {
+        return userDao.delete(id);
     }
 
 }

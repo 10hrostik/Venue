@@ -1,13 +1,13 @@
 package controllers;
 
 import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import api.dto.BatchResponseDto;
 import api.dto.user.EditUserDto;
+import api.dto.user.FullInfoUserDto;
 import api.dto.user.RegisterUserDto;
 import api.dto.user.UserDto;
-import api.entities.accounts.User;
 import api.services.UserService;
 import api.services.ValidationService;
 
@@ -40,6 +40,8 @@ public class UserController {
     private final String VALID_CREDENTIALS = "Username and password are correct!";
 
     private final String INVALID_FORM = "Username is already in use";
+
+    private final String CHANGED_ACCOUNT = "Your account is updated successfully!";
     
     @ResponseBody
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE
@@ -50,7 +52,7 @@ public class UserController {
         if (validationService.getErrorMessages(bindingResult.getAllErrors()).length() > 1) {
             response.setMessage(validationService.getErrorMessages(bindingResult.getAllErrors()));
         } else {
-            UserDto user = userService.save(client, bindingResult);
+            UserDto user = userService.save(client);
             if (user == null) { 
                 response.setMessage(INVALID_FORM);
             } else {
@@ -81,14 +83,29 @@ public class UserController {
     @ResponseBody
     @PatchMapping(value = "/edit" , produces = MediaType.APPLICATION_JSON_VALUE 
                                   , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public User edit(@RequestBody EditUserDto editUserDto) {
-         System.out.println(editUserDto.getUserName());
-         return new User();
+    public BatchResponseDto<UserDto> edit(@RequestBody @Valid EditUserDto editUserDto, BindingResult bindingResult) {
+        BatchResponseDto<UserDto> response = new BatchResponseDto<>(); 
+        if (validationService.getErrorMessages(bindingResult.getAllErrors()).length() > 1) {
+            response.setMessage(validationService.getErrorMessages(bindingResult.getAllErrors()));
+        } else {
+            UserDto user = userService.edit(editUserDto);
+            response.setData(user);
+            response.setMessage(CHANGED_ACCOUNT);
+        }
+
+        return response;
     }
 
     @ResponseBody
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public List<UserDto> getAllUsers() {
+    public List<FullInfoUserDto> getAllUsers() {
         return userService.getAllUsers();
+    }
+
+    @ResponseBody
+    @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String delete(@PathVariable(value = "id") Integer id) {
+           String response = userService.delete(id);
+           return response;
     }
 }

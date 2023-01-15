@@ -13,7 +13,7 @@ public class RegisterUserDto {
     private String username;
 
     @Size(min = 5, max = 15, message = "Password should be 5 - 15 chars long")
-    @NotEmpty(message = "Fill username box")
+    @NotEmpty(message = "Fill password box")
     @JsonProperty("password")
     private String password;
 

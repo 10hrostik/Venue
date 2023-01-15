@@ -1,26 +1,30 @@
 package api.dto.user;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EditUserDto {
-
+ 
     @JsonProperty("username")
     private String username;
-
+    
+    @Size(min = 5, max = 15, message = "Username should be 5 - 15 chars long")
+    @NotEmpty(message = "Fill password box")
     @JsonProperty("password")
     private String password;
 
     @JsonProperty("email")
     private String email;
     
+    @Digits(fraction = 0, integer = 12, message = "Incorrect input")
     @JsonProperty("phoneNumber")
-    private Long phoneNumber;
+    private Long phone;
 
-    @JsonProperty("surname") 
-    private String surname;
-
-    public void setUserName(String userName) {
-        this.username = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) {
@@ -31,7 +35,7 @@ public class EditUserDto {
         this.email = email;
     }
 
-    public String getUserName() {
+    public String getUsername() {
         return this.username;
     }
 
@@ -42,12 +46,13 @@ public class EditUserDto {
     public String getEmail() {
         return this.email;
     }
-    public String getSurname() {
-        return this.surname;
-    }
     
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setPhone(Long phone) {
+        this.phone = phone;
+    }
+
+    public Long getPhone(){
+        return this.phone;
     }
 }
 

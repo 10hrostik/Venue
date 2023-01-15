@@ -60,10 +60,49 @@ public class UserDao {
         }
     }
 
+    public User editUser(User user) {
+        User foundUser = getUserByUsername(user.getUsername());
+        foundUser = changeEntity(foundUser, user);
+        em.merge(foundUser);
+        em.getTransaction().begin();
+        em.getTransaction().commit();
+
+        return foundUser;
+    }
+
+    public String delete(Integer id) {
+        try {
+            em = EntityManagerConfig.getEntityManagerFactory();
+            em.getTransaction().begin();
+            Query query = em.createQuery("DELETE FROM User WHERE id = " + id.intValue());
+            query.executeUpdate();
+            em.getTransaction().commit();
+
+            return "Successful";
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return "Something went wrong!";
+        }
+    }
+
     private <T> List<T> castList(Class<? extends T> entityClass, Collection<?> collection) {
         List<T> list = new ArrayList<T>(collection.size());
         for(Object object: collection)
           list.add(entityClass.cast(object));
         return list;
     }
+
+    private User changeEntity(User target, User source) {
+        if (source.getEmail() != null) {
+            target.setEmail(source.getEmail());
+        }
+        if (source.getPhone() != null) {
+            target.setPhone(source.getPhone());
+        }
+        if (source.getPassword() != null) {
+            target.setPassword(source.getPassword());
+        }
+
+        return target;
+    } 
 }
