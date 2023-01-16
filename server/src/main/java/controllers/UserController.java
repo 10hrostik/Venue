@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import api.dto.BatchResponseDto;
 import api.dto.user.EditUserDto;
-import api.dto.user.FullInfoUserDto;
+import api.dto.user.FullUserDto;
 import api.dto.user.RegisterUserDto;
-import api.dto.user.UserDto;
+import api.dto.user.ResponseUserDto;
 import api.services.UserService;
 import api.services.ValidationService;
 
@@ -46,13 +46,13 @@ public class UserController {
     @ResponseBody
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE
                                     , produces = MediaType.APPLICATION_JSON_VALUE)
-    public BatchResponseDto<UserDto> register(@RequestBody @Valid RegisterUserDto client, 
+    public BatchResponseDto<ResponseUserDto> register(@RequestBody @Valid RegisterUserDto client, 
                                                BindingResult bindingResult) {
-        BatchResponseDto<UserDto> response = new BatchResponseDto<>(); 
+        BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>(); 
         if (validationService.getErrorMessages(bindingResult.getAllErrors()).length() > 1) {
             response.setMessage(validationService.getErrorMessages(bindingResult.getAllErrors()));
         } else {
-            UserDto user = userService.save(client);
+            ResponseUserDto user = userService.save(client);
             if (user == null) { 
                 response.setMessage(INVALID_FORM);
             } else {
@@ -66,10 +66,10 @@ public class UserController {
 
     @ResponseBody
     @GetMapping(value = "/login/{username}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BatchResponseDto<UserDto> login(@PathVariable(value = "username") String username, 
+    public BatchResponseDto<ResponseUserDto> login(@PathVariable(value = "username") String username, 
                                            @PathVariable(value = "password") String password) {
-        BatchResponseDto<UserDto> response = new BatchResponseDto<>(); 
-        UserDto user = userService.getUser(username, password);
+        BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>(); 
+        ResponseUserDto user = userService.getUser(username, password);
         if (user == null) {
             response.setMessage(INVALID_CREDENTIALS);
         } else {
@@ -83,12 +83,12 @@ public class UserController {
     @ResponseBody
     @PatchMapping(value = "/edit" , produces = MediaType.APPLICATION_JSON_VALUE 
                                   , consumes = MediaType.APPLICATION_JSON_VALUE)
-    public BatchResponseDto<UserDto> edit(@RequestBody @Valid EditUserDto editUserDto, BindingResult bindingResult) {
-        BatchResponseDto<UserDto> response = new BatchResponseDto<>(); 
+    public BatchResponseDto<ResponseUserDto> edit(@RequestBody @Valid EditUserDto editUserDto, BindingResult bindingResult) {
+        BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>(); 
         if (validationService.getErrorMessages(bindingResult.getAllErrors()).length() > 1) {
             response.setMessage(validationService.getErrorMessages(bindingResult.getAllErrors()));
         } else {
-            UserDto user = userService.edit(editUserDto);
+            ResponseUserDto user = userService.edit(editUserDto);
             response.setData(user);
             response.setMessage(CHANGED_ACCOUNT);
         }
@@ -98,7 +98,7 @@ public class UserController {
 
     @ResponseBody
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE) 
-    public List<FullInfoUserDto> getAllUsers() {
+    public List<FullUserDto> getAllUsers() {
         return userService.getAllUsers();
     }
 
