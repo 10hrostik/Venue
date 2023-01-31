@@ -17,11 +17,15 @@ import javax.persistence.Query;
 public class UserDao {
     private EntityManager em;
 
+    {
+        em = EntityManagerConfig.getEntityManagerFactory();
+    }
+
     public User getUser(String username, String password) throws NoResultException {
         try {
-            em = EntityManagerConfig.getEntityManagerFactory();
             Query query = em.createQuery("SELECT c FROM User c WHERE c.username = '" + username 
                                     + "' AND c.password = '" + password + "'");
+
             return (User) query.getSingleResult();
         } catch (NoResultException exception) {
             exception.printStackTrace();
@@ -30,15 +34,13 @@ public class UserDao {
     }
 
     public void save(User user) {
-        em = EntityManagerConfig.getEntityManagerFactory();
-        em.persist(user);
         em.getTransaction().begin();
+        em.persist(user);       
         em.getTransaction().commit();
     }
 
     public User getUserByUsername(String username) {
         try {
-            em = EntityManagerConfig.getEntityManagerFactory();
             Query query = em.createQuery("SELECT c FROM User c WHERE c.username = '" + username 
                                     + "'");
             return (User) query.getSingleResult();
@@ -50,7 +52,6 @@ public class UserDao {
 
     public List<User> getAllUsers() {
         try {
-            em = EntityManagerConfig.getEntityManagerFactory();
             Query query = em.createQuery("SELECT c FROM User c");
 
             return castList(User.class, query.getResultList());

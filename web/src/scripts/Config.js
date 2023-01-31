@@ -1,3 +1,3 @@
-let apiServer = "http://localhost:8080/venue/login/"
+const apiServer = "http://localhost:8080/venue/api/secured"
 
 export default apiServer

@@ -1,11 +1,17 @@
 package api.entities.accounts;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import api.entities.tickets.Ticket;
 
 @Entity
 @Table(name = "users")
@@ -32,6 +38,9 @@ public class User {
     
     @Column(name = "phone")
     private Long phone;
+    
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    private List<Ticket> tickets;
 
     public void setId(int id) {
         this.id = id;
@@ -87,6 +96,22 @@ public class User {
 
     public String getSurname() {
         return surname;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.tickets.add(ticket);
+    }
+
+    public Ticket getTicket(Integer index) {
+        return this.tickets.get(index);
+    }
+
+    public List<Ticket> getTickets() {
+        return this.tickets;
     }
 
     @Override

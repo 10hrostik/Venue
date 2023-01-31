@@ -10,7 +10,6 @@ class LoginButtons extends Component {
       this.state = {
         loginVisibility : false,
         registerVisibility : false,
-        account : {}
       }
       
       this.showLoginForm = this.showLoginForm.bind(this);
@@ -27,7 +26,6 @@ class LoginButtons extends Component {
             loginVisibility : !state.loginVisibility
         }));
        }
-       alert(JSON.stringify(this.state.account));
     }
     showRegisterForm = () => {
         if (this.state.loginVisibility === true) {

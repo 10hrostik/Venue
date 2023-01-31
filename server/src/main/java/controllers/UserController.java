@@ -68,7 +68,7 @@ public class UserController {
     @GetMapping(value = "/login/{username}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> login(@PathVariable(value = "username") String username, 
                                            @PathVariable(value = "password") String password) {
-        BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>(); 
+         BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>(); 
         ResponseUserDto user = userService.getUser(username, password);
         if (user == null) {
             response.setMessage(INVALID_CREDENTIALS);

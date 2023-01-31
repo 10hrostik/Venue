@@ -26,18 +26,20 @@ class LoginForm extends Component {
         const username = this.state.username;
         const password = this.state.password;
     
-        fetch(apiServer + username + "/" + password, {
+        fetch(apiServer + "/users/login/" + username + "/" + password,
+        {
             method: "GET",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-        }).then((response) => response.json())
+        })
+        .then((response) => response.json())
         .then((data) => {
-            Object.assign(this.props.account, data);
+            console.log(data)
         })
         .catch((error) => {
-          alert(error);
+            console.log(error);
         });
         
     }
@@ -57,5 +59,4 @@ class LoginForm extends Component {
     }
 }
  
-
 export default LoginForm;

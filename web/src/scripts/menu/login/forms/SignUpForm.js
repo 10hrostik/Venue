@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import React from 'react';
+import apiServer from '../../../Config';
 
 class SignUpForm extends Component {
     constructor(){
@@ -31,20 +32,20 @@ class SignUpForm extends Component {
             password: this.state.password, 
             email: this.state.email
         };
+        alert(apiServer)
     
-        fetch("http://localhost:8080/venue/register", {
+        fetch(apiServer + "/users/register", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(userProfile)
-        }).then((response) => response.json())
-        .then((data) => {
-            if (data) {
-                Object.assign(this.props.account, data);
-            }
         })
+        .then((response) => response.json())
+        .then(
+            (data) => console.log(data)
+        )
         .catch((error) => {
             alert(error);
         });
