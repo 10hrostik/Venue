@@ -10,7 +10,7 @@ public class TicketDto {
 
     private Integer price;
 
-    private String descrition;
+    private String description;
 
     public void setId(Integer id) {
         this.id = id;
@@ -37,11 +37,11 @@ public class TicketDto {
     }
 
     public void setDescription(String description) {
-        this.descrition = description;
+        this.description = description;
     }
     
     public String getDescription() {
-        return this.descrition;
+        return this.description;
     }
     
 }

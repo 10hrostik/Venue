@@ -2,6 +2,7 @@ package com.api.entities.accounts;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,7 +39,8 @@ public class User {
     
     @Column(name = "phone")
     private Long phone;
-    
+
+    @JsonIgnore
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 

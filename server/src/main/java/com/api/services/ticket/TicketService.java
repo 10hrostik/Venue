@@ -1,4 +1,4 @@
-package com.api.services;
+package com.api.services.ticket;
 
 import java.util.List;
 import java.util.stream.Collectors;

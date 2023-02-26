@@ -28,8 +28,7 @@ public class UserDao {
 
             return (User) query.getSingleResult();
         } catch (NoResultException exception) {
-            exception.printStackTrace();
-            return null;
+            throw new NoResultException("Invalid username or password");
         }      
     }
 

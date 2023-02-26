@@ -22,7 +22,7 @@ import com.api.dto.user.EditUserDto;
 import com.api.dto.user.FullUserDto;
 import com.api.dto.user.RegisterUserDto;
 import com.api.dto.user.ResponseUserDto;
-import com.api.services.UserService;
+import com.api.services.user.UserService;
 import com.api.services.ValidationService;
 
 @RestController
@@ -45,9 +45,9 @@ public class UserController {
     
     @ResponseBody
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE
-                                    , produces = MediaType.APPLICATION_JSON_VALUE)
+                                       , produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> register(@RequestBody @Valid RegisterUserDto client, 
-                                               BindingResult bindingResult) {
+                                                      BindingResult bindingResult) {
         BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>(); 
         if (validationService.getErrorMessages(bindingResult.getAllErrors()).length() > 1) {
             response.setMessage(validationService.getErrorMessages(bindingResult.getAllErrors()));
@@ -68,7 +68,7 @@ public class UserController {
     @GetMapping(value = "/login/{username}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> login(@PathVariable(value = "username") String username, 
                                            @PathVariable(value = "password") String password) {
-         BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>(); 
+        BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>();
         ResponseUserDto user = userService.getUser(username, password);
         if (user == null) {
             response.setMessage(INVALID_CREDENTIALS);
@@ -82,7 +82,7 @@ public class UserController {
     
     @ResponseBody
     @PatchMapping(value = "/edit" , produces = MediaType.APPLICATION_JSON_VALUE 
-                                  , consumes = MediaType.APPLICATION_JSON_VALUE)
+                                     , consumes = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> edit(@RequestBody @Valid EditUserDto editUserDto, BindingResult bindingResult) {
         BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>(); 
         if (validationService.getErrorMessages(bindingResult.getAllErrors()).length() > 1) {

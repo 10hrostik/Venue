@@ -1,4 +1,4 @@
-package com.api.services;
+package com.api.services.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,7 +46,7 @@ public class UserService {
     public List<FullUserDto> getAllUsers() {
         List<User> users = userDao.getAllUsers();
      
-        return users.stream().map(x -> UserDtoBuilder.getFullUser(x)).collect(Collectors.toList());
+        return users.stream().map(UserDtoBuilder::getFullUser).collect(Collectors.toList());
     }
 
     public String delete(Integer id) {

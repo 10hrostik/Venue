@@ -1,65 +1,30 @@
-package com.api.entities.events;
+package com.api.dto.event;
+
+import com.api.entities.artirts.Artist;
+import com.api.entities.events.EventType;
+import com.api.entities.events.Genre;
+import com.api.entities.tickets.Ticket;
 
 import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
-import com.api.entities.artirts.Artist;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+public class FullEventDto {
 
-import com.api.entities.tickets.Ticket;
-
-@Entity
-@Table(name = "events")
-public class Event {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
- 
-    @Column(name = "price")
+
     private Integer price;
 
-    @Column(name = "event_date")
     private Date date;
 
-    @Column(name = "description")
     private String description;
 
-    @Column(name = "genre")
-    @Enumerated(EnumType.STRING)
     private Genre genre;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Column(name = "event_name")
-    private String name;
-    
-    @Column(name = "event_type")
-    @Enumerated(EnumType.STRING)
     private EventType eventType;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "event")
     private Set<Ticket> tickets;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "eventId")
     private List<Artist> artists;
 
     public List<Artist> getArtists() {

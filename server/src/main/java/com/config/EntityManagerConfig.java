@@ -8,8 +8,7 @@ public class EntityManagerConfig {
     
     public static EntityManager getEntityManagerFactory() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory( "Venue" );
-	    EntityManager entityManager = emf.createEntityManager();
 
-        return entityManager;
+        return emf.createEntityManager();
     }
 }

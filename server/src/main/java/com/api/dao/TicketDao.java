@@ -13,7 +13,7 @@ import com.config.EntityManagerConfig;
 
 @Component
 public class TicketDao {
-    private EntityManager em;
+    private final EntityManager em;
 
     {
         em = EntityManagerConfig.getEntityManagerFactory();

@@ -1,31 +1,20 @@
-import { Component } from 'react';
+import { Component, useState } from 'react';
 import React from 'react';
 import apiServer from '../../../Config';
 
-class LoginForm extends Component {
-    constructor(){
-        super();
-        this.state = {
-            username: null,
-            password: null,
-        }
-        this.handleUserChange = this.handleUserChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.handleSumbit = this.handleSumbit.bind(this);
+function LoginForm (props) {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    let handleUserChange = (event) => {
+        setUsername(event.target.value);
     }
-    
-    handleUserChange = (event) => {
-        this.setState({username: event.target.value});
-    }
-    handlePasswordChange = (event) => {
-        this.setState({password: event.target.value});
+    let handlePasswordChange = (event) => {
+        setPassword(event.target.value);
     }
 
-
-    handleSumbit = (event) => {
-        const username = this.state.username;
-        const password = this.state.password;
-    
+    const handleSumbit = (event) => {
+        event.preventDefault()
         fetch(apiServer + "/users/login/" + username + "/" + password,
         {
             method: "GET",
@@ -36,27 +25,32 @@ class LoginForm extends Component {
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
+            console.log(data);
+            if (data.data) {
+                props.setData(data);
+            } else {
+                alert("Invalid username or password")
+            }
         })
         .catch((error) => {
             console.log(error);
-        });
-        
+        });     
     }
-    render() {
-        return (
-            <form className="loginForm" align="center" onSubmit={this.handleSumbit}>
-                <label style={{fontSize: "14px", fontWeight: '900'}} htmlFor="username">Username: </label>
-                <input style={{width: "65px", height: "13px"}} type="text" id="username" onChange={this.handleUserChange}/>
-                <br/>
-                <label style={{fontSize: "14px",fontWeight: '900'}} htmlFor="password">Password: </label>
-                <input style={{width: "65px", height: "13px"}} type="password" id="password" onChange={this.handlePasswordChange}/>
-                <br/>
-                <input style={{marginTop: "7px",width: "70px", marginBottom: "5px", 
-                    border: "none", cursor: "pointer", backgroundColor: "transparent", fontWeight: "900"}} type="submit" value="Log In"/>
-            </form>
-        );
+    let visible = {
+        visibility: props.visibility,
     }
+    return (
+        <form className="loginForm" style={visible} align="center" onSubmit={handleSumbit}>
+            <label style={{fontSize: "14px", fontWeight: '900'}} htmlFor="username">Username: </label>
+            <input style={{width: "65px", height: "13px"}} type="text" id="loginUsername" onChange={handleUserChange}/>
+            <br/>
+            <label style={{fontSize: "14px",fontWeight: '900'}} htmlFor="password">Password: </label>
+            <input style={{width: "65px", height: "13px"}} type="password" id="loginPassword" onChange={handlePasswordChange}/>
+            <br/>
+            <input style={{marginTop: "7px",width: "70px", marginBottom: "5px", 
+                border: "none", cursor: "pointer", backgroundColor: "transparent", fontWeight: "900"}} type="submit" value="Log In"/>
+        </form>
+    );
+    
 }
- 
 export default LoginForm;

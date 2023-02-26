@@ -1,0 +1,6 @@
+.footer {
+    height: 135px;
+    width: 1280px;
+    background-image: url('../logos/Header3.jpg');
+    box-shadow: 0 0 20px rgba(0, 0, 0, 1);
+}

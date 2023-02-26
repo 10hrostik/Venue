@@ -12,6 +12,11 @@ public enum Genre {
     
     //Theatre genres
 
+    DRAMMA,
+    EXPERIMENTAL,
+    FANTASY,
+    HISTORICAL,
+
     //Workshops branches
     MUSIC,
     IT,

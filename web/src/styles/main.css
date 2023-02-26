@@ -82,7 +82,7 @@
   font:inherit;
   bottom: 566px;
   border-radius: 40px;
-  left: 465px;
+  left: 470px;
 }
 .offerLink{
   color: black;
@@ -121,4 +121,27 @@
 }
 .offerLink:hover {
   padding: 11px 26px;
+}
+.toolBox {
+  margin-right: 30px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  border-top-left-radius: 20px;
+  width: 140px;
+  animation: ani .5s forwards;
+  background-image: url("../logos/Header1.jpg");
+  position: absolute;
+  margin-right: 30px;
+  left: 362px;
+  top: 50px;
+  text-align: center;
+  
+}
+.toolBoxButton {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: transparent;
+  border: none;
 }
