@@ -105,7 +105,6 @@ public class UserController {
     @ResponseBody
     @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String delete(@PathVariable(value = "id") Integer id) {
-           String response = userService.delete(id);
-           return response;
+        return userService.delete(id);
     }
 }
