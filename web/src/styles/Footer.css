@@ -1,6 +1,28 @@
 .footer {
-    height: 135px;
+    height: 155px;
     width: 1280px;
     background-image: url('../logos/Header3.jpg');
     box-shadow: 0 0 20px rgba(0, 0, 0, 1);
+}
+
+.contact{
+     color: white;
+     font-size: 21px;
+     position: relative;
+     top: 10px;
+     margin-left: 175px;
+}
+
+h2 {
+    color: rgb(179, 179, 179);
+    font-size: 13px;
+    margin-left: 175px;
+
+}
+
+.writeUs{
+    cursor: pointer;
+    border: none;
+    text-align: left;
+    background-color: "transparent";
 }

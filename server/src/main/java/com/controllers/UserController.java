@@ -27,7 +27,6 @@ import com.api.services.ValidationService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/secured/users")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -44,7 +43,7 @@ public class UserController {
     private final String CHANGED_ACCOUNT = "Your account is updated successfully!";
     
     @ResponseBody
-    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE
+    @PostMapping(value = "/api/users/register", consumes = MediaType.APPLICATION_JSON_VALUE
                                        , produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> register(@RequestBody @Valid RegisterUserDto client, 
                                                       BindingResult bindingResult) {
@@ -65,7 +64,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @GetMapping(value = "/login/{username}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/api/users/login/{username}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> login(@PathVariable(value = "username") String username, 
                                            @PathVariable(value = "password") String password) {
         BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>();
@@ -81,7 +80,7 @@ public class UserController {
     }
     
     @ResponseBody
-    @PatchMapping(value = "/edit" , produces = MediaType.APPLICATION_JSON_VALUE 
+    @PatchMapping(value = "/api/secured/users/edit" , produces = MediaType.APPLICATION_JSON_VALUE
                                      , consumes = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> edit(@RequestBody @Valid EditUserDto editUserDto, BindingResult bindingResult) {
         BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>(); 
@@ -97,13 +96,13 @@ public class UserController {
     }
 
     @ResponseBody
-    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE) 
+    @GetMapping(value = "/api/secured/users/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<FullUserDto> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @ResponseBody
-    @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/api/secured/users/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String delete(@PathVariable(value = "id") Integer id) {
         return userService.delete(id);
     }

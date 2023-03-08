@@ -9,7 +9,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Header />
-    <div style={{height: 522}}></div>
+    <div style={{height: 622}}></div>
     <Footer />
   </React.StrictMode>
 );

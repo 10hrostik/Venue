@@ -27,8 +27,16 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .authorizeHttpRequests().requestMatchers("/secured")
+                .hasAuthority("USER")
+                .and()
                 .httpBasic(withDefaults());
 
         return http.build();
+    }
+
+    @Bean
+    public JdbcUserDetailsManager users(DataSource dataSource) {
+        return new JdbcUserDetailsManager(dataSource);
     }
 }
