@@ -1,5 +1,5 @@
 .footer {
-    height: 155px;
+    height: 170px;
     width: 1280px;
     background-image: url('../logos/Header3.jpg');
     box-shadow: 0 0 20px rgba(0, 0, 0, 1);
@@ -9,20 +9,63 @@
      color: white;
      font-size: 21px;
      position: relative;
-     top: 10px;
-     margin-left: 175px;
+     top: 7px;
+     margin-left: 200px;
+     margin-right: 20px;
+     width: 180px;
+     margin-bottom: 7px;
 }
 
-h2 {
+.contactFild{
     color: rgb(179, 179, 179);
     font-size: 13px;
-    margin-left: 175px;
-
+    margin-left: 200px;
+    width: 180px;
+    float: left;
+    margin-top: 1px;
+    margin-bottom: 7px;
+}
+.about{
+    color: white;
+    font-size: 21px;
+    position: relative;
+    top: 7px;
+    margin-left: 200px;
+    margin-bottom: 10px;
+}
+.aboutField{
+    color: rgb(179, 179, 179);
+    font-size: 13px;
+    margin-left: 201px;
+    width: 180px;
+    float: left;
+    margin-top: 1px;
+    margin-bottom: 7px;
 }
 
-.writeUs{
-    cursor: pointer;
+.charity{
+    color: white;
+    font-size: 21px;
+    position: relative;
+    top: 7px;
+    margin-left: 220px;
+    margin-bottom: 10px;
+}
+
+.charityField{
+    color: rgb(179, 179, 179);
+    font-size: 13px;
+    margin-left: 221px;
+    width: 180px;
+    float: left;
+    margin-top: 1px;
+    margin-bottom: 7px;
+}
+.infoButton{
+    background-color: transparent;
     border: none;
-    text-align: left;
-    background-color: "transparent";
+    color: rgb(179, 179, 179);
+    cursor: pointer;
+    font-style: arial;
+    font-weight: 550;
 }
