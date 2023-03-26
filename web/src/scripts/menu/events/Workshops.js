@@ -2,7 +2,7 @@ import React from "react";
 
 function workshopLink() {
      return (
-       <a align="center" style={{fontWeight: "bold"}} className="workshopLink" href="google.com">Workshops</a>
+      <button align="center" className="workshopLink" >Workshops</button>
      )
 }
 export default workshopLink;

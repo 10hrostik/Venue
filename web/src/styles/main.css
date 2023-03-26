@@ -25,6 +25,8 @@
 }
 .reactLogo-containter{
   width: 150px;
+  position: relative;
+  float: left;
 }
 .btn-sign{
     color: black;
@@ -58,57 +60,64 @@
 }
 .festivalLink{
   font-weight: 900;
+  font-style: arial;
   color: black;
   background-image: url("../logos/Header1.jpg");
   text-decoration: none;
   padding: 10px 24px;
   cursor: pointer;
-  font-size: 14px;
-  font: inherit;
-  position: absolute;
+  font-size: 15px;
+  position: relative;
   border-radius: 40px;
-  margin-left: 300px;
-  bottom: 566px;
+  top: 52px;
+  margin-left: 150px;
+  border: none;
 }
 .theatreLink {
   font-weight: 900;
+  font-style: arial;
   color: black;
   background-image: url("../logos/Header1.jpg");
   text-decoration: none;
   padding: 10px 24px;
   cursor: pointer;
-  font-size: 14px;
-  position: absolute;
-  font:inherit;
-  bottom: 566px;
+  font-size: 15px;
+  position: relative;
   border-radius: 40px;
-  left: 470px;
-}
-.offerLink{
-  color: black;
-  background-image: url("../logos/Header1.jpg");
-  text-decoration: none;
-  padding: 10px 24px;
-  cursor: pointer;
-  font-size: 14px;
-  font: inherit;
-  position: absolute;
-  border-radius: 40px;
-  margin-left: 820px;
-  bottom: 566px;
+  top: 52px;
+  left: 50px;
+  border: none;
+  margin-left: 0%;
 }
 .workshopLink{
+    font-weight: 900;
+    font-style: arial;
+    color: black;
+    background-image: url("../logos/Header1.jpg");
+    text-decoration: none;
+    padding: 10px 24px;
+    cursor: pointer;
+    font-size: 15px;
+    position: relative;
+    border-radius: 40px;
+    top: 52px;
+    left: 95px;
+    border: none;
+}
+.concertLink{
+  font-weight: 900;
+  font-style: arial;
   color: black;
   background-image: url("../logos/Header1.jpg");
   text-decoration: none;
   padding: 10px 24px;
   cursor: pointer;
-  font-size: 14px;
-  font: inherit;
-  position: absolute;
+  font-size: 15px;
+  position: relative;
   border-radius: 40px;
-  margin-left: 640px;
-  bottom: 566px;
+  top: 52px;
+  left: 132px;
+  border: none;
 }
 .festivalLink:hover {
   padding: 11px 26px;
@@ -119,7 +128,7 @@
 .workshopLink:hover {
   padding: 11px 26px;
 }
-.offerLink:hover {
+.concertLink:hover {
   padding: 11px 26px;
 }
 .toolBox {

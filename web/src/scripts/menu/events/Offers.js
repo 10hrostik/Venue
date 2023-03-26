@@ -2,7 +2,7 @@ import React from "react";
 
 function offersLink() {
      return (
-       <a align="center" style={{fontWeight: "bold"}} className="offerLink" href="google.com">Offers</a>
+      <button align="center" className="concertLink" >Concerts</button>
      )
 }
 export default offersLink;

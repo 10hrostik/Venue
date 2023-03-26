@@ -30,7 +30,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests().requestMatchers("/secured")
                 .hasAuthority("USER")
                 .and()
-                .httpBasic(withDefaults());
+                .httpBasic();
 
         return http.build();
     }

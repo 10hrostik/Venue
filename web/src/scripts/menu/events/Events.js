@@ -6,11 +6,11 @@ import WorkshopLink from "./Workshops";
 
 function events () {
     return (
-        <div>
-            <FestivalLink />
-            <TheatreLink />
-            <WorkshopLink />
-            <OffersLink /> 
+        <div style={{position: "relative", float: "left"}}>
+            <div style={{position: "relative", float: "left"}}><FestivalLink /></div>
+            <div style={{position: "relative", float: "left"}}><TheatreLink /></div>
+            <div style={{position: "relative", float: "left"}}><WorkshopLink /></div>
+            <div style={{position: "relative", float: "left"}}><OffersLink /> </div>
         </div>
     )
 }
