@@ -6,7 +6,7 @@ import com.api.dto.user.ResponseUserDto;
 import com.api.entities.accounts.User;
 
 public interface UserDtoBuilder {
-    public static ResponseUserDto getRegisteredUser(RegisterUserDto dto){
+    static ResponseUserDto getRegisteredUser(RegisterUserDto dto){
             ResponseUserDto user = new ResponseUserDto();
             user.setUsername(dto.getUsername());
             user.setPassword(dto.getPassword());
@@ -15,7 +15,7 @@ public interface UserDtoBuilder {
             return user;
     }
 
-    public static ResponseUserDto getLogginedUser(User user) {
+    static ResponseUserDto getLogginedUser(User user) {
         ResponseUserDto userDto = new ResponseUserDto();
         userDto.setUsername(user.getUsername());
         userDto.setPassword(user.getPassword());
@@ -23,6 +23,7 @@ public interface UserDtoBuilder {
         userDto.setName(user.getName());
         userDto.setSurname(user.getSurname());
         userDto.setPhone(user.getPhone());
+        userDto.setRoles(user.getRoles());
 
         return userDto;
     }

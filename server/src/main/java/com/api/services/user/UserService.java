@@ -1,5 +1,7 @@
 package com.api.services.user;
 
+import com.config.EntityManagerConfig;
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,11 @@ import java.util.stream.Collectors;
 public class UserService {
     @Autowired
     private UserDao userDao;
+    private final EntityManager em;
+
+    {
+        em = EntityManagerConfig.getEntityManagerFactory();
+    }
 
     public ResponseUserDto save(RegisterUserDto user) {       
         User newUser = UserBuilder.getRegisteredUser(user);
@@ -31,9 +38,11 @@ public class UserService {
     }
 
     public ResponseUserDto edit(EditUserDto user) {
-        User editUser = UserBuilder.getEditedUser(user);
-        editUser = userDao.editUser(editUser);
-        ResponseUserDto result = UserDtoBuilder.getEditedUser(editUser);
+        User foundUser = userDao.getUserByUsername(user.getRootUsername());
+        em.detach(foundUser);
+        editUser(user, foundUser);
+        ResponseUserDto result = UserDtoBuilder.getEditedUser(foundUser);
+        userDao.editUser(foundUser);
 
         return result;
     }
@@ -53,4 +62,12 @@ public class UserService {
         return userDao.delete(id);
     }
 
+    private void editUser(EditUserDto dto, User user) {
+        user.setUsername(dto.getUsername());
+        user.setName(dto.getName());
+        user.setSurname(dto.getSurname());
+        user.setEmail(dto.getEmail());
+        user.setPassword(dto.getPassword());
+        user.setPhone(dto.getPhone());
+    }
 }

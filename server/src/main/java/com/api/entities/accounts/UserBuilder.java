@@ -12,14 +12,4 @@ public interface UserBuilder {
 
         return user;
     }
-
-    public static User getEditedUser(EditUserDto dto) {
-        User user = new User();
-        user.setUsername(dto.getUsername());
-        user.setEmail(dto.getEmail());
-        user.setPassword(dto.getPassword());
-        user.setPhone(dto.getPhone());
-
-        return user;
-    }
 }

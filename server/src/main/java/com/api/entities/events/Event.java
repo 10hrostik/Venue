@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.api.entities.attachments.Attachment;
 import com.api.entities.artirts.Artist;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
@@ -39,13 +40,14 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private Genre genre;
 
-    public String getName() {
-        return name;
-    }
+    @Column(name = "city")
+    private String city;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    @Column(name = "adress")
+    private String adress;
+
+    @Column(name = "venue")
+    private String venue;
 
     @Column(name = "event_name")
     private String name;
@@ -62,6 +64,10 @@ public class Event {
     @OneToMany(mappedBy = "eventId")
     private List<Artist> artists;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "event")
+    private List<Attachment> images;
+
     public List<Artist> getArtists() {
         return artists;
     }
@@ -76,6 +82,38 @@ public class Event {
 
     public Integer getId() {
         return this.id;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public String getVenue() {
+        return venue;
+    }
+
+    public void setVenue(String venue) {
+        this.venue = venue;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setPrice(Integer price) {
@@ -124,5 +162,13 @@ public class Event {
 
     public Set<Ticket> getTickets() {
         return this.tickets;
+    }
+
+    public List<Attachment> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Attachment> images) {
+        this.images = images;
     }
 }

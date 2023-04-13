@@ -1,6 +1,7 @@
 package com.api.dao;
 
 import com.api.entities.accounts.User;
+import com.api.entities.accounts.UserBuilder;
 import org.springframework.stereotype.Component;
 
 import com.config.EntityManagerConfig;
@@ -39,14 +40,9 @@ public class UserDao {
     }
 
     public User getUserByUsername(String username) {
-        try {
-            Query query = em.createQuery("SELECT c FROM User c WHERE c.username = '" + username 
-                                    + "'");
-            return (User) query.getSingleResult();
-        } catch (NoResultException exception) {
-            exception.printStackTrace();
-            return null;
-        }  
+        Query query = em.createQuery("SELECT c FROM User c WHERE c.username = '" + username
+                                + "'");
+        return (User) query.getSingleResult();
     }
 
     public List<User> getAllUsers() {
@@ -60,14 +56,10 @@ public class UserDao {
         }
     }
 
-    public User editUser(User user) {
-        User foundUser = getUserByUsername(user.getUsername());
-        foundUser = changeEntity(foundUser, user);
-        em.merge(foundUser);
+    public void editUser(User user) {
         em.getTransaction().begin();
+        em.merge(user);
         em.getTransaction().commit();
-
-        return foundUser;
     }
 
     public String delete(Integer id) {

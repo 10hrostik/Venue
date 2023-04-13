@@ -43,7 +43,7 @@ public class UserController {
     private final String CHANGED_ACCOUNT = "Your account is updated successfully!";
     
     @ResponseBody
-    @PostMapping(value = "/api/users/register", consumes = MediaType.APPLICATION_JSON_VALUE
+    @PostMapping(value = "/api/public/users/register", consumes = MediaType.APPLICATION_JSON_VALUE
                                        , produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> register(@RequestBody @Valid RegisterUserDto client, 
                                                       BindingResult bindingResult) {
@@ -64,7 +64,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @GetMapping(value = "/api/users/login/{username}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/api/public/users/login/{username}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> login(@PathVariable(value = "username") String username, 
                                            @PathVariable(value = "password") String password) {
         BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>();

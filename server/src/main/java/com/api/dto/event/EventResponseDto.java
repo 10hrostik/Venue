@@ -4,6 +4,7 @@ import com.api.entities.events.EventType;
 import com.api.entities.events.Genre;
 
 import java.sql.Date;
+import java.util.List;
 
 public class EventResponseDto {
     private String name;
@@ -11,6 +12,43 @@ public class EventResponseDto {
     private Genre genre;
     private Date date;
     private Integer price;
+    private String city;
+    private String adress;
+    private String venue;
+
+    private List<String> images;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    public String getVenue() {
+        return venue;
+    }
+
+    public void setVenue(String venue) {
+        this.venue = venue;
+    }
 
     public Integer getPrice() {
         return price;

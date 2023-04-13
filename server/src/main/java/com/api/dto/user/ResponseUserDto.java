@@ -1,7 +1,10 @@
 package com.api.dto.user;
 
+import com.api.entities.accounts.Role;
+
+import java.util.Set;
+
 public class ResponseUserDto extends AbstractUserDto {
-    
     private String name;
 
     private String surname;
@@ -9,6 +12,16 @@ public class ResponseUserDto extends AbstractUserDto {
     private String email;
     
     private Long phone;
+
+    private Set<Role> roles;
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public void setSurname(String surname) {
         this.surname = surname;

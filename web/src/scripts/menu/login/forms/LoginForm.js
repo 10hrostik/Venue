@@ -15,7 +15,7 @@ function LoginForm (props) {
 
     const handleSumbit = (event) => {
         event.preventDefault()
-        fetch(apiServer + "/users/login/" + username + "/" + password,
+        fetch(apiServer.public + "/users/login/" + username + "/" + password,
         {
             method: "GET",
             headers: {

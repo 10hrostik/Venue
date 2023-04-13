@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("api/secured/festivals")
+@RequestMapping("api/public/festivals")
 public class FestivalController {
 
     @Autowired

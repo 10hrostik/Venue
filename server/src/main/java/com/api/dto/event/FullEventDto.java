@@ -27,6 +27,36 @@ public class FullEventDto {
 
     private List<Artist> artists;
 
+    private String city;
+
+    private String adress;
+
+    private String venue;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
+    }
+
+    public String getVenue() {
+        return venue;
+    }
+
+    public void setVenue(String venue) {
+        this.venue = venue;
+    }
+
     public List<Artist> getArtists() {
         return artists;
     }

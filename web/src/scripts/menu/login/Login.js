@@ -65,7 +65,7 @@ function LoginButtons() {
                 <div className="login-section" align="right">
                     <div>
                         <button onClick={showUserSettings} className="btn-sign">{user.data.name + " " + user.data.surname}</button> 
-                        <UserSettings visibility = {visible} />               
+                        <UserSettings visibility = {visible} userProfile = {user} />               
                     </div>
                 </div>
             ) 

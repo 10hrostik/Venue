@@ -1,20 +1,47 @@
 import { Component, useState } from 'react';
 import React from 'react';
-import apiServer from '../../../Config';
 import '../../../../styles/main.css';
+import UserProfile from './profile/UserProfile';
 
 export default function UserSettings(props) {
-     let userSettingsStyle = {
-         visibility: props.visibility,
-     }
-     return(
+    const [myProfileVisibility, setMyProfileVisibility] = useState("hidden");
+    const [detailsVisibility, setDetailsVisibility] = useState({
+        myProfile: undefined,
+        myTickets: undefined,
+        mySecurity: undefined,
+        mySettings: undefined
+    });
+
+    let handleSwitchTabs = (settings) => {
+        setDetailsVisibility({
+            myProfile: settings === "myProfile" ? "inherit" : "hidden",
+            myTickets: settings === "myTickets" ? "inherit" : "hidden",
+            mySettings: settings === "settings" ? "inherit" : "hidden",
+            mySecurity: settings === "mySecurity" ? "inherit" : "hidden"
+        })
+    }
+    let handleMyProfile = (settings) => {
+        handleSwitchTabs(settings);
+        if(myProfileVisibility === "hidden") {
+            setMyProfileVisibility("inherit");
+        } else {
+            setMyProfileVisibility("hidden")
+        }
+    }
+    let userSettingsStyle = {
+        visibility: props.visibility,
+    }
+
+    return(
         <div className="toolBox" style={userSettingsStyle}>
             <ul>
-                <li><button className='toolBoxButton'>My profile</button></li>
-                <li><button className='toolBoxButton'>My tickets</button></li>
-                <li><button className='toolBoxButton'>Settings</button></li>
+                <li><button className='toolBoxButton' onClick={() => handleMyProfile("myProfile")}>My profile</button></li>
+                <li><button className='toolBoxButton' onClick={() => handleMyProfile("myTickets")}>My tickets</button></li>
+                <li><button className='toolBoxButton' onClick={() => handleMyProfile("settings")}>Settings</button></li>
                 <li><button className='toolBoxButton'>Log out</button></li>
+                <UserProfile visibility = {myProfileVisibility} details = {detailsVisibility}
+                            userProfile = {props.userProfile} callback = {() => handleMyProfile()} switchCallback = {(settings) => handleSwitchTabs(settings)}/>
             </ul>
         </div>
-     )
+    )
 }

@@ -17,6 +17,9 @@ public interface EventBuilder {
             target.setPrice(event.getPrice());
             target.setEventType(event.getEventType());
             target.setTickets(event.getTickets());
+            target.setCity(event.getCity());
+            target.setVenue(event.getVenue());
+            target.setAdress(event.getAdress());
         }
 
         return target;
@@ -30,6 +33,9 @@ public interface EventBuilder {
             target.setEventType(event.getEventType());
             target.setName(event.getName());
             target.setPrice(event.getPrice());
+            target.setCity(event.getCity());
+            target.setVenue(event.getVenue());
+            target.setAdress(event.getAdress());
         }
 
         return target;
