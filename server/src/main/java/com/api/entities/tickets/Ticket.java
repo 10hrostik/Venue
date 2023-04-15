@@ -1,13 +1,7 @@
 package com.api.entities.tickets;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.api.entities.venue.Place;
+import jakarta.persistence.*;
 
 import com.api.entities.accounts.User;
 import com.api.entities.events.Event;
@@ -26,6 +20,10 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private User owner;
+
+    @OneToOne
+    @JoinColumn(name = "place_id", referencedColumnName = "id")
+    private Place place;
 
     @ManyToOne
     @JoinColumn(name = "event_id", referencedColumnName = "id")

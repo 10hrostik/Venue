@@ -8,12 +8,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Venue" />
         <module name="venue" />
+        <module name="server" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Venue" options="-parameters" />
+      <module name="server" options="-parameters" />
       <module name="venue" options="-parameters" />
     </option>
   </component>
