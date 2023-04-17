@@ -1,5 +1,6 @@
 package com.api.services.ticket;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,10 +17,14 @@ public class TicketService {
     @Autowired
     private TicketDao ticketDao;
 
-    public List<TicketDto> getTickets(Integer ownerId) {
-        List<Ticket> tickets = ticketDao.getUserTickets(ownerId);
+    public List<TicketDto> getTickets(String username) {
+        List<Ticket> tickets = ticketDao.getUserTickets(username);
 
-        return tickets.stream().map(x -> TicketDtoBuilder.createTicketDto(x))
-               .collect(Collectors.toList());
+        if(tickets != null) {
+            return tickets.stream().map(TicketDtoBuilder::createTicketDto)
+                    .collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
     }
 }

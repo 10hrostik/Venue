@@ -1,6 +1,10 @@
 package com.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.api.dto.user.*;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.dto.BatchResponseDto;
-import com.api.dto.user.EditUserDto;
-import com.api.dto.user.FullUserDto;
-import com.api.dto.user.RegisterUserDto;
-import com.api.dto.user.ResponseUserDto;
 import com.api.services.user.UserService;
 import com.api.services.ValidationService;
 
@@ -46,7 +46,7 @@ public class UserController {
     @PostMapping(value = "/api/public/users/register", consumes = MediaType.APPLICATION_JSON_VALUE
                                        , produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> register(@RequestBody @Valid RegisterUserDto client, 
-                                                      BindingResult bindingResult) {
+                                                      BindingResult bindingResult) throws Exception {
         BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>(); 
         if (validationService.getErrorMessages(bindingResult.getAllErrors()).length() > 1) {
             response.setMessage(validationService.getErrorMessages(bindingResult.getAllErrors()));
@@ -95,6 +95,21 @@ public class UserController {
         return response;
     }
 
+    @PatchMapping(value = "/api/secured/users/editpassword", consumes = MediaType.APPLICATION_JSON_VALUE,
+                                                                 produces = MediaType.APPLICATION_JSON_VALUE)
+    public BatchResponseDto<ResponseUserDto> edit(@RequestBody @Valid RequestEditPasswordDto editDto, BindingResult bindingResult) {
+        BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>();
+        if (validationService.getErrorMessages(bindingResult.getAllErrors()).length() > 1) {
+            response.setMessage(validationService.getErrorMessages(bindingResult.getAllErrors()));
+        } else {
+            ResponseUserDto user = userService.editPassword(editDto);
+            response.setData(user);
+            response.setMessage(CHANGED_ACCOUNT);
+        }
+
+        return response;
+    }
+
     @ResponseBody
     @GetMapping(value = "/api/secured/users/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<FullUserDto> getAllUsers() {
@@ -102,8 +117,10 @@ public class UserController {
     }
 
     @ResponseBody
-    @DeleteMapping(value = "/api/secured/users/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String delete(@PathVariable(value = "id") Integer id) {
-        return userService.delete(id);
+    @DeleteMapping(value = "/api/secured/users/delete/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, String> delete(@RequestBody String username) {
+        Map<String, String> response = new HashMap<>();
+        response.put("status", userService.delete(username));
+        return response;
     }
 }

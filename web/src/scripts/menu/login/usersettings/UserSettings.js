@@ -28,6 +28,9 @@ export default function UserSettings(props) {
             setMyProfileVisibility("hidden")
         }
     }
+    const handleLogout = () => {
+        window.location.reload(false);
+    }
     let userSettingsStyle = {
         visibility: props.visibility,
     }
@@ -38,9 +41,12 @@ export default function UserSettings(props) {
                 <li><button className='toolBoxButton' onClick={() => handleMyProfile("myProfile")}>My profile</button></li>
                 <li><button className='toolBoxButton' onClick={() => handleMyProfile("myTickets")}>My tickets</button></li>
                 <li><button className='toolBoxButton' onClick={() => handleMyProfile("settings")}>Settings</button></li>
-                <li><button className='toolBoxButton'>Log out</button></li>
+                <li><button className='toolBoxButton' onClick={handleLogout}>Log out</button></li>
                 <UserProfile visibility = {myProfileVisibility} details = {detailsVisibility}
-                            userProfile = {props.userProfile} callback = {() => handleMyProfile()} switchCallback = {(settings) => handleSwitchTabs(settings)}/>
+                            userProfile = {props.userProfile} 
+                            callback = {() => handleMyProfile()} 
+                            switchCallback = {(settings) => handleSwitchTabs(settings)} 
+                            setData = {(data) => props.setData(data)}/>
             </ul>
         </div>
     )

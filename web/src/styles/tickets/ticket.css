@@ -1,0 +1,11 @@
+.ticketBlock{
+    margin-left: 20px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+    border-top: 2px solid black;
+    
+}
+.ticketBlock:hover{
+    background-color: #6969695c;
+}

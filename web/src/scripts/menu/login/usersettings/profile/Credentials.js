@@ -17,6 +17,7 @@ export default function Credentials(props) {
         .then((response) => response.json())
         .then((data) => {
                 console.log(data);
+                props.setData(data);
                 alert("Saved!");
         })
         .catch((error) => {

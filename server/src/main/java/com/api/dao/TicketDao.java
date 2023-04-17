@@ -7,21 +7,24 @@ import jakarta.persistence.EntityManager;
 
 import com.api.entities.accounts.User;
 import com.api.entities.tickets.Ticket;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.config.EntityManagerConfig;
 
 @Component
 public class TicketDao {
+    @Autowired
+    private UserDao userDao;
+
     private final EntityManager em;
 
     {
         em = EntityManagerConfig.getEntityManagerFactory();
     }
 
-    public List<Ticket> getUserTickets(Integer userId) {
-        User target = em.find(User.class, userId);
-
+    public List<Ticket> getUserTickets(String username) {
+        User target = userDao.getUserByUsername(username);
         if (target != null) {
             return target.getTickets();
         } else {

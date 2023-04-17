@@ -21,11 +21,9 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
     
-    @GetMapping(value = "/mytickets/{userid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<TicketDto> getUserTickets(@PathVariable(value = "userid") int id) {
-        return ticketService.getTickets(id);
+    @GetMapping(value = "/mytickets/{username}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<TicketDto> getUserTickets(@PathVariable(value = "username") String username) {
+        return ticketService.getTickets(username);
     }
-
 
 }

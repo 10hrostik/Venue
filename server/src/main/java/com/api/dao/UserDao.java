@@ -40,9 +40,14 @@ public class UserDao {
     }
 
     public User getUserByUsername(String username) {
-        Query query = em.createQuery("SELECT c FROM User c WHERE c.username = '" + username
-                                + "'");
-        return (User) query.getSingleResult();
+        try{
+            Query query = em.createQuery("SELECT c FROM User c WHERE c.username = '" + username
+                    + "'");
+            return (User) query.getSingleResult();
+        } catch (NoResultException exception) {
+            exception.printStackTrace();
+            return null;
+        }
     }
 
     public List<User> getAllUsers() {
@@ -62,11 +67,11 @@ public class UserDao {
         em.getTransaction().commit();
     }
 
-    public String delete(Integer id) {
+    public String delete(String username) {
         try {
             em = EntityManagerConfig.getEntityManagerFactory();
             em.getTransaction().begin();
-            Query query = em.createQuery("DELETE FROM User WHERE id = " + id.intValue());
+            Query query = em.createQuery("DELETE FROM User WHERE username = " + username);
             query.executeUpdate();
             em.getTransaction().commit();
 
@@ -83,18 +88,4 @@ public class UserDao {
           list.add(entityClass.cast(object));
         return list;
     }
-
-    private User changeEntity(User target, User source) {
-        if (source.getEmail() != null) {
-            target.setEmail(source.getEmail());
-        }
-        if (source.getPhone() != null) {
-            target.setPhone(source.getPhone());
-        }
-        if (source.getPassword() != null) {
-            target.setPassword(source.getPassword());
-        }
-
-        return target;
-    } 
 }

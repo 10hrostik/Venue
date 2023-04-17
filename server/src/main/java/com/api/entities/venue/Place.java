@@ -12,10 +12,10 @@ public class Place {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "occupated")
+    @Column(name = "occupated", nullable = false)
     private Boolean occupated;
 
-    @Column(name = "place_type")
+    @Column(name = "place_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private PlaceType placeType;
 

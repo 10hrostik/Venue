@@ -2,6 +2,7 @@ package com.api.entities.venue;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -13,17 +14,18 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "name")
+    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "freeplaces")
+    @Column(name = "freeplaces", nullable = false)
     private Integer freeplaces;
 
-    @Column(name = "placecount")
+    @Column(name = "placecount", nullable = false)
     private Integer placecount;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "place")
+    @OneToMany(mappedBy = "room")
     private List<Place> places;
 
     public Integer getId() {

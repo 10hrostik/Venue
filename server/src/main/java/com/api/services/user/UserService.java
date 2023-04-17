@@ -1,15 +1,12 @@
 package com.api.services.user;
 
+import com.api.dto.user.*;
 import com.config.EntityManagerConfig;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.dao.UserDao;
-import com.api.dto.user.EditUserDto;
-import com.api.dto.user.FullUserDto;
-import com.api.dto.user.RegisterUserDto;
-import com.api.dto.user.ResponseUserDto;
 import com.api.dto.user.builder.UserDtoBuilder;
 import com.api.entities.accounts.User;
 import com.api.entities.accounts.UserBuilder;
@@ -27,13 +24,13 @@ public class UserService {
         em = EntityManagerConfig.getEntityManagerFactory();
     }
 
-    public ResponseUserDto save(RegisterUserDto user) {       
+    public ResponseUserDto save(RegisterUserDto user) throws Exception {
         User newUser = UserBuilder.getRegisteredUser(user);
         if (userDao.getUserByUsername(user.getUsername()) == null) {
             userDao.save(newUser);
             return UserDtoBuilder.getRegisteredUser(user);
         } else {
-            return null;
+            throw new Exception("Username is already in use");
         }
     }
 
@@ -41,6 +38,16 @@ public class UserService {
         User foundUser = userDao.getUserByUsername(user.getRootUsername());
         em.detach(foundUser);
         editUser(user, foundUser);
+        ResponseUserDto result = UserDtoBuilder.getEditedUser(foundUser);
+        userDao.editUser(foundUser);
+
+        return result;
+    }
+
+    public ResponseUserDto editPassword(RequestEditPasswordDto user) {
+        User foundUser = userDao.getUserByUsername(user.getUsername());
+        em.detach(foundUser);
+        editPassword(user, foundUser);
         ResponseUserDto result = UserDtoBuilder.getEditedUser(foundUser);
         userDao.editUser(foundUser);
 
@@ -58,8 +65,8 @@ public class UserService {
         return users.stream().map(UserDtoBuilder::getFullUser).collect(Collectors.toList());
     }
 
-    public String delete(Integer id) {
-        return userDao.delete(id);
+    public String delete(String username) {
+        return userDao.delete(username);
     }
 
     private void editUser(EditUserDto dto, User user) {
@@ -69,5 +76,9 @@ public class UserService {
         user.setEmail(dto.getEmail());
         user.setPassword(dto.getPassword());
         user.setPhone(dto.getPhone());
+    }
+
+    private void editPassword(RequestEditPasswordDto dto, User user) {
+         user.setPassword(dto.getPassword());
     }
 }

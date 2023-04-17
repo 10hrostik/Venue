@@ -65,7 +65,7 @@ function LoginButtons() {
                 <div className="login-section" align="right">
                     <div>
                         <button onClick={showUserSettings} className="btn-sign">{user.data.name + " " + user.data.surname}</button> 
-                        <UserSettings visibility = {visible} userProfile = {user} />               
+                        <UserSettings visibility = {visible} userProfile = {user} setData = {(data) => setUser(data)}/>               
                     </div>
                 </div>
             ) 
@@ -74,8 +74,8 @@ function LoginButtons() {
             return(
                 <div className="login-section" align="right">
                     <div>
-                        <button onClick={showUserSettings} className="btn-sign">{user.data.user}</button> 
-                        <UserSettings visibility = {visible} />               
+                        <button onClick={showUserSettings} className="btn-sign">{user.data.username}</button> 
+                        <UserSettings visibility = {visible} userProfile = {user} setData = {(data) => setUser(data)} />               
                     </div>
                 </div>
             ) 

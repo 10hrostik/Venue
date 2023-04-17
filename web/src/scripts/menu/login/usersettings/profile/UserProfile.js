@@ -2,6 +2,8 @@ import React from "react";
 import "../../../../../styles/main.css";
 import fullHeight from "../../../../utils/BlockHeights";
 import Credentials from "./Credentials";
+import ShowUserTicket from "../userticket/ShowUserTicket";
+import Security from "../security/Security";
 
 export default function UserProfile(props) {
     let securityVisibility = "hidden";
@@ -31,12 +33,17 @@ export default function UserProfile(props) {
                     <div className="userProfileTab" onClick={() => handleMyProfile("settings")}>
                         <button className="tabButton">Settings</button>
                     </div>
-                    <Credentials visible = {props.details.myProfile} userProfile = {props.userProfile.data}/>
-                    <div id="myTicketsPane" className="detailsWindow" style={{visibility: props.details.myTickets}}>
-                        <h1>Tickets</h1>
+                    <Credentials visible = {props.details.myProfile} 
+                                userProfile = {props.userProfile.data}
+                                setData = {(data) => props.setData(data)}/>
+                    <div id="myTicketsPane" className="detailsWindow" style={{visibility: props.details.myTickets, overflow: "auto", whiteSpace: "pre-wrap"}}>
+                        <ShowUserTicket visible = {props.details.myTickets} 
+                                        userProfile = {props.userProfile.data} />
                     </div>
                     <div id="securityPane" className="detailsWindow" style={{visibility: props.details.mySecurity}}>
-                        <h1>Security</h1>
+                        <Security visible = {props.details.mySecurity} 
+                                        userProfile = {props.userProfile.data}
+                                        setData = {(data) => props.setData(data)}/>
                     </div>
                     <div id="settingsPane" className="detailsWindow" style={{visibility: props.details.mySettings}}>
                         <h1>Settings</h1>

@@ -209,6 +209,9 @@
   left: 150px;
   animation: fadeEffect 1s;
 }
+::-webkit-scrollbar {
+  display: none;
+}
 @keyframes fadeEffect {
   from {opacity: 0;}
   to {opacity: 1;}
