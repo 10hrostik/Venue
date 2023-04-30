@@ -1,6 +1,6 @@
 import React from "react";
 
-function festivalLink() {
+function festivalLink(props) {
      return (
        <button align="center" className="festivalLink" >Festivals</button>
      )

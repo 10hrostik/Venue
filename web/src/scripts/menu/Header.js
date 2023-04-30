@@ -5,18 +5,19 @@ import LoginButtons from './login/Login' ;
 import Events from './events/Events';
 import fullHeight from '../utils/BlockHeights';
 
-class Header extends Component {
-  render() {
+export default function Header(props) {
+    const toggleCallback = props.layoutCallback;
+    const insertDataToPane = props.insertData;
+    const handleType = props.handleType;
+
     return (
       <div className="header" style={{height: fullHeight.headerHeight}}>
             <div className='reactLogo-containter'>
                   <img className='reactLogo' src={require('../../logos/Icon.png')} alt="" />  
             </div> 
-            <Events />
+            <Events handlePaneVisibility = {props.handlePane} callback = {toggleCallback} eventCallback = {insertDataToPane} handleObjectType = {handleType}/>
             <LoginButtons />
       </div>
     );
-  }
+  
 }
-
-export default Header;

@@ -29,8 +29,7 @@ export default  function ShowUserTicket(props) {
                 items.push(<div style={{marginTop: 20 }} className="ticketBlock">
                     <h2 style={{alignSelf: "right"}}>{ticket.event.name}</h2>
                     <p>{ticket.description}</p>
-                    <p>Adress: {ticket.event.city} {ticket.event.adress} {ticket.event.date}</p>
-                    
+                    <p>Adress: {ticket.event.city} {ticket.event.adress} {ticket.event.date}</p>                   
                 </div>);
             }
         }

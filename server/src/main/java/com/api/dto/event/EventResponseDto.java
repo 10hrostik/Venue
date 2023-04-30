@@ -15,6 +15,7 @@ public class EventResponseDto {
     private String city;
     private String adress;
     private String venue;
+    private String description;
 
     private List<String> images;
 

@@ -181,6 +181,9 @@
   cursor: pointer;
   left: 540px;
 }
+.eventPane{
+  background-image: url('../logos/eventPaneBackGround.jpg');
+}
 .userProfileTab{
   text-align: center;
   height: 148.5px;

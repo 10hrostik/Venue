@@ -58,7 +58,7 @@ export default function Security(props) {
             <div style={{visibility: props.visible}}>
                 <h1>Security</h1>
                 <div style={{width: "100%", height: 268}}>
-                    <h2>Reset password</h2>
+                    <h3 style={{fontSize: "1.5em", fontWeight: "bolder"}}>Reset password</h3>
                     <form style={{visibility:"inherit", marginLeft: "7%"}} onSubmit={handlePasswords} className="userDetailsForm" align="left">
                         <label style={{fontSize: "18px", fontWeight: '900'}} htmlFor="password">New password: </label>
                         <input className="inputPassword" type="password" id="mewPassword" />
@@ -75,7 +75,7 @@ export default function Security(props) {
                 </div> 
                 <div style={{backgroundColor: "rgb(247, 127, 127)", height: 259.5, marginLeft: 6, width: 414,
                             borderBottomLeftRadius: 3, borderBottomRightRadius: "3%", borderTop: "2px solid black "}}>
-                    <h2>Danger zone</h2>  
+                    <h3 style={{fontSize: "1.5em", fontWeight: "bolder"}}>Danger zone</h3>  
                     <button className="deleteProfileButton" onClick={handleDelete}>Delete profile</button>       
                 </div>              
             </div>

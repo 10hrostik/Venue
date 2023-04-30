@@ -82,6 +82,7 @@ public class UserDao {
         }
     }
 
+
     private <T> List<T> castList(Class<? extends T> entityClass, Collection<?> collection) {
         List<T> list = new ArrayList<T>(collection.size());
         for(Object object: collection)

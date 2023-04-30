@@ -1,11 +1,13 @@
 package com.api.dao;
 
+import com.api.dto.search.SearchCriteriaDto;
 import com.api.entities.events.EventType;
 import jakarta.persistence.EntityManager;
 
 import com.api.entities.events.Event;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import com.config.EntityManagerConfig;
 
@@ -14,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Component
+@Scope("prototype")
 public class EventDao {
 
     private final EntityManager em;
@@ -47,7 +50,20 @@ public class EventDao {
             return castList(Event.class, query.getResultList());
         } catch (NoResultException | IllegalStateException exception) {
             exception.printStackTrace();
-            return null;
+            return new ArrayList<>();
+        }
+    }
+
+    public List<Event> getByCriteria(SearchCriteriaDto dto) {
+        try {
+            Query query = em.createQuery("SELECT c FROM Event c " +
+                    "WHERE c.price > '" + dto.getFirstPrice() + "' AND c.price < '" + dto.getLastPrice() + "' AND " +
+                    " c.name = '" + dto.getSearchText() + "'");
+
+            return castList(Event.class, query.getResultList());
+        } catch (NoResultException | IllegalStateException exception) {
+            exception.printStackTrace();
+            return new ArrayList<>();
         }
     }
 

@@ -46,6 +46,17 @@ public class User {
     @Column(name = "enabled")
     private Boolean enabled;
 
+    @OneToOne(mappedBy = "user")
+    private UserSettings userSettings;
+
+    public UserSettings getUserSettings() {
+        return userSettings;
+    }
+
+    public void setUserSettings(UserSettings userSettings) {
+        this.userSettings = userSettings;
+    }
+
     public Boolean getEnabled() {
         return enabled;
     }

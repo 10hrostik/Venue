@@ -1,6 +1,6 @@
 let fullHeight = {
     headerHeight: 135,
-    bodyHeight: 502,
+    bodyHeight: 612,
     footerHeight: 170
 }
 
