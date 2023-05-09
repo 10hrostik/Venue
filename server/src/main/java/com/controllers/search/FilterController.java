@@ -1,14 +1,10 @@
 package com.controllers.search;
 
-import com.api.dao.EventDao;
 import com.api.dto.BatchResponseDto;
 import com.api.dto.event.EventResponseDto;
 import com.api.dto.search.SearchCriteriaDto;
-import com.api.entities.events.Event;
-import com.api.entities.events.EventType;
 import com.api.entities.events.Genre;
 import com.api.services.event.GeneralEventService;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

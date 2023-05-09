@@ -2,6 +2,7 @@ package com.api.dao;
 
 import com.api.entities.accounts.User;
 import com.api.entities.accounts.UserBuilder;
+import com.api.entities.accounts.UserSettings;
 import org.springframework.stereotype.Component;
 
 import com.config.EntityManagerConfig;
@@ -16,7 +17,7 @@ import jakarta.persistence.Query;
 
 @Component
 public class UserDao {
-    private EntityManager em;
+    private final EntityManager em;
 
     {
         em = EntityManagerConfig.getEntityManagerFactory();
@@ -35,7 +36,7 @@ public class UserDao {
 
     public void save(User user) {
         em.getTransaction().begin();
-        em.persist(user);       
+        em.persist(user);
         em.getTransaction().commit();
     }
 
@@ -45,7 +46,6 @@ public class UserDao {
                     + "'");
             return (User) query.getSingleResult();
         } catch (NoResultException exception) {
-            exception.printStackTrace();
             return null;
         }
     }
@@ -69,7 +69,6 @@ public class UserDao {
 
     public String delete(String username) {
         try {
-            em = EntityManagerConfig.getEntityManagerFactory();
             em.getTransaction().begin();
             Query query = em.createQuery("DELETE FROM User WHERE username = " + username);
             query.executeUpdate();
@@ -78,6 +77,7 @@ public class UserDao {
             return "Successful";
         } catch(Exception exception) {
             exception.printStackTrace();
+            em.getTransaction().rollback();
             return "Something went wrong!";
         }
     }

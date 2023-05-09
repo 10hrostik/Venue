@@ -14,11 +14,15 @@ export default function Body() {
         workshop: undefined,
         concert: undefined
     });
+    const [user, setUser] = useState(null);
 
     const handlePaneVisibility = (visibility) => {
         if(visibility != undefined) {
             setObjectTypeVisibility(visibility);   
         }    
+    }
+    const handleUsers = (userData) => {
+        setUser(userData);
     }
 
     const toggleLayout = (prop) => {
@@ -35,8 +39,9 @@ export default function Body() {
 
     return(
         <div>
-            <Header handlePane = {handlePaneVisibility} layoutCallback = {toggleLayout} insertData = {insertDataToPane} handleType = {handleObjectType}/>
-            <Pane mode = {mode} events = {data} type = {objectType} insertData = {insertDataToPane} objectTypeVisibility = {objectTypeVisibility}/>
+            <Header handlePane = {handlePaneVisibility} layoutCallback = {toggleLayout} insertData = {insertDataToPane}
+                    handleType = {handleObjectType} user = {user} setUser = {setUser}/>
+            <Pane mode = {mode} events = {data} type = {objectType} insertData = {insertDataToPane} objectTypeVisibility = {objectTypeVisibility} userSettings = {user}/>
             <Footer />
         </div>
    )

@@ -4,11 +4,11 @@ import LoginForm from './forms/LoginForm';
 import SignUpForm from './forms/SignUpForm';
 import UserSettings from './usersettings/UserSettings';
 
-function LoginButtons() {
+function LoginButtons(props) {
     const [loginVisibility, setLoginVisibility] = useState("hidden");
-    const [registerVisibility, setRegisterVisibility] = useState("hidden");
-    const [user, setUser] = useState(null);
+    const [registerVisibility, setRegisterVisibility] = useState("hidden"); 
     const [visible, setVisible] = useState("hidden");
+    let user = props.user;
 
     let showLoginForm = () => {
         if (registerVisibility === "inherit") {
@@ -54,8 +54,8 @@ function LoginButtons() {
                 <div className="login-section" align="right">
                     <button onClick={showRegisterForm} style = {registerStyle} className="btn-sign">Sign up</button>   
                     <button onClick={showLoginForm} style = {loginStyle} className="btn-log">Log in</button> 
-                    <LoginForm setData = {(data) => setUser(data)} visibility = {loginVisibility}/>   
-                    <SignUpForm setData = {(data) => setUser(data)} visibility = {registerVisibility}/>                 
+                    <LoginForm setData = {props.setUser} visibility = {loginVisibility}/>   
+                    <SignUpForm setData = {props.setUser} visibility = {registerVisibility}/>                 
                 </div>
         );
     }

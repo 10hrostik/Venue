@@ -13,14 +13,14 @@ public class ResponseUserDto extends AbstractUserDto {
     
     private Long phone;
 
-    private Set<Role> roles;
+    private UserSettingsDto userSettings;
 
-    public Set<Role> getRoles() {
-        return roles;
+    public UserSettingsDto getUserSettings() {
+        return userSettings;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setUserSettings(UserSettingsDto userSettings) {
+        this.userSettings = userSettings;
     }
 
     public void setSurname(String surname) {

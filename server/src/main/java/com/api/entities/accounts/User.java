@@ -46,6 +46,7 @@ public class User {
     @Column(name = "enabled")
     private Boolean enabled;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user")
     private UserSettings userSettings;
 

@@ -16,8 +16,23 @@ public class EventResponseDto {
     private String adress;
     private String venue;
     private String description;
+    private String imageUrl;
 
-    private List<String> images;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public String getCity() {
         return city;
@@ -33,14 +48,6 @@ public class EventResponseDto {
 
     public void setAdress(String adress) {
         this.adress = adress;
-    }
-
-    public List<String> getImages() {
-        return images;
-    }
-
-    public void setImages(List<String> images) {
-        this.images = images;
     }
 
     public String getVenue() {

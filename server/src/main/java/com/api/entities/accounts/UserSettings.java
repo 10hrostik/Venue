@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "user_settings")
 public class UserSettings {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "festival_settings")
     private String festivalSettings;
@@ -16,7 +16,7 @@ public class UserSettings {
     private String theatreSettings;
     @Column(name = "workshop_settings")
     private String workshopSettings;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 

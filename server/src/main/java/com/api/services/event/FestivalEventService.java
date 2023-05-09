@@ -6,6 +6,7 @@ import com.api.dto.event.EventResponseDto;
 import com.api.dto.event.builder.EventBuilder;
 import com.api.entities.events.EventType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

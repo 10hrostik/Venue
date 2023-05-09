@@ -6,7 +6,7 @@
     width: 95px;
     position: absolute;
     animation: ani .5s forwards;
-    left: 413px;
+    right: 0px;
     top: 32px;
     background-image: url("../logos/Header1.jpg")
 }
@@ -19,7 +19,7 @@
     animation: ani .5s forwards;
     position: absolute;
     top: 32px;
-    left: 278.3px;
+    right: 9.2px;
 }
 @keyframes ani {
     0% {opacity: 0;}

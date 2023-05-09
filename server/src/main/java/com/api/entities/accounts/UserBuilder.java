@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public interface UserBuilder {
-    public static User getRegisteredUser(RegisterUserDto dto){
+    static User getRegisteredUser(RegisterUserDto dto){
         User user = new User();
         Set<Role> roles = new HashSet<>();
         roles.add(Role.USER);

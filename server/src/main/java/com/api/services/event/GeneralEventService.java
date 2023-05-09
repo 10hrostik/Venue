@@ -35,7 +35,7 @@ public class GeneralEventService {
 
         return events.stream().filter(x -> {
                   if(dto.getSearchText().length() > 0) {
-                      return x.getName().contains(dto.getSearchText());
+                      return x.getName().toLowerCase().contains(dto.getSearchText().toLowerCase());
                   } else {
                     return true;
                   }

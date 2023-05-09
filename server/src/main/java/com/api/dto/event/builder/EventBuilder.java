@@ -3,6 +3,9 @@ package com.api.dto.event.builder;
 import com.api.dto.event.EventResponseDto;
 import com.api.dto.event.FullEventDto;
 import com.api.entities.events.Event;
+import com.config.ImagePath;
+import jakarta.annotation.Nullable;
+import org.springframework.beans.factory.annotation.Value;
 
 public interface EventBuilder {
 
@@ -36,6 +39,7 @@ public interface EventBuilder {
             target.setCity(event.getCity());
             target.setVenue(event.getVenue());
             target.setAdress(event.getAdress());
+            target.setImageUrl(event.getImages().size() == 0 ? ImagePath.dir + "no-photo.jpg" : ImagePath.dir + event.getImages().get(0).getImageURL());
         }
 
         return target;

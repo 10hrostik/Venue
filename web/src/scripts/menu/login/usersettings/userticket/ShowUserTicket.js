@@ -26,7 +26,7 @@ export default  function ShowUserTicket(props) {
         let items = [];
         if(tickets != null) {
             for(let ticket of tickets) {
-                items.push(<div style={{marginTop: 20 }} className="ticketBlock">
+                items.push(<div style={{marginTop: 20 }} key={ticket.event.name} className="ticketBlock">
                     <h2 style={{alignSelf: "right"}}>{ticket.event.name}</h2>
                     <p>{ticket.description}</p>
                     <p>Adress: {ticket.event.city} {ticket.event.adress} {ticket.event.date}</p>                   

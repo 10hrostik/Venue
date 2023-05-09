@@ -17,9 +17,9 @@ export default function UserProfile(props) {
     }
 
     return(
-        <div className="userProfile" style={{position: "absolute", width: "101vw", 
-            height: "113.7vh", visibility: visible, left: -1095, top: -102}}>
-                <div className="userProfileWindow" style={{height: 600, width: 570}}>
+        <div className="userProfile" style={{position: "absolute", width: 1400, 
+            height: "113.7vh", visibility: visible, left: -1140, top: -102}}>
+                <div className="userProfileWindow" style={{height: 600, width: 570, left: 418}}>
                     <button className="myProfilePopUpClose" onClick={handleClose}>X</button>
                     <div className="userProfileTab" onClick={() => handleMyProfile("myProfile")}>
                         <button className="tabButton">My Credentials</button>
