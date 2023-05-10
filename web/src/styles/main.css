@@ -7,6 +7,7 @@
   /* left: 730px; */
   right: 0px;
   bottom: 605px;
+  z-index: 97;
 }
 .header{
   height: 135px;
@@ -161,6 +162,7 @@
     right: 0;
     bottom: 0;
     top: 0;
+    z-index: 90;
 }
 .userProfileWindow{
   height: 300;

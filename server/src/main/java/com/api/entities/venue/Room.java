@@ -1,5 +1,6 @@
 package com.api.entities.venue;
 
+import com.api.entities.events.Event;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -24,9 +25,18 @@ public class Room {
     @Column(name = "placecount", nullable = false)
     private Integer placecount;
 
+
     @JsonIgnore
     @OneToMany(mappedBy = "room")
-    private List<Place> places;
+    private List<Event> event;
+
+    public List<Event> getEvent() {
+        return event;
+    }
+
+    public void setEvent(List<Event> event) {
+        this.event = event;
+    }
 
     public Integer getId() {
         return id;
@@ -58,13 +68,5 @@ public class Room {
 
     public void setPlacecount(Integer placecount) {
         this.placecount = placecount;
-    }
-
-    public List<Place> getPlaces() {
-        return places;
-    }
-
-    public void setPlaces(List<Place> places) {
-        this.places = places;
     }
 }

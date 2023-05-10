@@ -10,6 +10,7 @@ import transformEventResponse from "../../utils/TransformEventResponse";
 function events (props) {
     let callback = props.callback;
     const eventCallback = props.eventCallback;
+    const detailedEventCallback = props.detailedEventCallback;
 
     const fetchData = (event, objectType) => {
         event.preventDefault();
@@ -27,7 +28,8 @@ function events (props) {
         .then((response) => response.json())
         .then((fetchedData) => {
             console.log(fetchedData);
-            eventCallback(transformEventResponse(fetchedData.data));
+            eventCallback(transformEventResponse(fetchedData.data, detailedEventCallback));
+            detailedEventCallback(null);
         })
         .catch((error) => {
             console.log(error);

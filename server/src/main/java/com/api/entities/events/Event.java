@@ -6,16 +6,10 @@ import java.util.Set;
 
 import com.api.entities.attachments.Attachment;
 import com.api.entities.artirts.Artist;
+import com.api.entities.venue.Place;
+import com.api.entities.venue.Room;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import com.api.entities.tickets.Ticket;
 
@@ -67,6 +61,30 @@ public class Event {
     @JsonIgnore
     @OneToMany(mappedBy = "event")
     private List<Attachment> images;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id", referencedColumnName = "id")
+    private Room room;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "event")
+    private List<Place> places;
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public List<Place> getPlaces() {
+        return places;
+    }
+
+    public void setPlaces(List<Place> places) {
+        this.places = places;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
 
     public List<Artist> getArtists() {
         return artists;

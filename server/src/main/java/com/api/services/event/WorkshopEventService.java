@@ -4,6 +4,7 @@ import com.api.dao.EventDao;
 import com.api.dto.event.DetailedEventResponseDto;
 import com.api.dto.event.EventResponseDto;
 import com.api.dto.event.builder.EventBuilder;
+import com.api.entities.events.Event;
 import com.api.entities.events.EventType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,9 @@ public class WorkshopEventService implements EventService{
     }
 
     @Override
-    public DetailedEventResponseDto getEvent() {
-        return null;
+    public DetailedEventResponseDto getEvent(Integer id) {
+        Event event = dao.getEvent(id);
+        return EventBuilder.getDetailedDto(event);
     }
 
     @Override

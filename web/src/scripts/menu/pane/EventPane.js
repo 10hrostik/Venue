@@ -11,6 +11,25 @@ import ConcertPane from "./ConcertPane";
 export default function Pane(props) {
     let user = props.userSettings;
     let visiblility = props.objectTypeVisibility;
+    const detailedEvent = props.detailedEvent;
+    const detailedEventCallback = props.detailedEventCallback;
+    const [span, setSpan] = useState(384);
+    const [detailsWidthVisibility, setDetailsWidthVisibility] = useState("hidden");
+
+    useEffect(() => {
+        if(detailedEvent != null) {
+            props.handleCriteriaVisibility({festival: "hidden", concert: "hidden", theatre: "hidden", workshop: "hidden"});
+            document.getElementById("eventPane").style.visibility = "hidden";
+            setSpan(0);
+            setDetailsWidthVisibility("visible");
+        } else {
+            if(document.getElementById("eventPane")) document.getElementById("eventPane").style.visibility = "visible";
+            visiblility[props.objectType.toLowerCase()] = "visible";
+            props.handleCriteriaVisibility(visiblility);
+            setSpan(384);
+            setDetailsWidthVisibility("hidden");
+        }
+    }, [detailedEvent])
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -27,7 +46,7 @@ export default function Pane(props) {
         })
         .then((response) => response.json())
         .then((fetchedData) => {
-            props.insertData(transformEventResponse(fetchedData.data));
+            props.insertData(transformEventResponse(fetchedData.data, detailedEventCallback));
         })
         .catch((error) => {
             console.log(error);
@@ -56,7 +75,6 @@ export default function Pane(props) {
             console.log(error);
         });
     }
-
     let createData = (form) => {
         let dataToSave = {genresToSearch: [], objectType: props.type};
         if(form[0].value !== '') {
@@ -84,30 +102,41 @@ export default function Pane(props) {
         return dataToSave;        
     } 
 
+    const handleDetailsClose = () => {
+        detailedEventCallback(null);
+    }
+
     if (props.mode === "inherit") {
         return(
-            <div className="eventPane" style={{height: fullHeight.bodyHeight}}>
-                <div style={{id: "eventPane", alignItems: "center", borderRight: "2.5px solid black", height: fullHeight.bodyHeight, width: "30%", float: "left"}}>
-                    <h1 style={{marginLeft: 90, marginTop: 10}}>Search criteria</h1>
-                    <div className="displayCriteria" style={{visibility: visiblility.festival, position: "absolute", left: 12.5}}>
-                        <FestivalPane submit = {handleSubmit} 
-                               insertData = {props.insertData} visible = {visiblility.festival} user = {user} type = {'festival'}/>
-                    </div>
-                    <div className="displayCriteria" style={{visibility: visiblility.theatre, position: "absolute", left: 12.5}}>
-                        <TheatrePane submit = {handleSubmit} 
-                                insertData = {props.insertData} visible = {visiblility.theatre} user = {user} type = {'theatre'}/>
-                    </div>
-                    <div className="displayCriteria" style={{visibility: visiblility.workshop, position: "absolute", left: 12.5}}>
-                        <WorkshopPane submit = {handleSubmit} 
-                                 insertData = {props.insertData} visible = {visiblility.workshop} user = {user} type = {'workshop'}/>
-                    </div>
-                    <div className="displayCriteria" style={{visibility: visiblility.concert, position: "absolute", left: 12.5}}>
-                        <ConcertPane submit = {handleSubmit} 
-                                insertData = {props.insertData} visible = {visiblility.concert} user = {user} type = {'concert'}/>
-                    </div>   
+            <div id="eventCriteria" className="eventPane" style={{height: fullHeight.bodyHeight}}>
+                <div id="eventPane" style={{alignItems: "center", visibility: "visible", height: fullHeight.bodyHeight, width: "30%", float: "left"}}>
+                
+                    <FestivalPane submit = {handleSubmit} 
+                            detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
+                            visible = {visiblility.festival} user = {user} type = {'festival'}/>
+                
+                
+                    <TheatrePane submit = {handleSubmit} 
+                            detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
+                            visible = {visiblility.theatre} user = {user} type = {'theatre'}/>
+                
+                
+                    <WorkshopPane submit = {handleSubmit} 
+                            detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
+                            visible = {visiblility.workshop} user = {user} type = {'workshop'}/>
+                
+                
+                    <ConcertPane submit = {handleSubmit} 
+                            detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData}
+                            visible = {visiblility.concert} user = {user} type = {'concert'}/>
+                     
                 </div>
-                <div style={{height: fullHeight.bodyHeight, width: "46.7%", float: "left",
+                <div id="eventList" style={{height: fullHeight.bodyHeight, width: "46.7%", position: "absolute", left: span, borderLeft: "2.5px solid black", float: "left",
                             overflow: "auto", whiteSpace: "pre-wrap"}}>{props.events}</div>
+                <div id="detaild" style={{position: "absolute", width: "50%", visibility: detailsWidthVisibility, border: "3px solid black", borderRadius: 10, left: 630, height: fullHeight.bodyHeight - 15, marginTop: 5}}>
+                        <button style={{left: 183, top: -5}} className="donationPopUpClose" onClick={handleDetailsClose}>X</button>
+                        {detailedEvent}
+                </div>
             </div>
         )
     } else {

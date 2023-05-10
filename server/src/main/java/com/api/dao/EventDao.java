@@ -42,6 +42,10 @@ public class EventDao {
         }
     }
 
+    public Event getEvent(Integer id) {
+        return em.find(Event.class, id);
+    }
+
     public List<Event> getSpecific(EventType eventType) {
         try {
             Query query = em.createQuery("SELECT c FROM Event c " +

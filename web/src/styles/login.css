@@ -8,7 +8,8 @@
     animation: ani .5s forwards;
     right: 0px;
     top: 32px;
-    background-image: url("../logos/Header1.jpg")
+    background-image: url("../logos/Header1.jpg");
+    z-index: 98;
 }
 .signUpForm {
     width: 104.5px;
@@ -20,6 +21,7 @@
     position: absolute;
     top: 32px;
     right: 9.2px;
+    z-index: 99;
 }
 @keyframes ani {
     0% {opacity: 0;}

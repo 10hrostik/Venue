@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+
+import static com.controllers.events.utils.ResponseBuilder.getDetailedEventResponseDtoBatchResponseDto;
 import static com.controllers.events.utils.ResponseBuilder.getListBatchResponseDto;
 
 @RestController
@@ -25,17 +27,8 @@ public class FestivalController {
         return getListBatchResponseDto(eventService);
     }
 
-    @GetMapping(value = "/get/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BatchResponseDto<DetailedEventResponseDto> getFestival(@PathVariable String name) {
-        BatchResponseDto<DetailedEventResponseDto> response = new BatchResponseDto<>();
-        response.setData(eventService.getEvent());
-
-        if (response.getData() != null) {
-            response.setMessage("Found " + response.getData().getName());
-            return response;
-        } else {
-            throw new NullPointerException("No event found");
-        }
+    @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public BatchResponseDto<DetailedEventResponseDto> getFestival(@PathVariable int id) {
+        return getDetailedEventResponseDtoBatchResponseDto(id, eventService);
     }
-
 }

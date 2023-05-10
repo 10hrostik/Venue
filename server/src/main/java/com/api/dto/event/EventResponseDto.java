@@ -7,23 +7,40 @@ import java.sql.Date;
 import java.util.List;
 
 public class EventResponseDto {
+    private Integer id;
     private String name;
     private EventType eventType;
     private Genre genre;
     private Date date;
     private Integer price;
     private String city;
-    private String adress;
     private String venue;
-    private String description;
+    private String adress;
     private String imageUrl;
+    private Integer freeTickets;
 
-    public String getDescription() {
-        return description;
+    public Integer getFreeTickets() {
+        return freeTickets;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public String getVenue() {
+        return venue;
+    }
+
+    public void setVenue(String venue) {
+        this.venue = venue;
+    }
+
+    public void setFreeTickets(Integer freeTickets) {
+        this.freeTickets = freeTickets;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getImageUrl() {
@@ -50,13 +67,6 @@ public class EventResponseDto {
         this.adress = adress;
     }
 
-    public String getVenue() {
-        return venue;
-    }
-
-    public void setVenue(String venue) {
-        this.venue = venue;
-    }
 
     public Integer getPrice() {
         return price;

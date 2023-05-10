@@ -1,5 +1,6 @@
 package com.api.entities.venue;
 
+import com.api.entities.events.Event;
 import com.api.entities.tickets.Ticket;
 import jakarta.persistence.*;
 
@@ -23,15 +24,15 @@ public class Place {
     private Ticket ticket;
 
     @ManyToOne
-    @JoinColumn(name = "room_id", referencedColumnName = "id")
-    private Room room;
+    @JoinColumn(name = "event_id", referencedColumnName = "id")
+    private Event event;
 
-    public Room getRoom() {
-        return room;
+    public Event getRoom() {
+        return event;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setRoom(Event event) {
+        this.event = event;
     }
 
     public Integer getId() {

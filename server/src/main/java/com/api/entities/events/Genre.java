@@ -11,38 +11,39 @@ public enum Genre {
     Rap,
     Mix,
     Classic,
+    Other,
     
     //Theatre genres
 
-    DRAMMA,
-    EXPERIMENTAL,
-    FANTASY,
-    HISTORICAL,
-    MODERN,
+    Dramma,
+    Experimental,
+    Fantasy,
+    Historical,
+    Modern,
 
     //Workshops branches
-    MUSIC,
-    IT,
-    FINANCIAL_THEME,
-    CRYPTOCURRENCY,
+    Music,
+    It,
+    Financial_Theme,
+    Training,
     
     //Other
-    ROOM_PERFORMANCE,
-    EXHIBITION,
-    STAND_UP;
+    Room_Performance,
+    Exhibition,
+    Stand_Up;
 
     public static List<Genre> getGenres(String objectType) {
         if(objectType.equals(EventType.CONCERT.toString()) || objectType.equals(EventType.FESTIVAL.toString())) {
             return List.of(Genre.Rock, Genre.Pop, Genre.Rap,
-                    Genre.Metal, Genre.Mix, Genre.Classic);
+                    Genre.Metal, Genre.Mix, Genre.Classic, Genre.Other);
         }
         if(objectType.equals(EventType.WORKSHOP.toString())) {
-            return List.of(Genre.MUSIC, Genre.IT, Genre.FINANCIAL_THEME,
-                    Genre.EXHIBITION, Genre.STAND_UP, Genre.ROOM_PERFORMANCE, Genre.CRYPTOCURRENCY);
+            return List.of(Genre.Music, Genre.It, Genre.Financial_Theme,
+                    Genre.Exhibition, Genre.Stand_Up, Genre.Room_Performance, Genre.Training);
         }
         if (objectType.equals(EventType.THEATRE.toString())) {
-            return List.of(Genre.DRAMMA, Genre.EXPERIMENTAL, Genre.HISTORICAL,
-                    Genre.FANTASY, Genre.MODERN);
+            return List.of(Genre.Dramma, Genre.Experimental, Genre.Historical,
+                    Genre.Fantasy, Genre.Modern, Genre.Other);
         }
 
         return new ArrayList<>();

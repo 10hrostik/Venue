@@ -8,6 +8,7 @@ export default function Body() {
     const [mode, setMod] = useState("hidden");
     const [data, setData] = useState([]);
     const [objectType, setObjectType] = useState('')
+    const [detailedEvent, setDetailedEvent] = useState(null);
     const [objectTypeVisibility, setObjectTypeVisibility] = useState({
         festival: undefined,
         theatre: undefined,
@@ -25,6 +26,10 @@ export default function Body() {
         setUser(userData);
     }
 
+    const handleDetailedEvent = (detailedEvent) => {
+        setDetailedEvent(detailedEvent);
+    }
+
     const toggleLayout = (prop) => {
         setMod(prop);
     }
@@ -36,12 +41,13 @@ export default function Body() {
     const handleObjectType = (type) => {
         setObjectType(type.toUpperCase());
     }
-
     return(
         <div>
             <Header handlePane = {handlePaneVisibility} layoutCallback = {toggleLayout} insertData = {insertDataToPane}
-                    handleType = {handleObjectType} user = {user} setUser = {setUser}/>
-            <Pane mode = {mode} events = {data} type = {objectType} insertData = {insertDataToPane} objectTypeVisibility = {objectTypeVisibility} userSettings = {user}/>
+                    handleType = {handleObjectType} user = {user} setUser = {setUser} detailedEventCallback = {handleDetailedEvent}/>
+            <Pane mode = {mode} events = {data} type = {objectType} 
+                insertData = {insertDataToPane} detailedEvent = {detailedEvent} detailedEventCallback = {handleDetailedEvent}
+                objectTypeVisibility = {objectTypeVisibility} userSettings = {user} handleCriteriaVisibility = {setObjectTypeVisibility} objectType = {objectType} />
             <Footer />
         </div>
    )

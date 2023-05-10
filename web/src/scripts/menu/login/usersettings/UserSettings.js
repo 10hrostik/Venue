@@ -33,6 +33,7 @@ export default function UserSettings(props) {
     }
     let userSettingsStyle = {
         visibility: props.visibility,
+        zIndex: 99
     }
 
     return(
@@ -42,12 +43,12 @@ export default function UserSettings(props) {
                 <li><button className='toolBoxButton' onClick={() => handleMyProfile("myTickets")}>My tickets</button></li>
                 <li><button className='toolBoxButton' onClick={() => handleMyProfile("settings")}>Settings</button></li>
                 <li><button className='toolBoxButton' onClick={handleLogout}>Log out</button></li>
-                <UserProfile visibility = {myProfileVisibility} details = {detailsVisibility}
+            </ul>
+            <UserProfile visibility = {myProfileVisibility} details = {detailsVisibility}
                             userProfile = {props.userProfile} 
                             callback = {() => handleMyProfile()} 
                             switchCallback = {(settings) => handleSwitchTabs(settings)} 
                             setData = {(data) => props.setData(data)}/>
-            </ul>
         </div>
     )
 }
