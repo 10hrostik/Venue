@@ -41,7 +41,7 @@ export default function About () {
     }
 
     return(
-        <div style={{width: 350, float: "left"}}>
+        <div style={{width: "20%", float: "left"}}>
             <h1 className="about"><u>About</u></h1>
             <h2 className="aboutField">
                 <button className="infoButton" onClick={handleService} style={{textAlign: "left", paddingLeft: 0}}>Service</button>

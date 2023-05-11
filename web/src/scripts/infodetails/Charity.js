@@ -13,7 +13,7 @@ export default function Charity () {
         }
     }
     return(
-        <div style={{width: 350, float: "left"}}>
+        <div style={{width: "24%", float: "left"}}>
             <h1 className="charity"><u>Charity</u></h1>
             <h2 className="charityField">
                 <a href="https://www.savepetsofukraine.kormotech.com/">

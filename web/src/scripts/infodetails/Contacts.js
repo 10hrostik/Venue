@@ -3,7 +3,7 @@ import "../../styles/Footer.css"
 
 export default function Contacts() {
     return(
-        <div style={{width: 350, float: "left"}}>
+        <div style={{width: "22%", marginLeft: "10%", float: "left"}}>
             <h1 className="contact"><u>Contacts</u></h1>
             <h2 className="contactFild">Issues, wishes?</h2>
             <h2 className="contactFild">+380984601237</h2>

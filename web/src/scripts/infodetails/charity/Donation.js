@@ -9,9 +9,9 @@ export default function Donation(props) {
     let screenHeight = fullHeight.bodyHeight + fullHeight.footerHeight + fullHeight.headerHeight;
     return (
         <div className="popUp" style={{position: "absolute", width: "100%", 
-                    height: screenHeight, visibility: visible}}>
+                    height: screenHeight, visibility: visible, zIndex: 200}}>
             <div className="TicketsPopUp" style={{ 
-                height: 450, width: 450, bottom: fullHeight.footerHeight + 25, right: 400}}>
+                height: 450, width: 450, bottom: fullHeight.footerHeight + 250, top: "20%", right: "35%"}}>
                     <button className="donationPopUpClose" onClick={handleClose}>X</button>
                     <h1 style={{marginLeft: 150}}><b>Support US!</b></h1> 
                     <p>Your donation will be spent on improvment site functionality and creating new features!</p> 

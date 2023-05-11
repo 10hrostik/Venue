@@ -11,7 +11,7 @@ export default function TicketsAndPayments(props) {
         <div className="popUp" style={{position: "absolute", width: "100%", 
                     height: screenHeight, visibility: visible}}>
         <div className="TicketsPopUp" style={{ 
-        height: 615, width: 800, overflow: "auto", whiteSpace: "pre-wrap",bottom: fullHeight.footerHeight - 5, right: 220}}>
+        height: 615, width: 800, overflow: "auto", whiteSpace: "pre-wrap",bottom: fullHeight.footerHeight - 5, marginLeft: "24%"}}>
                 <button className="ticketsPopUpClose" onClick={handleClose}>X</button>
                 <strong>ПУБЛІЧНА ПРОПОЗИЦІЯ УКЛАСТИ ДОГОВІР (ОФЕРТА)</strong>
                 <p>
