@@ -9,7 +9,7 @@ export default function Organizers(props) {
     let screenHeight = fullHeight.bodyHeight + fullHeight.footerHeight + fullHeight.headerHeight;
     return (
         <div className="popUp" style={{position: "absolute", width: "100%", 
-                    height: screenHeight, visibility: visible}}>
+                    height: screenHeight, visibility: visible, zIndex: 200}}>
             <div className="TicketsPopUp" style={{ 
                 height: 615, width: 800, overflow: "auto", whiteSpace: "pre-wrap",bottom: fullHeight.footerHeight - 5, right: 220}}>
                     <button className="servicePopUpClose" onClick={handleClose}>X</button>
