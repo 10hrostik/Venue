@@ -66,21 +66,21 @@ function LoginButtons(props) {
     if (user) {
         if (user.data.name && user.data.surname){ 
             return(
-                <div className="login-section" align="right">
-                    <div>
-                        <button onClick={showUserSettings} className="btn-sign">{user.data.name + " " + user.data.surname}</button> 
-                        <UserSettings visibility = {visible} userProfile = {user} setData = {(data) => setUser(data)}/>               
-                    </div>
+                <div className="login-section" align="center">                    
+                    <button onClick={showUserSettings} className="btn-sign">{user.data.name + " " + user.data.surname}</button>
+                    <div style={{height: "100%", width: "100%"}}>
+                        <UserSettings visibility = {visible} userProfile = {user} setData = {(data) => setUser(data)}/> 
+                    </div>                                
                 </div>
             ) 
             
         } else {
             return(
-                <div className="login-section" align="right">
-                    <div>
-                        <button onClick={showUserSettings} className="btn-sign">{user.data.username}</button> 
-                        <UserSettings visibility = {visible} userProfile = {user} setData = {(data) => setUser(data)} />               
-                    </div>
+                <div className="login-section" align="center">                    
+                    <button onClick={showUserSettings} className="btn-sign">{user.data.username}</button> 
+                    <div style={{height: "100%", width: "100%"}}>
+                        <UserSettings visibility = {visible} userProfile = {user} setData = {(data) => setUser(data)}/> 
+                    </div>               
                 </div>
             ) 
         }

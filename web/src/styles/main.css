@@ -122,7 +122,6 @@ top: 37.5%;
   padding: 11px 26px;
 }
 .toolBox {
-  margin-right: 30px;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   border-top-right-radius: 20px;
@@ -130,12 +129,9 @@ top: 37.5%;
   width: 140px;
   animation: ani .5s forwards;
   background-image: url("../logos/Header1.jpg");
-  position: absolute;
-  margin-right: 30px;
-  right: 6px;
-  top: 50px;
+  top: 37.5%;
+  position: relative;
   text-align: center;
-  
 }
 .toolBoxButton {
   cursor: pointer;
