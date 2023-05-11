@@ -11,7 +11,7 @@ export default function Organizers(props) {
         <div className="popUp" style={{position: "absolute", width: "100%", 
                     height: screenHeight, visibility: visible, zIndex: 200}}>
             <div className="TicketsPopUp" style={{ 
-                height: 615, width: 800, overflow: "auto", whiteSpace: "pre-wrap",bottom: fullHeight.footerHeight - 5, right: 220}}>
+                height: 615, width: 800, overflow: "auto", whiteSpace: "pre-wrap",bottom: fullHeight.footerHeight - 5, marginLeft: "23%"}}>
                     <button className="servicePopUpClose" onClick={handleClose}>X</button>
                     <div className="aboutUsText">
                         <h1>Організаторам</h1>
