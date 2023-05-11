@@ -1,12 +1,8 @@
 .login-section{ 
-  width: 348px;
-  height: 0px;
-  display: table-cell;
-  background-color: rgb(255, 255, 255); 
-  position: absolute;
-  right: 0px;
-  bottom: 605px;
+  width: 20%;
+  height: 100%;
   z-index: 97;
+  float: left;
 }
 .header{
   height: 135px;
@@ -30,34 +26,32 @@
   float: left;
 }
 .btn-sign{
-    color: black;
-    background-image: url('../logos/Header1.jpg');
-    border: none;
-    font-weight: 900;
-    padding: 10px 24px;
-    border-radius: 40px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin-bottom: 50px;    
-    cursor: pointer;
-    
-    margin-right: 30px;
-}
-.btn-log{
-  border: none;
   color: black;
-  background-image: url("../logos/Header1.jpg");
-  padding: 10px 24px;
+  background-image: url('../logos/Header1.jpg');
+  border: none;
   font-weight: 900;
+  padding: 10px 24px;
   border-radius: 40px;
   text-align: center;
   text-decoration: none;
-  font-size: 14px;
-  margin-bottom: 50px;
-  margin-right: 30px;   
+  font-size: 14px;   
   cursor: pointer;
+  position: relative;  
+  top: 37.5%;
+}
+.btn-log{
+border: none;
+color: black;
+background-image: url("../logos/Header1.jpg");
+padding: 10px 24px;
+font-weight: 900;
+border-radius: 40px;
+text-align: center;
+text-decoration: none;
+font-size: 14px;
+cursor: pointer;
+position: relative;
+top: 37.5%;
 }
 .festivalLink{
   font-weight: 900;
@@ -70,9 +64,8 @@
   font-size: 15px;
   position: relative;
   border-radius: 40px;
-  top: 52px;
-  margin-left: 150px;
   border: none;
+  top: 37.5%;
 }
 .theatreLink {
   font-weight: 900;
@@ -85,10 +78,8 @@
   font-size: 15px;
   position: relative;
   border-radius: 40px;
-  top: 52px;
-  left: 50px;
   border: none;
-  margin-left: 0%;
+  top: 37.5%;
 }
 .workshopLink{
     font-weight: 900;
@@ -101,9 +92,8 @@
     font-size: 15px;
     position: relative;
     border-radius: 40px;
-    top: 52px;
-    left: 95px;
     border: none;
+    top: 37.5%;
 }
 .concertLink{
   font-weight: 900;
@@ -116,8 +106,7 @@
   font-size: 15px;
   position: relative;
   border-radius: 40px;
-  top: 52px;
-  left: 132px;
+  top: 37.5%;
   border: none;
 }
 .festivalLink:hover {

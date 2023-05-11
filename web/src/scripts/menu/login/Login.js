@@ -51,12 +51,16 @@ function LoginButtons(props) {
 
     if (!user) {
         return(                   
-                <div className="login-section" align="right">
-                    <button onClick={showRegisterForm} style = {registerStyle} className="btn-sign">Sign up</button>   
-                    <button onClick={showLoginForm} style = {loginStyle} className="btn-log">Log in</button> 
-                    <LoginForm setData = {props.setUser} visibility = {loginVisibility}/>   
-                    <SignUpForm setData = {props.setUser} visibility = {registerVisibility}/>                 
+            <div className="login-section" align="center">
+                <div style={{height: "100%", width: "50%", float: 'left'}}>
+                    <button onClick={showRegisterForm} style = {registerStyle} className="btn-sign">Sign up</button>
+                    <SignUpForm setData = {props.setUser} visibility = {registerVisibility}/> 
                 </div>
+                <div style={{height: "100%", width: "50%", float: 'left'}}>
+                    <button onClick={showLoginForm} style = {loginStyle} className="btn-log">Log in</button>
+                    <LoginForm setData = {props.setUser} visibility = {loginVisibility}/>  
+                </div>                 
+            </div>
         );
     }
     if (user) {

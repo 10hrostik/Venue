@@ -45,11 +45,11 @@ function events (props) {
     }
     
     return (
-        <div style={{position: "relative", float: "left"}}>
-            <div style={{position: "relative", float: "left"}} onClick = {() => fetchData(event, "festival")}><FestivalLink /></div>
-            <div style={{position: "relative", float: "left"}} onClick = {() => fetchData(event, "theatre")}><TheatreLink /></div>
-            <div style={{position: "relative", float: "left"}} onClick = {() => fetchData(event, "workshop")}><WorkshopLink /></div>
-            <div style={{position: "relative", float: "left"}} onClick = {() => fetchData(event, "concert")}><OffersLink /> </div>
+        <div style={{position: "relative", height: "100%", width: "62%", float: "left"}}>
+            <div style={{position: "relative" , height: "100%", width:"23%", textAlign: "center" , float: "left"}} onClick = {() => fetchData(event, "festival")}><FestivalLink /></div>
+            <div style={{position: "relative", height: "100%", width:"23%", textAlign: "center", float: "left"}} onClick = {() => fetchData(event, "theatre")}><TheatreLink /></div>
+            <div style={{position: "relative", height: "100%", width:"23%", textAlign: "center", float: "left"}} onClick = {() => fetchData(event, "workshop")}><WorkshopLink /></div>
+            <div style={{position: "relative", height: "100%", width:"23%", textAlign: "center", float: "left"}} onClick = {() => fetchData(event, "concert")}><OffersLink /> </div>
         </div>
     )
 }
