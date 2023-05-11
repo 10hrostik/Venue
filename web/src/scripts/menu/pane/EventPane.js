@@ -31,10 +31,15 @@ export default function Pane(props) {
         }
     }, [detailedEvent])
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        let dataToSave = createData(event.target);
-        if(user != null) saveCriteria(event, dataToSave);      
+    const handleSubmit = (event, readyData) => {
+        let dataToSave;
+        if(event) { 
+            event.preventDefault();
+            dataToSave = createData(event.target);
+            if(user != null) saveCriteria(event, dataToSave);   
+        } else {
+            dataToSave = readyData;
+        }   
         fetch(apiServer.public + "/filter/criteria",
         {
             method: "POST",
@@ -75,6 +80,7 @@ export default function Pane(props) {
             console.log(error);
         });
     }
+    
     let createData = (form) => {
         let dataToSave = {genresToSearch: [], objectType: props.type};
         if(form[0].value !== '') {

@@ -215,6 +215,17 @@
   left: 150px;
   animation: fadeEffect 1s;
 }
+.deleteProfileButton{
+  height: 40px;
+  border: 2px solid black;
+  margin-top: 40px;
+  cursor: pointer;
+  font-weight: 900;
+  border-radius: 10px;
+}
+.deleteProfileButton:hover{
+  background-color: rgb(47, 255, 54);
+}
 ::-webkit-scrollbar {
   display: none;
 }

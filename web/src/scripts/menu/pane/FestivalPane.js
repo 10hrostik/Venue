@@ -33,7 +33,7 @@ export default function FestivalPane(props) {
 
     useEffect(() => {
         if(user != null) {
-            transformFilterPane.setToForm(JSON.parse(user.data.userSettings.festival), props.type, 'Festival')
+            transformFilterPane.setToForm(JSON.parse(user.data.userSettings.festival), props.type, 'Festival');
         }
     },[visible, genres, user])
 

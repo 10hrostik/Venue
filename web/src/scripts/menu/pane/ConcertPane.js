@@ -34,7 +34,7 @@ export default function ConcertPane(props) {
     
     useEffect(() => {
         if(user != null) {
-            transformFilterPane.setToForm(JSON.parse(user.data.userSettings.concert), props.type, 'Concert')
+            transformFilterPane.setToForm(JSON.parse(user.data.userSettings.concert), props.type, 'Concert');
         }
     },[visible, genres, user])
 

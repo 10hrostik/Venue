@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../../../../styles/main.css";
 import fullHeight from "../../../../utils/BlockHeights";
 import Credentials from "./Credentials";
 import ShowUserTicket from "../userticket/ShowUserTicket";
 import Security from "../security/Security";
+import UserFestivalSettings from "../settings/UserFestivalSettings";
+import UserTheatreSettings from "../settings/UserTheatreSettings";
+import UserConcertSettings from "../settings/UserConcertSettings";
+import UserWorkshopSettings from "../settings/UserWorkshopSettings";
+import switchCriteria from "../../../../utils/CriteriaSwitcher";
 
 export default function UserProfile(props) {
-    let securityVisibility = "hidden";
     let visible = props.visibility;
+    const [current, setCurrent] = useState(0);
+    let settingsVisibility = props.settingsVisibility;
+    let setSettingsVisibility = props.setSettingsVisibility;
 
     let handleClose = () => {
         props.callback()
@@ -15,6 +22,43 @@ export default function UserProfile(props) {
     const handleMyProfile = (argument) => {
         props.switchCallback(argument)
     }
+
+    // const handleNext = () => {
+    //     for(let property in settingsVisibility) {
+    //         if(settingsVisibility[property] == 'visible' && property == 'festival') {
+    //             setSettingsVisibility({
+    //                 festival: 'hidden',
+    //                 theatre: 'visible',
+    //                 workshop: 'hidden',
+    //                 concert: 'hidden'
+    //             })
+    //             break;
+    //         } else if (settingsVisibility[property] == 'visible' && property == 'theatre') {
+    //             setSettingsVisibility({
+    //                 festival: 'hidden',
+    //                 theatre: 'hidden',
+    //                 workshop: 'visible',
+    //                 concert: 'hidden'
+    //             })
+    //             break;
+    //         } else if (settingsVisibility[property] == 'visible' && property == 'workshop') {
+    //             setSettingsVisibility({
+    //                 festival: 'hidden',
+    //                 theatre: 'hidden',
+    //                 workshop: 'hidden',
+    //                 concert: 'visible'
+    //             })
+    //             break;
+    //         } else {
+    //             setSettingsVisibility({
+    //                 festival: 'visible',
+    //                 theatre: 'hidden',
+    //                 workshop: 'hidden',
+    //                 concert: 'hidden'
+    //             })
+    //         }
+    //     }
+    // }
 
     return(
         <div className="userProfile" style={{position: "absolute", width: 1400, 
@@ -45,8 +89,16 @@ export default function UserProfile(props) {
                                         userProfile = {props.userProfile.data}
                                         setData = {(data) => props.setData(data)}/>
                     </div>
-                    <div id="settingsPane" className="detailsWindow" style={{visibility: props.details.mySettings}}>
-                        <h1>Settings</h1>
+                    <div id="settingsPane" className="detailsWindow" style={{visibility: props.details.mySettings, overflow: "auto", whiteSpace: "pre-wrap"}}>
+                        <div>
+                            <img onClick={() => switchCriteria('previous', settingsVisibility, setSettingsVisibility)} className="swipeButtonSettings" style={{marginLeft: "5.3em", marginTop: 27}} src={require('../../../../../logos/swipeLeft.png')}></img>
+                            <h1 style={{marginBottom: 5, marginLeft: 0, width: 170, marginRight: 0, float: "left"}}>Settings</h1>
+                            <img onClick={() => switchCriteria('next', settingsVisibility, setSettingsVisibility)} className="swipeButtonSettings" style={{marginTop: 27}} src={require('../../../../../logos/swipeRight.png')}></img>
+                        </div> 
+                        <UserFestivalSettings visibility = {settingsVisibility.festival} user = {props.userProfile}/>
+                        <UserTheatreSettings visibility = {settingsVisibility.theatre} user = {props.userProfile}/>
+                        <UserWorkshopSettings visibility = {settingsVisibility.workshop} user = {props.userProfile}/>
+                        <UserConcertSettings visibility = {settingsVisibility.concert} user = {props.userProfile}/>
                     </div>
                 </div>
         </div>

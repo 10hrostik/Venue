@@ -34,7 +34,7 @@ export default function TheatrePane(props) {
   
     useEffect(() => {
         if(user != null) {
-            transformFilterPane.setToForm(JSON.parse(user.data.userSettings.theatre), props.type, 'Theatre')
+            transformFilterPane.setToForm(JSON.parse(user.data.userSettings.theatre), props.type, 'Theatre');
         }
     },[visible, genres, user])
 

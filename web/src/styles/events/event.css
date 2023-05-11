@@ -68,6 +68,17 @@
     background-color: #2b2b2b5c;
     border-radius: 2px;
 }
+.swipeButtonSettings{
+    width: 9%;
+    height: 9%;
+    float: left;
+    cursor: pointer;
+    padding: 2px;
+}
+.swipeButtonSettings:hover{
+    background-color: #2b2b2b5c;
+    border-radius: 2px;
+}
 .purchaseButton{
     position: absolute;
     right: 18em;

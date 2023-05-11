@@ -11,8 +11,15 @@ export default function UserSettings(props) {
         mySecurity: undefined,
         mySettings: undefined
     });
+    const [settingsVisibility, setSettingsVisibility] = useState({
+        festival: 'hidden',
+        theatre: 'hidden',
+        workshop: 'hidden',
+        concert: 'hidden'
+    });
 
     let handleSwitchTabs = (settings) => {
+        handleSettingsCriteria(settings);
         setDetailsVisibility({
             myProfile: settings === "myProfile" ? "inherit" : "hidden",
             myTickets: settings === "myTickets" ? "inherit" : "hidden",
@@ -27,7 +34,26 @@ export default function UserSettings(props) {
         } else {
             setMyProfileVisibility("hidden")
         }
+    } 
+
+    const handleSettingsCriteria = (settings) => {
+        if(settings == 'settings') {
+            setSettingsVisibility({
+                festival: 'visible',
+                theatre: 'hidden',
+                workshop: 'hidden',
+                concert: 'hidden'
+            })
+        } else {
+            setSettingsVisibility({
+                festival: 'hidden',
+                theatre: 'hidden',
+                workshop: 'hidden',
+                concert: 'hidden'
+            })
+        }
     }
+
     const handleLogout = () => {
         window.location.reload(false);
     }
@@ -48,7 +74,9 @@ export default function UserSettings(props) {
                             userProfile = {props.userProfile} 
                             callback = {() => handleMyProfile()} 
                             switchCallback = {(settings) => handleSwitchTabs(settings)} 
-                            setData = {(data) => props.setData(data)}/>
+                            setData = {(data) => props.setData(data)}
+                            settingsVisibility = {settingsVisibility}
+                            setSettingsVisibility = {setSettingsVisibility}/>
         </div>
     )
 }
