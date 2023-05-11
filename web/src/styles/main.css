@@ -4,29 +4,28 @@
   display: table-cell;
   background-color: rgb(255, 255, 255); 
   position: absolute;
-  /* left: 730px; */
   right: 0px;
   bottom: 605px;
   z-index: 97;
 }
 .header{
   height: 135px;
-  width: 1280px;
+  width: "100vh";
   background-image: url('../logos/Header3.jpg');
-  display: table; 
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-
 }
+
 .reactLogo{
   padding: 0em;
   background-color: transparent;  
-  margin-left: 100px;
-  margin-top: 25px;
-  width: 50%;
-  height: 100%;
+  margin-left: 40%;
+  margin-top: 5%;
+  width: 35%;
+  height: 80%;
 }
 .reactLogo-containter{
-  width: 150px;
+  width: 18%;
+  height: 100%;
   position: relative;
   float: left;
 }
