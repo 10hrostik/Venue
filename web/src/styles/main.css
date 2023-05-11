@@ -70,9 +70,8 @@
   font-size: 15px;
   position: relative;
   border-radius: 40px;
-  top: 52px;
-  margin-left: 150px;
   border: none;
+  top: 37.5%;
 }
 .theatreLink {
   font-weight: 900;
@@ -85,10 +84,8 @@
   font-size: 15px;
   position: relative;
   border-radius: 40px;
-  top: 52px;
-  left: 50px;
   border: none;
-  margin-left: 0%;
+  top: 37.5%;
 }
 .workshopLink{
     font-weight: 900;
@@ -101,9 +98,8 @@
     font-size: 15px;
     position: relative;
     border-radius: 40px;
-    top: 52px;
-    left: 95px;
     border: none;
+    top: 37.5%;
 }
 .concertLink{
   font-weight: 900;
@@ -116,8 +112,7 @@
   font-size: 15px;
   position: relative;
   border-radius: 40px;
-  top: 52px;
-  left: 132px;
+  top: 37.5%;
   border: none;
 }
 .festivalLink:hover {
