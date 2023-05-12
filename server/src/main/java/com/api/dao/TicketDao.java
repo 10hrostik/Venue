@@ -31,4 +31,8 @@ public class TicketDao {
             return new ArrayList<>();
         }
     }
+
+    public Ticket getTicket(Integer id) {
+        return em.find(Ticket.class, id);
+    }
 }

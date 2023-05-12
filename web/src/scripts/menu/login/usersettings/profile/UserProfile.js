@@ -23,47 +23,10 @@ export default function UserProfile(props) {
         props.switchCallback(argument)
     }
 
-    // const handleNext = () => {
-    //     for(let property in settingsVisibility) {
-    //         if(settingsVisibility[property] == 'visible' && property == 'festival') {
-    //             setSettingsVisibility({
-    //                 festival: 'hidden',
-    //                 theatre: 'visible',
-    //                 workshop: 'hidden',
-    //                 concert: 'hidden'
-    //             })
-    //             break;
-    //         } else if (settingsVisibility[property] == 'visible' && property == 'theatre') {
-    //             setSettingsVisibility({
-    //                 festival: 'hidden',
-    //                 theatre: 'hidden',
-    //                 workshop: 'visible',
-    //                 concert: 'hidden'
-    //             })
-    //             break;
-    //         } else if (settingsVisibility[property] == 'visible' && property == 'workshop') {
-    //             setSettingsVisibility({
-    //                 festival: 'hidden',
-    //                 theatre: 'hidden',
-    //                 workshop: 'hidden',
-    //                 concert: 'visible'
-    //             })
-    //             break;
-    //         } else {
-    //             setSettingsVisibility({
-    //                 festival: 'visible',
-    //                 theatre: 'hidden',
-    //                 workshop: 'hidden',
-    //                 concert: 'hidden'
-    //             })
-    //         }
-    //     }
-    // }
-
     return(
         <div className="userProfile" style={{position: "absolute", width: 1400, 
-            height: "113.7vh", visibility: visible, left: -1140, top: -102}}>
-                <div className="userProfileWindow" style={{height: 600, width: 570, left: 418}}>
+            height: "115vh", visibility: visible, left: -1170, top: -112}}>
+                <div className="userProfileWindow" style={{height: 600, width: 620, left: 418}}>
                     <button className="myProfilePopUpClose" onClick={handleClose}>X</button>
                     <div className="userProfileTab" onClick={() => handleMyProfile("myProfile")}>
                         <button className="tabButton">My Credentials</button>
