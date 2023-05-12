@@ -38,7 +38,6 @@
 }
 .genreTheatre{
     margin-bottom: 8px;
-
 }
 .genreFestival{
     margin-bottom: 8px;
@@ -81,7 +80,7 @@
 }
 .purchaseButton{
     position: absolute;
-    right: 18em;
+    right: 22vw;
     top: 36em;
     width: 100px;
     height: 35px;
@@ -111,7 +110,6 @@
     background-color: transparent;
     border: none;
 }
-
 .detailTicketLabel{
     font-weight: 800;
     font-size: 17px;
