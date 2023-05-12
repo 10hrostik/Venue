@@ -61,22 +61,26 @@ export default function UserSettings(props) {
         visibility: props.visibility,
         zIndex: 99
     }
-
-    return(
-        <div className="toolBox" style={userSettingsStyle}>
-            <ul>
-                <li><button className='toolBoxButton' onClick={() => handleMyProfile("myProfile")}>My profile</button></li>
-                <li><button className='toolBoxButton' onClick={() => handleMyProfile("myTickets")}>My tickets</button></li>
-                <li><button className='toolBoxButton' onClick={() => handleMyProfile("settings")}>Settings</button></li>
-                <li><button className='toolBoxButton' onClick={handleLogout}>Log out</button></li>
-            </ul>
-            <UserProfile visibility = {myProfileVisibility} details = {detailsVisibility}
-                            userProfile = {props.userProfile} 
-                            callback = {() => handleMyProfile()} 
-                            switchCallback = {(settings) => handleSwitchTabs(settings)} 
-                            setData = {(data) => props.setData(data)}
-                            settingsVisibility = {settingsVisibility}
-                            setSettingsVisibility = {setSettingsVisibility}/>
-        </div>
-    )
+    
+    if(myProfileVisibility == 'hidden') {
+        return(
+            <div className="toolBox" style={userSettingsStyle}>
+                <ul>
+                    <li><button className='toolBoxButton' onClick={() => handleMyProfile("myProfile")}>My profile</button></li>
+                    <li><button className='toolBoxButton' onClick={() => handleMyProfile("myTickets")}>My tickets</button></li>
+                    <li><button className='toolBoxButton' onClick={() => handleMyProfile("settings")}>Settings</button></li>
+                    <li><button className='toolBoxButton' onClick={handleLogout}>Log out</button></li>
+                </ul>
+            </div>
+        )
+    } else {
+        return  <UserProfile visibility = {myProfileVisibility} details = {detailsVisibility}
+                                userProfile = {props.userProfile} 
+                                callback = {() => handleMyProfile()} 
+                                switchCallback = {(settings) => handleSwitchTabs(settings)} 
+                                setData = {(data) => props.setData(data)}
+                                settingsVisibility = {settingsVisibility}
+                                setSettingsVisibility = {setSettingsVisibility}/>
+    }
+   
 }
