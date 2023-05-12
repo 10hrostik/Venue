@@ -27,4 +27,10 @@ public class TicketService {
             return new ArrayList<>();
         }
     }
+
+    public TicketDto getTicket(Integer id) {
+        Ticket ticket = ticketDao.getTicket(id);
+
+        return TicketDtoBuilder.createTicketDto(ticket);
+    }
 }

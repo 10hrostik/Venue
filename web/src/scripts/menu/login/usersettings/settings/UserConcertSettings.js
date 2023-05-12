@@ -61,7 +61,7 @@ export default function UserConcertSettings(props) {
     return(
         <fieldset style={{position: "absolute", top: 70, width: 330,  border: "2.5px solid black", borderRight: 'none', borderLeft: 'none', borderBottom: 'none', marginLeft: "2em", visibility: visible}}>
             <legend style={{fontWeight: "bold"}}>Concert Criteria</legend>
-            <form >
+            <form onSubmit={() => props.handleApply(event, "CONCERT")}>
                 <input key={props.style}  style={{height: 20, backgroundColor: "transparent", marginLeft: 0, marginRight: 0
                             , borderTopLeftRadius: 5, borderBottomLeftRadius: 5, width: "89.5%", fontWeight: 600, border: "2.5px solid black"}} placeholder={hint}  type="text" id={"searchText UserConcert"} name="searchText"/> 
                 <fieldset  style={{marginLeft: 0, marginRight: 0, marginTop: 14, width: "87%", border: "2.5px solid black", textAlign: "left"}}>

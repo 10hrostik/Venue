@@ -1,9 +1,12 @@
 package com.api.dto.ticket;
 
+import com.api.dto.artist.ArtistDto;
 import com.api.entities.accounts.User;
 import com.api.entities.events.Event;
 import com.api.entities.venue.PlaceType;
 import com.api.entities.venue.Room;
+
+import java.util.List;
 
 public class TicketDto {
 
@@ -20,6 +23,26 @@ public class TicketDto {
     private String roomName;
 
     private PlaceType placeType;
+
+    private String mainImageUrl;
+
+    private List<ArtistDto> artists;
+
+    public List<ArtistDto> getArtists() {
+        return artists;
+    }
+
+    public void setArtists(List<ArtistDto> artists) {
+        this.artists = artists;
+    }
+
+    public String getMainImageUrl() {
+        return mainImageUrl;
+    }
+
+    public void setMainImageUrl(String mainImageUrl) {
+        this.mainImageUrl = mainImageUrl;
+    }
 
     private Event event;
 

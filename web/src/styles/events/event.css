@@ -70,7 +70,7 @@
 }
 .swipeButtonSettings{
     width: 9%;
-    height: 9%;
+    height: 31%;
     float: left;
     cursor: pointer;
     padding: 2px;
@@ -107,6 +107,20 @@
     font-weight: 650;
     font-size: 17px;
     width: 250px;
+    pointer-events: none;
+    background-color: transparent;
+    border: none;
+}
+
+.detailTicketLabel{
+    font-weight: 800;
+    font-size: 17px;
+    margin-left: 4px;
+}
+.detailedTicketInput{
+    font-weight: 600;
+    font-size: 15px;
+    width: 150px;
     pointer-events: none;
     background-color: transparent;
     border: none;
