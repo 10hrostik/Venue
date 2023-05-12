@@ -139,8 +139,8 @@ export default function Pane(props) {
                 </div>
                 <div id="eventList" style={{height: fullHeight.bodyHeight, width: "46.7%", position: "absolute", left: span, borderLeft: "2.5px solid black", float: "left",
                             overflow: "auto", whiteSpace: "pre-wrap"}}>{props.events}</div>
-                <div id="detaild" style={{position: "absolute", width: "50%", visibility: detailsWidthVisibility, border: "3px solid black", borderRadius: 10, left: 630, height: fullHeight.bodyHeight - 15, marginTop: 5}}>
-                        <button style={{left: 183, top: -5}} className="donationPopUpClose" onClick={handleDetailsClose}>X</button>
+                <div id="detaild" style={{position: "absolute", width: "50%", visibility: detailsWidthVisibility, border: "3px solid black", borderRadius: 10, left: "49vw", height: fullHeight.bodyHeight - 15, marginTop: 5}}>
+                        <button style={{position: 'absolute', right: 0, top: -5}} className="donationPopUpClose" onClick={handleDetailsClose}>X</button>
                         {detailedEvent}
                 </div>
             </div>

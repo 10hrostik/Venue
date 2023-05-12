@@ -55,8 +55,8 @@ export default function transformEventResponse(response, detailedEventCallback) 
                 <label className="detailEventLabel">Date: </label>
                 <input readOnly={true} className="detailedInput" style={{marginTop: 19}} value={detailedEvent.date}></input> 
             </div>
-            <div id="imageSwipe" style={{width: "35%", height: 15, alignItems:"center"}}>
-                <img className="swipeButton" style={{marginLeft: "5em"}} src={require('../../logos/swipeLeft.png')}></img>
+            <div id="imageSwipe" style={{width: "35%", height: 15}}>
+                <img className="swipeButton" style={{marginLeft: "6.2vw"}} src={require('../../logos/swipeLeft.png')}></img>
                 <img className="swipeButton" style={{marginLeft: "1.7em"}} src={require('../../logos/swipeRight.png')}></img>
             </div>
             <div style={{}}>
@@ -73,7 +73,7 @@ export default function transformEventResponse(response, detailedEventCallback) 
                     <p style={{fontWeight: 700, fontSize: 17, marginTop: 2}}>{detailedEvent.freeTickets + " tickets left"}</p>
                 </div>
             </div> 
-            <button className="purchaseButton">Buy</button>    
+            <button className="purchaseButton">Buy</button>   
         </div>
 
         return layout;
