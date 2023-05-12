@@ -38,6 +38,13 @@ public class UserDao {
         em.getTransaction().begin();
         em.persist(user);
         em.getTransaction().commit();
+        syncDatabase();
+    }
+
+    private void syncDatabase() {
+        em.getTransaction().begin();
+        em.flush();
+        em.getTransaction().commit();
     }
 
     public User getUserByUsername(String username) {
@@ -65,6 +72,7 @@ public class UserDao {
         em.getTransaction().begin();
         em.merge(user);
         em.getTransaction().commit();
+        syncDatabase();
     }
 
     public String delete(String username) {
@@ -73,6 +81,7 @@ public class UserDao {
             Query query = em.createQuery("DELETE FROM User WHERE username = " + username);
             query.executeUpdate();
             em.getTransaction().commit();
+            syncDatabase();
 
             return "Successful";
         } catch(Exception exception) {

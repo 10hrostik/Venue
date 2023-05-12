@@ -29,6 +29,7 @@ public class EventDao {
         em.getTransaction().begin();
         em.persist(event);
         em.getTransaction().commit();
+        syncDatabase();
     }
 
     public List<Event> getAll() {
@@ -76,5 +77,11 @@ public class EventDao {
         for(Object object: collection)
             list.add(entityClass.cast(object));
         return list;
+    }
+
+    private void syncDatabase() {
+        em.getTransaction().begin();
+        em.flush();
+        em.getTransaction().commit();
     }
 }

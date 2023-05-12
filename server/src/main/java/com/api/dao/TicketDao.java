@@ -32,6 +32,12 @@ public class TicketDao {
         }
     }
 
+    private void syncDatabase() {
+        em.getTransaction().begin();
+        em.flush();
+        em.getTransaction().commit();
+    }
+
     public Ticket getTicket(Integer id) {
         return em.find(Ticket.class, id);
     }

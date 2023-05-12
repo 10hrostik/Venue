@@ -18,12 +18,17 @@ public interface UserDtoBuilder {
     }
 
     static ResponseUserDto getLogginedUser(User user) {
-        ResponseUserDto userDto =  setBasicCredential(user); setBasicCredential(user);
-        userDto.setUserSettings(new UserSettingsDto(user.getUserSettings()
-                .getFestivalSettings(),
-                user.getUserSettings().getConcertSettings(),
-                user.getUserSettings().getWorkshopSettings(),
-                user.getUserSettings().getTheatreSettings()));
+        ResponseUserDto userDto =  setBasicCredential(user);
+
+        if(user.getUserSettings() != null) {
+            userDto.setUserSettings(new UserSettingsDto(user.getUserSettings()
+                    .getFestivalSettings(),
+                    user.getUserSettings().getConcertSettings(),
+                    user.getUserSettings().getWorkshopSettings(),
+                    user.getUserSettings().getTheatreSettings()));
+        } else {
+            userDto.setUserSettings(new UserSettingsDto());
+        }
 
         return userDto;
     }
