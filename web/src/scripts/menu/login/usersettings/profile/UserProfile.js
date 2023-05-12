@@ -82,7 +82,7 @@ export default function UserProfile(props) {
 
     return(
         <div className="userProfile" style={{height: fullHeight.bodyHeight + fullHeight.headerHeight, visibility: visible, textAlign: 'center'}}>
-                <div className="userProfileWindow" style={{height: 600, width: 620, left: "32%", top: '10%'}}>
+                <div className="userProfileWindow" style={{height: 600, width: 620, left: "29%", top: '10%'}}>
                     <button className="myProfilePopUpClose" onClick={handleClose}>X</button>
                     <div className="userProfileTab" onClick={() => handleMyProfile("myProfile")}>
                         <button className="tabButton">My Credentials</button>

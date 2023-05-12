@@ -73,7 +73,7 @@ export default function transformEventResponse(response, detailedEventCallback) 
                     <p style={{fontWeight: 700, fontSize: 17, marginTop: 2}}>{detailedEvent.freeTickets + " tickets left"}</p>
                 </div>
             </div> 
-            <button className="purchaseButton">Buy</button>    
+            <button className="purchaseButton">Buy</button>   
         </div>
 
         return layout;

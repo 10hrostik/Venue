@@ -78,7 +78,7 @@
     background-color: #2b2b2b5c;
     border-radius: 2px;
 }
-.purchaseButton{
+.purchaseButton{ 
     position: absolute;
     right: 22vw;
     top: 36em;
@@ -89,7 +89,7 @@
     font-weight: 800;
     font-size: 15px;
     cursor: pointer;
-    background-image: url("../../logos/Header1.jpg");
+    background-image: url("../../logos/Header1.jpg"); 
 }
 .purchaseButton:hover{
     width: 102px;
