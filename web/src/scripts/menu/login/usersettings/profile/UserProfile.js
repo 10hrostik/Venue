@@ -9,12 +9,14 @@ import UserTheatreSettings from "../settings/UserTheatreSettings";
 import UserConcertSettings from "../settings/UserConcertSettings";
 import UserWorkshopSettings from "../settings/UserWorkshopSettings";
 import switchCriteria from "../../../../utils/CriteriaSwitcher";
+import apiServer from "../../../../Config";
 
 export default function UserProfile(props) {
     let visible = props.visibility;
     const [current, setCurrent] = useState(0);
     let settingsVisibility = props.settingsVisibility;
     let setSettingsVisibility = props.setSettingsVisibility;
+    let user = props.userProfile;
 
     let handleClose = () => {
         props.callback()
@@ -22,6 +24,61 @@ export default function UserProfile(props) {
     const handleMyProfile = (argument) => {
         props.switchCallback(argument)
     }
+    
+    const saveCriteria = (event, type) => {
+        event.preventDefault();
+        let criteria = createData(event.target, type);
+        let settings = {
+            festival: criteria.objectType === 'FESTIVAL' ? JSON.stringify(criteria) : user.data.userSettings.festival === null ? null : user.data.userSettings.festival,
+            concert: criteria.objectType === 'CONCERT' ? JSON.stringify(criteria) : user.data.userSettings.concert === null ? null : user.data.userSettings.concert,
+            workshop: criteria.objectType === 'WORKSHOP' ? JSON.stringify(criteria) : user.data.userSettings.workshop === null ? null : user.data.userSettings.workshop,
+            theatre: criteria.objectType === 'THEATRE' ? JSON.stringify(criteria) : user.data.userSettings.theatre  === null ? null : user.data.userSettings.theatre,
+            username: user.data.username
+        }
+        settings = JSON.stringify(settings);
+        fetch(apiServer.secured + "/userprofile/save",
+        {
+            method: "PATCH",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: settings
+        })
+        .then(() => {
+            user.data.userSettings = JSON.parse(settings);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    let createData = (form, type) => {
+        let dataToSave = {genresToSearch: [], objectType: type};
+        if(form[0].value !== '') {
+            dataToSave.searchText = form[0].value;
+        }
+        if(form[2].value !== '') {
+            dataToSave.firstDate = form[2].value;
+        }
+        if(form[3].value !== '') {
+            dataToSave.lastDate = form[3].value;
+        }
+        if(form[5].value !== '') {
+            dataToSave.firstPrice = form[5].value;
+        }
+        if(form[6].value !== '') {
+            dataToSave.lastPrice = form[6].value;
+        }
+
+        for(let i = 8; i < form.length; i++) {
+            if(form[i].checked === true) {
+                dataToSave.genresToSearch.push(form[i].id);
+            }
+        }
+
+        return dataToSave;        
+    } 
 
     return(
         <div className="userProfile" style={{position: "absolute", width: 1400, 
@@ -58,10 +115,10 @@ export default function UserProfile(props) {
                             <h1 style={{marginBottom: 5, marginLeft: 0, width: 170, marginRight: 0, float: "left"}}>Settings</h1>
                             <img onClick={() => switchCriteria('next', settingsVisibility, setSettingsVisibility)} className="swipeButtonSettings" style={{marginTop: 27}} src={require('../../../../../logos/swipeRight.png')}></img>
                         </div> 
-                        <UserFestivalSettings visibility = {settingsVisibility.festival} user = {props.userProfile}/>
-                        <UserTheatreSettings visibility = {settingsVisibility.theatre} user = {props.userProfile}/>
-                        <UserWorkshopSettings visibility = {settingsVisibility.workshop} user = {props.userProfile}/>
-                        <UserConcertSettings visibility = {settingsVisibility.concert} user = {props.userProfile}/>
+                        <UserFestivalSettings visibility = {settingsVisibility.festival} user = {props.userProfile} handleApply = {saveCriteria}/>
+                        <UserTheatreSettings visibility = {settingsVisibility.theatre} user = {props.userProfile} handleApply = {saveCriteria}/>
+                        <UserWorkshopSettings visibility = {settingsVisibility.workshop} user = {props.userProfile} handleApply = {saveCriteria}/>
+                        <UserConcertSettings visibility = {settingsVisibility.concert} user = {props.userProfile} handleApply = {saveCriteria}/>
                     </div>
                 </div>
         </div>

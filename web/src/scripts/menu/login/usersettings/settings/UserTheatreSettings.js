@@ -61,7 +61,7 @@ export default function UserTheatreSettings(props) {
     return(
         <fieldset style={{position: "absolute", top: 70, width: 330, visibility: visible, border: "2.5px solid black", borderRight: 'none', borderLeft: 'none', borderBottom: 'none', marginLeft: "2em"}}>
             <legend style={{fontWeight: "bold"}}>Theatre Criteria</legend>
-            <form >
+            <form onSubmit={() => props.handleApply(event, "THEATRE")}>
                 <input key={props.style}  style={{height: 20, backgroundColor: "transparent", marginLeft: 0, marginRight: 0
                             , borderTopLeftRadius: 5, borderBottomLeftRadius: 5, width: "89.5%", fontWeight: 600, border: "2.5px solid black"}} placeholder={hint}  type="text" id={"searchText UserTheatre"} name="searchText"/> 
                 <fieldset  style={{marginLeft: 0, marginRight: 0, marginTop: 14, width: "87%", border: "2.5px solid black", textAlign: "left"}}>
