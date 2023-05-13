@@ -32,8 +32,10 @@ export default function WorkshopPane(props) {
     },[])
 
     useEffect(() => {
-        if(user != null) {
-            transformFilterPane.setToForm(JSON.parse(user.data.userSettings.workshop), props.type, 'Workshop');
+        if(user != null && props.currentType == 'WORKSHOP') {
+            let settings = JSON.parse(user.data.userSettings.workshop);
+            transformFilterPane.setToForm(settings, props.type, 'Workshop');
+            handleSumbit(null, settings);
         }
     },[visible, genres, user])
 

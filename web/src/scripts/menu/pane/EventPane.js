@@ -39,23 +39,25 @@ export default function Pane(props) {
             if(user != null) saveCriteria(event, dataToSave);   
         } else {
             dataToSave = readyData;
+        }
+        if(dataToSave != null) {
+            fetch(apiServer.public + "/filter/criteria",
+            {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dataToSave)
+            })
+            .then((response) => response.json())
+            .then((fetchedData) => {
+                props.insertData(transformEventResponse(fetchedData.data, detailedEventCallback));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
         }   
-        fetch(apiServer.public + "/filter/criteria",
-        {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(dataToSave)
-        })
-        .then((response) => response.json())
-        .then((fetchedData) => {
-            props.insertData(transformEventResponse(fetchedData.data, detailedEventCallback));
-        })
-        .catch((error) => {
-            console.log(error);
-        });
     }
     const saveCriteria = (event, criteria) => {
         event.preventDefault();
@@ -119,12 +121,12 @@ export default function Pane(props) {
                 
                     <FestivalPane submit = {handleSubmit} 
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
-                            visible = {visiblility.festival} user = {user} type = {'festival'}/>
+                            visible = {visiblility.festival} user = {user} type = {'festival'}  currentType = {props.objectType}/>
                 
                 
                     <TheatrePane submit = {handleSubmit} 
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
-                            visible = {visiblility.theatre} user = {user} type = {'theatre'}/>
+                            visible = {visiblility.theatre} user = {user} type = {'theatre'} currentType = {props.objectType}/>
                 
                 
                     <WorkshopPane submit = {handleSubmit} 

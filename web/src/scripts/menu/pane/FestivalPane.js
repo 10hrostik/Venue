@@ -32,8 +32,10 @@ export default function FestivalPane(props) {
     },[])
 
     useEffect(() => {
-        if(user != null) {
-            transformFilterPane.setToForm(JSON.parse(user.data.userSettings.festival), props.type, 'Festival');
+        if(user != null && props.currentType == 'FESTIVAL') {
+            let settings = JSON.parse(user.data.userSettings.festival);
+            transformFilterPane.setToForm(settings, props.type, 'Festival');
+            handleSumbit(null, settings);
         }
     },[visible, genres, user])
 

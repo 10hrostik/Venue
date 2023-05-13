@@ -16,7 +16,7 @@ export default function Header(props) {
     return (
       <div className="header" style={{height: fullHeight.headerHeight}}>
             <div className='reactLogo-containter'>
-                  <img className='reactLogo' src={require('../../logos/Icon.png')} alt="" />  
+                  <img className='reactLogo' src={require('../../logos/icon1.png')} alt="" />  
             </div> 
             <Events handlePaneVisibility = {props.handlePane} callback = {toggleCallback} 
                   eventCallback = {insertDataToPane} handleObjectType = {handleType} detailedEventCallback = {detailedEventCallback}/>

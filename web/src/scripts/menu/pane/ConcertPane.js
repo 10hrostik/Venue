@@ -30,11 +30,12 @@ export default function ConcertPane(props) {
             console.log(error);
         });
     },[])
-
-    
+ 
     useEffect(() => {
-        if(user != null) {
-            transformFilterPane.setToForm(JSON.parse(user.data.userSettings.concert), props.type, 'Concert');
+        if(user != null && props.currentType == 'CONCERT') {
+            let settings = JSON.parse(user.data.userSettings.concert);
+            transformFilterPane.setToForm(settings, props.type, 'Concert');
+            handleSumbit(null, settings);
         }
     },[visible, genres, user])
 

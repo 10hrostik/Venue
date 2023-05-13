@@ -29,7 +29,7 @@ export default function transformEventResponse(response, detailedEventCallback) 
             )
         }
         return <ul style={{marginTop: 2}}>{list}</ul>
-    } 
+    }  
 
     let transformDetailedEvent = (detailedEvent) => {
         let layout = <div id={"event" + detailedEvent.name}>

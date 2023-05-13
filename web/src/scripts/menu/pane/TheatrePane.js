@@ -33,11 +33,12 @@ export default function TheatrePane(props) {
     },[])
   
     useEffect(() => {
-        if(user != null) {
-            transformFilterPane.setToForm(JSON.parse(user.data.userSettings.theatre), props.type, 'Theatre');
+        if(user != null && props.currentType == 'THEATRE') {
+            let settings = JSON.parse(user.data.userSettings.theatre);
+            transformFilterPane.setToForm(settings, props.type, 'Theatre');
+            handleSumbit(null, settings);
         }
     },[visible, genres, user])
-
 
     const handleDefault = (event) => {
         event.preventDefault(); 

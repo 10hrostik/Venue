@@ -34,11 +34,5 @@ public class UserProfileDao {
         em.getTransaction().begin();
         em.merge(settings);
         em.getTransaction().commit();
-        syncDatabase();
-    }
-    private void syncDatabase() {
-        em.getTransaction().begin();
-        em.flush();
-        em.getTransaction().commit();
     }
 }
