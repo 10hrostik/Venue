@@ -34,7 +34,7 @@ export default function transformEventResponse(response, detailedEventCallback) 
     let transformDetailedEvent = (detailedEvent) => {
         let layout = <div id={"event" + detailedEvent.name}>
             <div className="displayEvent" style={{marginTop: 10, marginLeft: 10, width: "35%", height: 245}}>
-                <img style={{ width: "100%", height: 245}} src="https://st4.depositphotos.com/14953852/22772/v/1600/depositphotos_227725020-stock-illustration-no-image-available-icon-flat.jpg" alt="not found"></img>
+                <img style={{ width: "100%", height: 245}} src={apiServer.public + '/' + detailedEvent.imageUrl} alt="not found"></img>
             </div>
             <div className="displayEvent" style={{ width: "60.3%", marginLeft: 10}}>
                 <label className="detailEventLabel">Title: </label>    
@@ -84,7 +84,7 @@ export default function transformEventResponse(response, detailedEventCallback) 
             items.push(
                 <div onClick={() => handleDetailedEvent(event, eventVenue.id, eventVenue.eventType)} key={"event" + id} style={{marginTop: 8, width: "100%"}} className="eventBlock">
                     <div className="displayEvent" style={{marginTop: 10, marginLeft: 5, width: "30%", height: 195}}>
-                        <img style={{ width: "100%", height: 195}} src="https://st4.depositphotos.com/14953852/22772/v/1600/depositphotos_227725020-stock-illustration-no-image-available-icon-flat.jpg" alt="not found"></img>
+                        <img style={{ width: "100%", height: 195}} src={apiServer.public + '/' + eventVenue.imageUrl} alt="not found"></img>
                     </div>
                     <div className="displayEvent" style={{ width: "68.3%"}}>
                         <div>

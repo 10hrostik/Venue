@@ -11,6 +11,7 @@
         <class>hibernate.model.Ticket</class>
         <class>hibernate.model.Event</class>
         <class>hibernate.model.Artist</class>
+        <class>hibernate.model.Attachment</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/market_db" />

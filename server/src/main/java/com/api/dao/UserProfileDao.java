@@ -6,6 +6,7 @@ import com.api.entities.accounts.User;
 import com.api.entities.accounts.UserSettings;
 import com.config.EntityManagerConfig;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,4 +36,5 @@ public class UserProfileDao {
         em.merge(settings);
         em.getTransaction().commit();
     }
+
 }

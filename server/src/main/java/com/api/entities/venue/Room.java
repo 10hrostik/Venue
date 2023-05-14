@@ -19,9 +19,6 @@ public class Room {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "freeplaces", nullable = false)
-    private Integer freeplaces;
-
     @Column(name = "placecount", nullable = false)
     private Integer placecount;
 
@@ -52,14 +49,6 @@ public class Room {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getFreeplaces() {
-        return freeplaces;
-    }
-
-    public void setFreeplaces(Integer freeplaces) {
-        this.freeplaces = freeplaces;
     }
 
     public Integer getPlacecount() {
