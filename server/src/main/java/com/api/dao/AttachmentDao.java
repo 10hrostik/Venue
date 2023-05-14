@@ -33,8 +33,6 @@ public class AttachmentDao {
             Query query = em.createQuery("SELECT c FROM Attachment c WHERE c.imageURL = '" + filename + "'");
 
             return castList(Attachment.class, query.getResultList());
-//            Event event = eventDao.getEvent(id);
-//            return event.getImages();
         } catch (Exception exception) {
             exception.printStackTrace();
             Attachment defaultAttachment = new Attachment();

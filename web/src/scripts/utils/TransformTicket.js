@@ -1,4 +1,5 @@
 import fullHeight from "./BlockHeights"
+import apiServer from "../Config";
 
 export default function TransformTicket(ticket) {
     let getArtistList = (artists) => {
@@ -14,13 +15,13 @@ export default function TransformTicket(ticket) {
     return  <div id={"ticket" + ticket.event.name}>
                 <div id="ticketTop" style={{display: 'flex'}}>
                     <div className="displayEvent" style={{width: "43%", height: 205}}>
-                        <img style={{ width: "100%", height: 205}} src="https://st4.depositphotos.com/14953852/22772/v/1600/depositphotos_227725020-stock-illustration-no-image-available-icon-flat.jpg" alt="not found"></img>
+                        <img style={{ width: "100%", height: 205}} src={apiServer.public + '/' + ticket.mainImageUrl} alt="not found"></img>
                     </div>
                     <div className="displayEvent" style={{ width: "60.3%", marginLeft: 10}}>
                         <label className="detailTicketLabel">Title: </label>    
                         <input readOnly={true}  className="detailedTicketInput" value={ticket.event.name}></input>
                         <br></br>
-                        <label className="detailTicketLabel"> Price: </label>
+                        <label className="detailTicketLabel">Price: </label>
                         <input readOnly={true} className="detailedTicketInput" style={{marginTop: 16}} value={ticket.event.price + " UAH"}></input>
                         <br></br>
                         <label className="detailTicketLabel">Genre: </label> 
@@ -51,7 +52,7 @@ export default function TransformTicket(ticket) {
                     </div>
                 </div>
                 <div style={{width: '100%', textAlign: 'center'}}>
-                    <button className="deleteProfileButton">Download PDF</button>  
+                    <a href={apiServer.secured + "/get/pdf/" + ticket.id} target="_blank"><button className="deleteProfileButton">Download PDF</button></a>  
                 </div>  
             </div>        
         

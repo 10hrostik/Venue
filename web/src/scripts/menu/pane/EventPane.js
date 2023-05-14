@@ -15,6 +15,7 @@ export default function Pane(props) {
     const detailedEventCallback = props.detailedEventCallback;
     const [span, setSpan] = useState(384);
     const [detailsWidthVisibility, setDetailsWidthVisibility] = useState("hidden");
+    const [detailedEventImage, setDetailedEventImage] = useState(null);
 
     useEffect(() => {
         if(detailedEvent != null) {
@@ -112,6 +113,11 @@ export default function Pane(props) {
 
     const handleDetailsClose = () => {
         detailedEventCallback(null);
+    }
+
+    const handleSwipeRight = (event) => {
+        let images = event.images;
+        event.imageUrl = images[1];
     }
 
     if (props.mode === "inherit") {

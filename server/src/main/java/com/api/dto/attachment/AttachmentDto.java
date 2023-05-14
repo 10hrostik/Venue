@@ -1,23 +1,23 @@
 package com.api.dto.attachment;
 
 public class AttachmentDto {
-    byte[] image;
+    byte[] file;
     String type;
 
     public AttachmentDto() {
     }
 
-    public AttachmentDto(byte[] image, String type) {
-        this.image = image;
+    public AttachmentDto(byte[] file, String type) {
+        this.file = file;
         this.type = type;
     }
 
-    public byte[] getImage() {
-        return image;
+    public byte[] getFile() {
+        return file;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setFile(byte[] file) {
+        this.file = file;
     }
 
     public String getType() {

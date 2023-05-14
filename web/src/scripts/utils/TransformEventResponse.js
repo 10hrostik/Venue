@@ -1,8 +1,10 @@
+import { useState } from "react";
 import apiServer from "../Config";
 
 export default function transformEventResponse(response, detailedEventCallback) {
     let items = [];
     let id = 1;
+
     const handleDetailedEvent = (event, id, objectType) => {
         event.preventDefault();
         fetch(apiServer.public + "/" + objectType.toLowerCase() + "/get/" + id,
@@ -15,7 +17,8 @@ export default function transformEventResponse(response, detailedEventCallback) 
         })
         .then((response) => response.json())
         .then((fetchedData) => {
-            detailedEventCallback(transformDetailedEvent(fetchedData.data));
+           // setDetailedEventImage(fetchedData.data.imageUrl)
+            detailedEventCallback(transformDetailedEvent(fetchedData.data));         
         })
         .catch((error) => {
             console.log(error);
@@ -40,7 +43,7 @@ export default function transformEventResponse(response, detailedEventCallback) 
                 <label className="detailEventLabel">Title: </label>    
                 <input readOnly={true}  className="detailedInput" value={detailedEvent.name}></input>
                 <br></br>
-                <label className="detailEventLabel"> Price: </label>
+                <label className="detailEventLabel">Price: </label>
                 <input readOnly={true} className="detailedInput" style={{marginTop: 19}} value={detailedEvent.price + " UAH"}></input>
                 <br></br>
                 <label className="detailEventLabel">Genre: </label> 
@@ -57,7 +60,7 @@ export default function transformEventResponse(response, detailedEventCallback) 
             </div>
             <div id="imageSwipe" style={{width: "35%", height: 15}}>
                 <img className="swipeButton" style={{marginLeft: "6.2vw"}} src={require('../../logos/swipeLeft.png')}></img>
-                <img className="swipeButton" style={{marginLeft: "1.7em"}} src={require('../../logos/swipeRight.png')}></img>
+                <img onClick={() => handleSwipeRight(detailedEvent)} className="swipeButton" style={{marginLeft: "1.7em"}} src={require('../../logos/swipeRight.png')}></img>
             </div>
             <div style={{}}>
                 <div style={{float: "left", width: "70%"}}>

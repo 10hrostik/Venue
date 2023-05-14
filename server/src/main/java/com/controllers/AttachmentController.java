@@ -39,15 +39,24 @@ public class AttachmentController {
         if(imageDto.getType().equals("image/png")) {
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.IMAGE_PNG)
-                    .body(imageDto.getImage());
+                    .body(imageDto.getFile());
         } else if (imageDto.getType().equals("image/jpeg")) {
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.IMAGE_JPEG)
-                    .body(imageDto.getImage());
+                    .body(imageDto.getFile());
         } else {
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.IMAGE_GIF)
-                    .body(imageDto.getImage());
+                    .body(imageDto.getFile());
         }
+    }
+
+    @GetMapping(value = "api/secured/get/pdf/{id}")
+    public ResponseEntity<?> getPdf(@PathVariable(value = "id") Integer id) {
+        AttachmentDto pdfFile = attachmentService.getPDF(id);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfFile.getFile());
     }
 }

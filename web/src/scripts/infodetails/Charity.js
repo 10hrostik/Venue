@@ -16,17 +16,17 @@ export default function Charity () {
         <div style={{width: "24%", float: "left"}}>
             <h1 className="charity"><u>Charity</u></h1>
             <h2 className="charityField">
-                <a href="https://www.savepetsofukraine.kormotech.com/">
+                <a href="https://www.savepetsofukraine.kormotech.com/" target="_blank">
                     <button className="infoButton" style={{textAlign: "left", paddingLeft: 0}}>Save pets of Ukraine</button>
                 </a>
             </h2>
             <h2 className="charityField">
-                <a href="https://savelife.in.ua/">
+                <a href="https://savelife.in.ua/" target="_blank">
                     <button className="infoButton" style={{textAlign: "left", paddingLeft: 0}}>War in Ukraine</button>
                 </a>  
             </h2>
             <h2 className="charityField">
-                <a href="https://www.portmone.com.ua/r3/humanitarna-dopomoha-ukrayintsyam">
+                <a href="https://www.portmone.com.ua/r3/humanitarna-dopomoha-ukrayintsyam" target="_blank">
                     <button className="infoButton" style={{textAlign: "left", paddingLeft: 0}}>Help ukrainian refugees</button>
                 </a>
             </h2>
