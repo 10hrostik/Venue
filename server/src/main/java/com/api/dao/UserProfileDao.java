@@ -32,9 +32,18 @@ public class UserProfileDao {
             settings.setUser(user);
         }
         UserSettingsBuilder.transformToUserSettings(settings, userSettings, user);
-        em.getTransaction().begin();
-        em.merge(settings);
-        em.getTransaction().commit();
+        manageSettings(settings, user);
     }
 
+    private void manageSettings(UserSettings settings, User user) {
+        em.getTransaction().begin();
+        if(settings.getId() == null) {
+            em.merge(settings);
+            em.merge(user);
+            em.getTransaction().commit();
+        } else {
+            em.merge(settings);
+            em.getTransaction().commit();
+        }
+    }
 }

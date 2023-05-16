@@ -84,7 +84,6 @@ public class AttachmentService {
             exception.printStackTrace();
             return null;
         }
-
     }
 
     private PDPage setInfoIntoFile(PDDocument document, Ticket ticket) throws IOException {

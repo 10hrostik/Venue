@@ -48,8 +48,8 @@ public class GeneralEventService {
                         return x.getDate().compareTo(dto.getLastDate()) <= 0;
                     }
                 })
-                .filter(x -> x.getPrice() > dto.getFirstPrice())
-                .filter(x -> x.getPrice() < dto.getLastPrice())
+                .filter(x -> x.getPrice() >= dto.getFirstPrice())
+                .filter(x -> x.getPrice() <= dto.getLastPrice())
                 .filter(x -> {
                     if(dto.getGenres().size() > 0) {
                         return dto.getGenres().contains(x.getGenre());

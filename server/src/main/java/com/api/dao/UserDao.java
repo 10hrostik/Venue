@@ -25,6 +25,7 @@ public class UserDao {
 
     public User getUser(String username, String password) throws NoResultException {
         try {
+            em.clear();
             Query query = em.createQuery("SELECT c FROM User c WHERE c.username = '" + username 
                                     + "' AND c.password = '" + password + "'");
 
@@ -41,11 +42,6 @@ public class UserDao {
         syncDatabase();
     }
 
-    private void syncDatabase() {
-        em.getTransaction().begin();
-        em.flush();
-        em.getTransaction().commit();
-    }
 
     public User getUserByUsername(String username) {
         try{
@@ -91,6 +87,11 @@ public class UserDao {
         }
     }
 
+    private void syncDatabase() {
+        em.getTransaction().begin();
+        em.flush();
+        em.getTransaction().commit();
+    }
 
     private <T> List<T> castList(Class<? extends T> entityClass, Collection<?> collection) {
         List<T> list = new ArrayList<T>(collection.size());
