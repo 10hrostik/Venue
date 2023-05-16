@@ -16,6 +16,8 @@ export default function Pane(props) {
     const [span, setSpan] = useState(384);
     const [detailsWidthVisibility, setDetailsWidthVisibility] = useState("hidden");
     const [detailedEventImage, setDetailedEventImage] = useState(null);
+    const userCriteria = props.userCriteria;
+    const handleCriteria = props.setUserCriteria;
 
     useEffect(() => {
         if(detailedEvent != null) {
@@ -63,13 +65,13 @@ export default function Pane(props) {
     const saveCriteria = (event, criteria) => {
         event.preventDefault();
         let settings = {
-            festival: criteria.objectType === 'FESTIVAL' ? JSON.stringify(criteria) : user.data.userSettings.festival === null ? null : user.data.userSettings.festival,
-            concert: criteria.objectType === 'CONCERT' ? JSON.stringify(criteria) : user.data.userSettings.concert === null ? null : user.data.userSettings.concert,
-            workshop: criteria.objectType === 'WORKSHOP' ? JSON.stringify(criteria) : user.data.userSettings.workshop === null ? null : user.data.userSettings.workshop,
-            theatre: criteria.objectType === 'THEATRE' ? JSON.stringify(criteria) : user.data.userSettings.theatre  === null ? null : user.data.userSettings.theatre,
+            festival: criteria.objectType === 'FESTIVAL' ? JSON.stringify(criteria) : userCriteria.festival === null ? null : userCriteria.festival,
+            concert: criteria.objectType === 'CONCERT' ? JSON.stringify(criteria) : userCriteria.concert === null ? null : userCriteria.concert,
+            workshop: criteria.objectType === 'WORKSHOP' ? JSON.stringify(criteria) : userCriteria.workshop === null ? null : userCriteria.workshop,
+            theatre: criteria.objectType === 'THEATRE' ? JSON.stringify(criteria) : userCriteria.theatre  === null ? null : userCriteria.theatre,
             username: user.data.username
         }
-        settings = JSON.stringify(settings);
+        
         fetch(apiServer.secured + "/userprofile/save",
         {
             method: "PATCH",
@@ -77,39 +79,45 @@ export default function Pane(props) {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: settings
+            body: JSON.stringify(settings)
         })
         .catch((error) => {
             console.log(error);
         });
+        handleCriteria(settings);
     }
     
     let createData = (form) => {
         let dataToSave = {genresToSearch: [], objectType: props.type};
         if(form[0].value !== '') {
-            dataToSave.searchText = form[0].value;
+            dataToSave.searchText = extractGenreFromId(form[0].value);
         }
         if(form[2].value !== '') {
-            dataToSave.firstDate = form[2].value;
+            dataToSave.firstDate = extractGenreFromId(form[2].value);
         }
         if(form[3].value !== '') {
-            dataToSave.lastDate = form[3].value;
+            dataToSave.lastDate = extractGenreFromId(form[3].value);
         }
         if(form[5].value !== '') {
-            dataToSave.firstPrice = form[5].value;
+            dataToSave.firstPrice = extractGenreFromId(form[5].value);
         }
         if(form[6].value !== '') {
-            dataToSave.lastPrice = form[6].value;
+            dataToSave.lastPrice = extractGenreFromId(form[6].value);
         }
 
         for(let i = 8; i < form.length; i++) {
             if(form[i].checked === true) {
-                dataToSave.genresToSearch.push(form[i].id);
+                dataToSave.genresToSearch.push(extractGenreFromId(form[i].id));
             }
         }
 
         return dataToSave;        
     } 
+
+    let extractGenreFromId = (id) => {
+        const words = id.trim().split(/\s+/);
+        return words[0];
+    }
 
     const handleDetailsClose = () => {
         detailedEventCallback(null);
@@ -127,22 +135,26 @@ export default function Pane(props) {
                 
                     <FestivalPane submit = {handleSubmit} 
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
-                            visible = {visiblility.festival} user = {user} type = {'festival'}  currentType = {props.objectType}/>
+                            visible = {visiblility.festival} user = {user} type = {'festival'}  currentType = {props.objectType}
+                            criteria = {userCriteria} setCriteria = {handleCriteria}/>
                 
                 
                     <TheatrePane submit = {handleSubmit} 
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
-                            visible = {visiblility.theatre} user = {user} type = {'theatre'} currentType = {props.objectType}/>
+                            visible = {visiblility.theatre} user = {user} type = {'theatre'} currentType = {props.objectType}
+                            criteria = {userCriteria} setCriteria = {handleCriteria}/>
                 
                 
                     <WorkshopPane submit = {handleSubmit} 
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
-                            visible = {visiblility.workshop} user = {user} type = {'workshop'}/>
+                            visible = {visiblility.workshop} user = {user} type = {'workshop'}
+                            criteria = {userCriteria} setCriteria = {handleCriteria}/>
                 
                 
                     <ConcertPane submit = {handleSubmit} 
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData}
-                            visible = {visiblility.concert} user = {user} type = {'concert'}/>
+                            visible = {visiblility.concert} user = {user} type = {'concert'}
+                            criteria = {userCriteria} setCriteria = {handleCriteria}/>
                      
                 </div>
                 <div id="eventList" style={{height: fullHeight.bodyHeight, width: "46.7%", position: "absolute", left: span, borderLeft: "2.5px solid black", float: "left",

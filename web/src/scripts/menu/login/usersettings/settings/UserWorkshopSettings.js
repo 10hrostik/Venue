@@ -9,6 +9,8 @@ export default function UserTheatreSettings(props) {
     const [genres, setGenres] = useState();
     let user = props.user;
     let visible = props.visibility;
+    let criteria = props.criteria;
+    let setCriteria = props.setCriteria;
 
     useEffect(() => {
         fetch(apiServer.public + "/filter/get/WORKSHOP",
@@ -29,10 +31,10 @@ export default function UserTheatreSettings(props) {
     },[])
 
     useEffect(() => {
-        if(user != null) {
+        if(criteria != null) {
             transformFilterPane.setToForm(JSON.parse(user.data.userSettings.workshop), "UserWorkshop", 'UserSettingsWorkshop');
         }
-    },[visible, genres, user])
+    },[visible, genres, criteria])
 
     const handleDefault = (event) => {
         event.preventDefault(); 
@@ -41,9 +43,8 @@ export default function UserTheatreSettings(props) {
     }
 
     const saveDefaultCriteria = () => {
-        let defaultCriteria = {username: user.data.username, festival: user.data.userSettings.festival, theatre: user.data.userSettings.theatre,
-            workshop:  null, concert:  user.data.userSettings.concert}
-        user.data.userSettings.workshop = null;
+        let defaultCriteria = {username: user.data.username, festival: criteria.festival, theatre: criteria.theatre,
+            workshop:  null, concert:  criteria.concert}
         fetch(apiServer.secured + "/userprofile/save",
         {
             method: "PATCH",
@@ -56,6 +57,8 @@ export default function UserTheatreSettings(props) {
         .catch((error) => {
             console.log(error);
         });
+        defaultCriteria.workshop = JSON.stringify({genresToSearch: [], objectType: "WORKSHOP"});
+        setCriteria(defaultCriteria);
     }
 
     return(

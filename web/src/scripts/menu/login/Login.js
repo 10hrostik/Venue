@@ -69,7 +69,8 @@ function LoginButtons(props) {
                 <div className="login-section" align="center">                    
                     <button onClick={showUserSettings} className="btn-sign">{user.data.name + " " + user.data.surname}</button>
                     <div style={{height: "100%", width: "100%"}}>
-                        <UserSettings visibility = {visible} userProfile = {user} setData = {(data) => setUser(data)}/> 
+                        <UserSettings visibility = {visible} userProfile = {user} setData = {(data) => setUser(data)}
+                            criteria = {props.criteria} setCriteria = {props.setCriteria}/> 
                     </div>                                
                 </div>
             ) 
@@ -79,7 +80,8 @@ function LoginButtons(props) {
                 <div className="login-section" align="center">                    
                     <button onClick={showUserSettings} className="btn-sign">{user.data.username}</button> 
                     <div style={{height: "100%", width: "100%"}}>
-                        <UserSettings visibility = {visible} userProfile = {user} setData = {(data) => setUser(data)}/> 
+                        <UserSettings visibility = {visible} userProfile = {user} setData = {(data) => setUser(data)}
+                            criteria = {props.criteria} setCriteria = {props.setCriteria}/> 
                     </div>               
                 </div>
             ) 

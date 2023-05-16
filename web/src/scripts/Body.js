@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from './menu/Header';
 import Footer from './menu/Footer';
 import Pane from "./menu/pane/EventPane";
@@ -16,14 +16,16 @@ export default function Body() {
         concert: undefined
     });
     const [user, setUser] = useState(null);
+    const [userSettings, setUserSettings] = useState(null);
+
+    useEffect(() => {
+        if(user != null) setUserSettings(user.data.userSettings);
+    }, [user]);
 
     const handlePaneVisibility = (visibility) => {
         if(visibility != undefined) {
             setObjectTypeVisibility(visibility);   
         }    
-    }
-    const handleUsers = (userData) => {
-        setUser(userData);
     }
 
     const handleDetailedEvent = (detailedEvent) => {
@@ -44,10 +46,12 @@ export default function Body() {
     return(
         <div>
             <Header handlePane = {handlePaneVisibility} layoutCallback = {toggleLayout} insertData = {insertDataToPane}
-                    handleType = {handleObjectType} user = {user} setUser = {setUser} detailedEventCallback = {handleDetailedEvent}/>
+                    handleType = {handleObjectType} user = {user} setUser = {setUser} 
+                    detailedEventCallback = {handleDetailedEvent} criteria = {userSettings} setCriteria = {setUserSettings}/>
             <Pane mode = {mode} events = {data} type = {objectType} 
                 insertData = {insertDataToPane} detailedEvent = {detailedEvent} detailedEventCallback = {handleDetailedEvent}
-                objectTypeVisibility = {objectTypeVisibility} userSettings = {user} handleCriteriaVisibility = {setObjectTypeVisibility} objectType = {objectType} />
+                objectTypeVisibility = {objectTypeVisibility} userSettings = {user} handleCriteriaVisibility = {setObjectTypeVisibility} 
+                objectType = {objectType} userCriteria = {userSettings} setUserCriteria = {setUserSettings}/>
             <Footer />
         </div>
    )

@@ -17,6 +17,8 @@ export default function UserProfile(props) {
     let settingsVisibility = props.settingsVisibility;
     let setSettingsVisibility = props.setSettingsVisibility;
     let user = props.userProfile;
+    let userCriteria = props.criteria;
+    let setCriteria = props.setCriteria;
 
     let handleClose = () => {
         props.callback()
@@ -29,13 +31,12 @@ export default function UserProfile(props) {
         event.preventDefault();
         let criteria = createData(event.target, type);
         let settings = {
-            festival: criteria.objectType === 'FESTIVAL' ? JSON.stringify(criteria) : user.data.userSettings.festival === null ? null : user.data.userSettings.festival,
-            concert: criteria.objectType === 'CONCERT' ? JSON.stringify(criteria) : user.data.userSettings.concert === null ? null : user.data.userSettings.concert,
-            workshop: criteria.objectType === 'WORKSHOP' ? JSON.stringify(criteria) : user.data.userSettings.workshop === null ? null : user.data.userSettings.workshop,
-            theatre: criteria.objectType === 'THEATRE' ? JSON.stringify(criteria) : user.data.userSettings.theatre  === null ? null : user.data.userSettings.theatre,
+            festival: criteria.objectType === 'FESTIVAL' ? JSON.stringify(criteria) : userCriteria.festival === null ? null : userCriteria.festival,
+            concert: criteria.objectType === 'CONCERT' ? JSON.stringify(criteria) : userCriteria.concert === null ? null : userCriteria.concert,
+            workshop: criteria.objectType === 'WORKSHOP' ? JSON.stringify(criteria) : userCriteria.workshop === null ? null : userCriteria.workshop,
+            theatre: criteria.objectType === 'THEATRE' ? JSON.stringify(criteria) : userCriteria.theatre  === null ? null : userCriteria.theatre,
             username: user.data.username
         }
-        settings = JSON.stringify(settings);
         fetch(apiServer.secured + "/userprofile/save",
         {
             method: "PATCH",
@@ -43,10 +44,10 @@ export default function UserProfile(props) {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: settings
+            body: JSON.stringify(settings)
         })
         .then(() => {
-            user.data.userSettings = JSON.parse(settings);
+            setCriteria(settings);
         })
         .catch((error) => {
             console.log(error);
@@ -56,29 +57,34 @@ export default function UserProfile(props) {
     let createData = (form, type) => {
         let dataToSave = {genresToSearch: [], objectType: type};
         if(form[0].value !== '') {
-            dataToSave.searchText = form[0].value;
+            dataToSave.searchText = extractGenreFromId(form[0].value);
         }
         if(form[2].value !== '') {
-            dataToSave.firstDate = form[2].value;
+            dataToSave.firstDate = extractGenreFromId(form[2].value);
         }
         if(form[3].value !== '') {
-            dataToSave.lastDate = form[3].value;
+            dataToSave.lastDate = extractGenreFromId(form[3].value);
         }
         if(form[5].value !== '') {
-            dataToSave.firstPrice = form[5].value;
+            dataToSave.firstPrice = extractGenreFromId(form[5].value);
         }
         if(form[6].value !== '') {
-            dataToSave.lastPrice = form[6].value;
+            dataToSave.lastPrice = extractGenreFromId(form[6].value);
         }
 
         for(let i = 8; i < form.length; i++) {
             if(form[i].checked === true) {
-                dataToSave.genresToSearch.push(form[i].id);
+                dataToSave.genresToSearch.push(extractGenreFromId(form[i].id));
             }
         }
 
         return dataToSave;        
     } 
+
+    let extractGenreFromId = (id) => {
+        const words = id.trim().split(/\s+/);
+        return words[0];
+    }
 
     return(
         <div className="userProfile" style={{height: fullHeight.bodyHeight + fullHeight.headerHeight, visibility: visible, textAlign: 'center'}}>
@@ -114,10 +120,14 @@ export default function UserProfile(props) {
                             <h1 style={{marginBottom: 5, marginLeft: 0, width: 170, marginRight: 0, float: "left"}}>Settings</h1>
                             <img onClick={() => switchCriteria('next', settingsVisibility, setSettingsVisibility)} className="swipeButtonSettings" style={{marginTop: 27}} src={require('../../../../../logos/swipeRight.png')}></img>
                         </div> 
-                        <UserFestivalSettings visibility = {settingsVisibility.festival} user = {props.userProfile} handleApply = {saveCriteria}/>
-                        <UserTheatreSettings visibility = {settingsVisibility.theatre} user = {props.userProfile} handleApply = {saveCriteria}/>
-                        <UserWorkshopSettings visibility = {settingsVisibility.workshop} user = {props.userProfile} handleApply = {saveCriteria}/>
-                        <UserConcertSettings visibility = {settingsVisibility.concert} user = {props.userProfile} handleApply = {saveCriteria}/>
+                        <UserFestivalSettings visibility = {settingsVisibility.festival} user = {props.userProfile} handleApply = {saveCriteria}
+                            criteria = {userCriteria} setCriteria = {setCriteria}/>
+                        <UserTheatreSettings visibility = {settingsVisibility.theatre} user = {props.userProfile} handleApply = {saveCriteria}
+                            criteria = {userCriteria} setCriteria = {setCriteria}/>
+                        <UserWorkshopSettings visibility = {settingsVisibility.workshop} user = {props.userProfile} handleApply = {saveCriteria}
+                            criteria = {userCriteria} setCriteria = {setCriteria}/>
+                        <UserConcertSettings visibility = {settingsVisibility.concert} user = {props.userProfile} handleApply = {saveCriteria}
+                            criteria = {userCriteria} setCriteria = {setCriteria}/>
                     </div>
                 </div>
         </div>

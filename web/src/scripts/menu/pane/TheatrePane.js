@@ -8,9 +8,9 @@ export default function TheatrePane(props) {
     const handleSumbit = props.submit;
     const hint = "Search text";
     const [genres, setGenres] = useState();
-    const detailedEvent = props.detailedEvent;
+    const criteria = props.criteria;
+    const setCriteria = props.setCriteria;
     const detailedEventCallback = props.detailedEventCallback;
-
     let visible = props.visible;
     let user = props.user;
 
@@ -33,12 +33,12 @@ export default function TheatrePane(props) {
     },[])
   
     useEffect(() => {
-        if(user != null && props.currentType == 'THEATRE') {
-            let settings = JSON.parse(user.data.userSettings.theatre);
+        if(criteria != null && props.currentType == 'THEATRE') {
+            let settings = JSON.parse(criteria.theatre);
             transformFilterPane.setToForm(settings, props.type, 'Theatre');
             handleSumbit(null, settings);
         }
-    },[visible, genres, user])
+    },[visible, genres, criteria])
 
     const handleDefault = (event) => {
         event.preventDefault(); 
@@ -68,9 +68,8 @@ export default function TheatrePane(props) {
         });
     }
     const saveDefaultCriteria = () => {
-        let defaultCriteria = {username: user.data.username, festival: user.data.userSettings.festival, theatre: null,
-                                workshop: user.data.userSettings.workshop, concert:  user.data.userSettings.concert}
-        user.data.userSettings.theatre = null;
+        let defaultCriteria = {username: user.data.username, festival: criteria.festival, theatre: null,
+                                workshop: criteria.workshop, concert: criteria.concert}
         fetch(apiServer.secured + "/userprofile/save",
         {
             method: "PATCH",
@@ -83,6 +82,7 @@ export default function TheatrePane(props) {
         .catch((error) => {
             console.log(error);
         });
+        setCriteria(defaultCriteria);
     }
 
     return(

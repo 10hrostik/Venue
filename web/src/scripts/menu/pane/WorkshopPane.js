@@ -10,7 +10,8 @@ export default function WorkshopPane(props) {
     let visible = props.visible;
     let user = props.user;
     const [genres, setGenres] = useState();
-    const detailedEvent = props.detailedEvent;
+    const criteria = props.criteria;
+    const setCriteria = props.setCriteria;
     const detailedEventCallback = props.detailedEventCallback;
 
     useEffect(() => {
@@ -32,12 +33,12 @@ export default function WorkshopPane(props) {
     },[])
 
     useEffect(() => {
-        if(user != null && props.currentType == 'WORKSHOP') {
-            let settings = JSON.parse(user.data.userSettings.workshop);
+        if(criteria != null && props.currentType == 'WORKSHOP') {
+            let settings = JSON.parse(criteria.workshop);
             transformFilterPane.setToForm(settings, props.type, 'Workshop');
             handleSumbit(null, settings);
         }
-    },[visible, genres, user])
+    },[visible, genres, criteria])
 
     const handleDefault = (event) => {
         event.preventDefault(); 
@@ -68,9 +69,8 @@ export default function WorkshopPane(props) {
         });
     }
     const saveDefaultCriteria = () => {
-        let defaultCriteria = {username: user.data.username, festival: user.data.userSettings.festival, theatre: user.data.userSettings.theatre,
-                                workshop:  null, concert:  user.data.userSettings.concert}
-        user.data.userSettings.workshop = null;
+        let defaultCriteria = {username: user.data.username, festival: criteria.festival, theatre: criteria.theatre,
+                                workshop:  null, concert:  criteria.concert}
         fetch(apiServer.secured + "/userprofile/save",
         {
             method: "PATCH",
@@ -83,6 +83,7 @@ export default function WorkshopPane(props) {
         .catch((error) => {
             console.log(error);
         });
+        setCriteria(defaultCriteria);
     }
 
     return(

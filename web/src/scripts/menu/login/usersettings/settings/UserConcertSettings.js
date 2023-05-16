@@ -9,6 +9,8 @@ export default function UserConcertSettings(props) {
     const [genres, setGenres] = useState();
     let user = props.user;
     let visible = props.visibility;
+    let criteria = props.criteria;
+    let setCriteria = props.setCriteria;
 
     useEffect(() => {
         fetch(apiServer.public + "/filter/get/CONCERT",
@@ -29,10 +31,10 @@ export default function UserConcertSettings(props) {
     },[])
 
     useEffect(() => {
-        if(user != null) {
+        if(criteria != null) {
             transformFilterPane.setToForm(JSON.parse(user.data.userSettings.concert), "UserConcert", 'UserSettingsConcert');
         }
-    },[visible, genres, user])
+    },[visible, genres, criteria])
 
     const handleDefault = (event) => {
         event.preventDefault(); 
@@ -41,9 +43,8 @@ export default function UserConcertSettings(props) {
     }
 
     const saveDefaultCriteria = () => {
-        let defaultCriteria = {username: user.data.username, festival:  user.data.userSettings.festival, theatre: user.data.userSettings.theatre,
-            workshop:  user.data.userSettings.workshop, concert:  null}
-        user.data.userSettings.concert = null;
+        let defaultCriteria = {username: user.data.username, festival:  criteria.festival, theatre: criteria.theatre,
+            workshop:  criteria.workshop, concert:  null}
         fetch(apiServer.secured + "/userprofile/save",
         {
             method: "PATCH",
@@ -56,6 +57,8 @@ export default function UserConcertSettings(props) {
         .catch((error) => {
             console.log(error);
         });
+        defaultCriteria.concert = JSON.stringify({genresToSearch: [], objectType: "CONCERT"});
+        setCriteria(defaultCriteria);
     }
 
     return(

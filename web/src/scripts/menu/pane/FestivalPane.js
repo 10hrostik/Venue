@@ -10,8 +10,9 @@ export default function FestivalPane(props) {
     let visible = props.visible;
     let user = props.user;
     const [genres, setGenres] = useState();
-    const detailedEvent = props.detailedEvent;
     const detailedEventCallback = props.detailedEventCallback;
+    const criteria = props.criteria;
+    const setCriteria = props.setCriteria;
 
     useEffect(() => {
         fetch(apiServer.public + "/filter/get/FESTIVAL",
@@ -32,12 +33,12 @@ export default function FestivalPane(props) {
     },[])
 
     useEffect(() => {
-        if(user != null && props.currentType == 'FESTIVAL') {
-            let settings = JSON.parse(user.data.userSettings.festival);
+        if(criteria != null && props.currentType == 'FESTIVAL') {
+            let settings = JSON.parse(criteria.festival);
             transformFilterPane.setToForm(settings, props.type, 'Festival');
             handleSumbit(null, settings);
         }
-    },[visible, genres, user])
+    },[visible, genres, criteria])
 
     const handleDefault = (event) => {
         event.preventDefault(); 
@@ -68,9 +69,8 @@ export default function FestivalPane(props) {
         });
     }
     const saveDefaultCriteria = () => {
-        let defaultCriteria = {username: user.data.username, festival: null, theatre: user.data.userSettings.theatre,
-                                workshop:  user.data.userSettings.workshop, concert:  user.data.userSettings.concert}
-        user.data.userSettings.festival = null;
+        let defaultCriteria = {username: user.data.username, festival: null, theatre: criteria.theatre,
+                                workshop:  criteria.workshop, concert:  criteria.concert}
         fetch(apiServer.secured + "/userprofile/save",
         {
             method: "PATCH",
@@ -83,6 +83,7 @@ export default function FestivalPane(props) {
         .catch((error) => {
             console.log(error);
         });
+        setCriteria(defaultCriteria);
     }
 
     return(

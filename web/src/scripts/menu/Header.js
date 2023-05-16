@@ -20,7 +20,8 @@ export default function Header(props) {
             </div> 
             <Events handlePaneVisibility = {props.handlePane} callback = {toggleCallback} 
                   eventCallback = {insertDataToPane} handleObjectType = {handleType} detailedEventCallback = {detailedEventCallback}/>
-            <LoginButtons user = {user} setUser = {setUser}/>
+            <LoginButtons user = {user} setUser = {setUser} 
+                  criteria = {props.criteria} setCriteria = {props.setCriteria}/>
       </div>
     );
   
