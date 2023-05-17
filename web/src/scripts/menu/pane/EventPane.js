@@ -7,6 +7,7 @@ import FestivalPane from "./FestivalPane";
 import TheatrePane from "./TheatrePane";
 import WorkshopPane from "./WorkshopPane";
 import ConcertPane from "./ConcertPane";
+import UpcomingEventPane from "./UpcomingEventPane";
 
 export default function Pane(props) {
     let user = props.userSettings;
@@ -167,8 +168,7 @@ export default function Pane(props) {
         )
     } else {
         return(
-            <div className="eventPane" style={{height: fullHeight.bodyHeight}}>
-            </div>
+            <UpcomingEventPane />
         )
     }
    

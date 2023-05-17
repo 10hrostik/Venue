@@ -8,6 +8,7 @@ import java.util.List;
 public interface EventService {
     List<EventResponseDto> getEvents();
     DetailedEventResponseDto getEvent(Integer id);
+    List<DetailedEventResponseDto> getMostRecentEvents();
     Object createEvent();
     Object updateEvent();
     Object deleteEvent();

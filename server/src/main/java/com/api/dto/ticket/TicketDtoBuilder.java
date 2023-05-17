@@ -19,6 +19,7 @@ public class TicketDtoBuilder {
          ticketDto.setDescription(ticket.getEvent().getDescription());
          ticketDto.setPlaceType(ticket.getPlace().getPlaceType());
          ticketDto.setEvent(ticket.getEvent());
+         ticketDto.setPosition(ticket.getPlace().getPosition());
          ticketDto.setArtists(ticket.getEvent().getArtists().stream().map(x -> {
               ArtistDto artistDto = new ArtistDto();
               artistDto.setName(x.getName());

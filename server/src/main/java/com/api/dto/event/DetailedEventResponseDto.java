@@ -8,7 +8,6 @@ public class DetailedEventResponseDto extends EventResponseDto {
     public static class RoomDto {
         private String name;
         private Integer placeCount;
-        private Integer freePlaces;
 
         public String getName() {
             return name;
@@ -26,13 +25,6 @@ public class DetailedEventResponseDto extends EventResponseDto {
             this.placeCount = placeCount;
         }
 
-        public Integer getFreePlaces() {
-            return freePlaces;
-        }
-
-        public void setFreePlaces(Integer freePlaces) {
-            this.freePlaces = freePlaces;
-        }
     }
 
     private String description;

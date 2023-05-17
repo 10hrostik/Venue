@@ -13,10 +13,14 @@ export default function Header(props) {
     const setUser = props.setUser;
     const detailedEventCallback = props.detailedEventCallback;
 
+    const handleHome = () => {
+      toggleCallback('hidden');
+    }
+
     return (
       <div className="header" style={{height: fullHeight.headerHeight}}>
             <div className='reactLogo-containter'>
-                  <img className='reactLogo' src={require('../../logos/icon1.png')} alt="" />  
+                  <img className='reactLogo' onClick={handleHome} style={{cursor: 'pointer'}} src={require('../../logos/icon1.png')} alt="" />  
             </div> 
             <Events handlePaneVisibility = {props.handlePane} callback = {toggleCallback} 
                   eventCallback = {insertDataToPane} handleObjectType = {handleType} detailedEventCallback = {detailedEventCallback}/>

@@ -32,6 +32,12 @@ public class FestivalEventService implements EventService{
     }
 
     @Override
+    public List<DetailedEventResponseDto> getMostRecentEvents() {
+        List<Event> events = dao.getMostRecent(eventType);
+        return events.stream().map(EventBuilder::getDetailedDto).toList();
+    }
+
+    @Override
     public Object createEvent() {
         return null;
     }

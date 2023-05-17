@@ -20,6 +20,9 @@ public class Place {
     @Enumerated(EnumType.STRING)
     private PlaceType placeType;
 
+    @Column(name = "position")
+    private Integer position;
+
     @OneToOne(mappedBy = "place")
     private Ticket ticket;
 
@@ -57,5 +60,29 @@ public class Place {
 
     public void setPlaceType(PlaceType placeType) {
         this.placeType = placeType;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
+    public Ticket getTicket() {
+        return ticket;
+    }
+
+    public void setTicket(Ticket ticket) {
+        this.ticket = ticket;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }

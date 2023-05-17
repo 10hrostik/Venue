@@ -31,4 +31,13 @@ public class ConcertController {
     public BatchResponseDto<DetailedEventResponseDto> getFestival(@PathVariable int id) {
         return getDetailedEventResponseDtoBatchResponseDto(id, eventService);
     }
+
+    @GetMapping(value = "/get/recent", produces = MediaType.APPLICATION_JSON_VALUE)
+    public BatchResponseDto<List<DetailedEventResponseDto>> getMostRecentConcerts() {
+        BatchResponseDto<List<DetailedEventResponseDto>> response = new BatchResponseDto<>();
+        response.setData(eventService.getMostRecentEvents());
+        response.setMessage("Found " + response.getData().size());
+
+        return response;
+    }
 }

@@ -4,7 +4,6 @@ import com.api.dto.artist.ArtistDto;
 import com.api.entities.accounts.User;
 import com.api.entities.events.Event;
 import com.api.entities.venue.PlaceType;
-import com.api.entities.venue.Room;
 
 import java.util.List;
 
@@ -28,8 +27,18 @@ public class TicketDto {
 
     private List<ArtistDto> artists;
 
+    private Integer position;
+
     public List<ArtistDto> getArtists() {
         return artists;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 
     public void setArtists(List<ArtistDto> artists) {

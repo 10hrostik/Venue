@@ -59,6 +59,19 @@ public class EventDao {
         }
     }
 
+    public synchronized List<Event> getMostRecent(EventType eventType) {
+        try {
+            Query query = em.createQuery("SELECT c FROM Event c " +
+                    "WHERE c.eventType = '" + eventType.toString() + "' ORDER BY c.date ASC");
+            query.setMaxResults(3);
+
+            return castList(Event.class, query.getResultList());
+        } catch (NoResultException | IllegalArgumentException exception) {
+            exception.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
     public List<Event> getByCriteria(SearchCriteriaDto dto) {
         try {
             Query query = em.createQuery("SELECT c FROM Event c " +
