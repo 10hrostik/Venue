@@ -10,12 +10,17 @@ export default function UpcomingEventPane() {
     const [upcomingConcert, setUpcomingConcert] = useState();
     const [detailedUpcomingEvent, setDetailedUpcomingEvent] = useState();
     const [eventVisibility, setEventVisibility] = useState('hidden');
+    const [buyWindowVisibility, setBuyWindowVisibility] = useState(false);
+    let fetched = false;
     
     useEffect(() => {
-        fetchUpcoming('festival');
-        fetchUpcoming('theatre');
-        fetchUpcoming('workshop');
-        fetchUpcoming('concert')
+        if(fetched == false) {
+            fetchUpcoming('festival');
+            fetchUpcoming('theatre');
+            fetchUpcoming('workshop');
+            fetchUpcoming('concert');
+            fetched = true;
+        }
     },[])
 
     const fetchUpcoming = (objectType) => {
@@ -117,7 +122,7 @@ export default function UpcomingEventPane() {
                         <p style={{fontWeight: 700, fontSize: 17, marginTop: 2}}>{upcomingEvent.freeTickets + " tickets left"}</p>
                     </div>
                 </div> 
-                <button className="purchaseButton">Buy</button> 
+                <button onClick={() => handleBuyWindow(true)} className="purchaseButton">Buy</button> 
                 </div>
         </div>
 
@@ -126,6 +131,21 @@ export default function UpcomingEventPane() {
 
     const handleEventVisibility = (visibility) => {
         setEventVisibility(visibility)
+    }
+
+    const handleBuyWindow = (visibility) => {
+        setBuyWindowVisibility(visibility);
+    }
+
+    let showPlaces = () => {
+        let event = <div className="buyPopUp" style={{height: fullHeight.headerHeight + fullHeight.bodyHeight}}>
+            <div className="upcomingEventPopUpWindow" style={{height: 600, width: 620, top: '10%'}}>
+                <button className="myProfilePopUpClose" onClick={() => handleBuyWindow(false)}>X</button>
+                <h1><u>Choose Place</u></h1>
+            </div>
+        </div>
+
+        return event;
     }
    
     return (
@@ -155,6 +175,7 @@ export default function UpcomingEventPane() {
                     </fieldset>
                 </div>
                 {eventVisibility == 'visible' ? detailedUpcomingEvent : null}
+                {buyWindowVisibility == true ? showPlaces() : null}
         </div>
     )
 }

@@ -7,16 +7,14 @@ import jakarta.persistence.EntityManager;
 import com.api.entities.events.Event;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import com.config.EntityManagerConfig;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Component
-@Scope("prototype")
+@Repository
 public class EventDao {
 
     private final EntityManager em;

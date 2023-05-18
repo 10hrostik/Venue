@@ -248,10 +248,21 @@ top: 37.5%;
   border-radius: 3%;
   border: 5px solid black;
   position: absolute;
-  left: 340px;
+  left: 28%;
   top: 35px;
   float: left;
   background-image: url('../logos/eventPaneBackGround.jpg');
+}
+
+.buyPopUp{
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.8);
+  right: 0;
+  bottom: 0;
+  top: 0; 
+  width: 100vw;
+  z-index: 93;
+  text-align: center;
 }
 @keyframes fadeEffect {
   from {opacity: 0;}

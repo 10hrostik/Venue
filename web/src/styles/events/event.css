@@ -80,7 +80,7 @@
 }
 .purchaseButton{ 
     position: absolute;
-    right: 22vw;
+    right: 42%;
     top: 36em;
     width: 100px;
     height: 35px;
@@ -95,7 +95,7 @@
     width: 102px;
     height: 36px;
     top: 35.9999em;
-    right: 17.9em;
+    right: 27;
 }
 .detailEventLabel{
     font-weight: 900;
