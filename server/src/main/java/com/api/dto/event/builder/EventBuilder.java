@@ -56,6 +56,7 @@ public interface EventBuilder {
     static DetailedEventResponseDto getDetailedDto(Event event) {
         DetailedEventResponseDto dto = new DetailedEventResponseDto();
 
+        dto.setId(event.getId());
         dto.setDescription(event.getDescription());
         dto.setPrice(event.getPrice());
         dto.setDate(event.getDate());
@@ -67,10 +68,9 @@ public interface EventBuilder {
             artistDto.setName(x.getName());
             return artistDto;
         }).collect(Collectors.toList()));
+
         dto.setFreeTickets(event.getRoom().getPlacecount() - event.getPlaces().stream()
                 .filter(Place::getOccupated).map(x -> 1).reduce(0, Integer::sum));
-        dto.setGenre(event.getGenre());
-        dto.setName(event.getName());
         DetailedEventResponseDto.RoomDto roomDto = new DetailedEventResponseDto.RoomDto();
         roomDto.setName(event.getRoom().getName());
         roomDto.setPlaceCount(event.getRoom().getPlacecount());
@@ -79,6 +79,9 @@ public interface EventBuilder {
             dto.setImages(event.getImages().stream().map(Attachment::getImageURL).collect(Collectors.toList()));
             dto.setImageUrl(dto.getImages().get(0));
         }
+
+        dto.setGenre(event.getGenre());
+        dto.setName(event.getName());
 
         return dto;
     }

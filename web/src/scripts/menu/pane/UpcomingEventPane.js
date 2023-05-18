@@ -11,6 +11,7 @@ export default function UpcomingEventPane() {
     const [detailedUpcomingEvent, setDetailedUpcomingEvent] = useState();
     const [eventVisibility, setEventVisibility] = useState('hidden');
     const [buyWindowVisibility, setBuyWindowVisibility] = useState(false);
+    const [places, setPlaces] = useState();
     let fetched = false;
     
     useEffect(() => {
@@ -65,6 +66,24 @@ export default function UpcomingEventPane() {
         }
 
         return list;
+    }
+
+    const fetchPlaces = (id) => {
+        fetch(apiServer.public + '/place/get/' + id,{
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+        .then((response) => response.json())
+        .then((fetchedData) => {
+            console.log(fetchedData.message);
+            setPlaces(fetchedData.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 
     let getArtistList = (artists) => {
@@ -137,15 +156,31 @@ export default function UpcomingEventPane() {
         setBuyWindowVisibility(visibility);
     }
 
-    let showPlaces = () => {
-        let event = <div className="buyPopUp" style={{height: fullHeight.headerHeight + fullHeight.bodyHeight}}>
+    let showPlaces = (upcomingEvent) => {
+        fetchPlaces(upcomingEvent.id)
+        let placeLayout = <div className="buyPopUp" style={{height: fullHeight.headerHeight + fullHeight.bodyHeight}}>
             <div className="upcomingEventPopUpWindow" style={{height: 600, width: 620, top: '10%'}}>
                 <button className="myProfilePopUpClose" onClick={() => handleBuyWindow(false)}>X</button>
                 <h1><u>Choose Place</u></h1>
+                <div style={{width: "100%", height: "10%", textAlign: "center"}}>
+                    <div style={{width: "70%", height: "100%", marginLeft: "14%" , border: "3px solid black", borderRadius: 30, textAlign: 'center'}}>
+                        <h2 style={{marginTop: 10}}>Stage</h2>
+                    </div>
+                </div>
+                <div style={{width: "100%", height: "65%", textAlign: "center", marginTop: 25}}>
+                    <div style={{width: "70%", height: "100%", marginLeft: "14%" , border: "3px solid black", borderRadius: 30}}>
+                        <div style={{width: "100%", height: "67%" , border: "3px solid black", borderRight: "none", borderLeft: "none", borderTop: "none"}}>
+
+                        </div>
+                        <div style={{width: "100%", height: "32%" , border: "none"}}>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        return event;
+        return placeLayout;
     }
    
     return (
