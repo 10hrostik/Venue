@@ -55,19 +55,19 @@ public class Event {
     private Set<Ticket> tickets;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "eventId")
+    @OneToMany(mappedBy = "eventId", fetch = FetchType.EAGER)
     private List<Artist> artists;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
     private List<Attachment> images;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
     private Room room;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
     private List<Place> places;
 
     public Room getRoom() {

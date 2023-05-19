@@ -6,6 +6,16 @@ public class PlaceResponseDto {
     private List<PlaceDto> places;
     private Integer roomId;
 
+    private Integer placeCount;
+
+    public Integer getPlaceCount() {
+        return placeCount;
+    }
+
+    public void setPlaceCount(Integer placeCount) {
+        this.placeCount = placeCount;
+    }
+
     public List<PlaceDto> getPlaces() {
         return places;
     }

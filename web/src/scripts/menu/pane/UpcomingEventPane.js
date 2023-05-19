@@ -12,6 +12,7 @@ export default function UpcomingEventPane() {
     const [eventVisibility, setEventVisibility] = useState('hidden');
     const [buyWindowVisibility, setBuyWindowVisibility] = useState(false);
     const [places, setPlaces] = useState();
+    const [current, setCurrent] = useState();
     let fetched = false;
     
     useEffect(() => {
@@ -69,7 +70,7 @@ export default function UpcomingEventPane() {
     }
 
     const fetchPlaces = (id) => {
-        fetch(apiServer.public + '/place/get/' + id,{
+        fetch(apiServer.public + '/room/place/get/' + id,{
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -79,7 +80,7 @@ export default function UpcomingEventPane() {
         .then((response) => response.json())
         .then((fetchedData) => {
             console.log(fetchedData.message);
-            setPlaces(fetchedData.data);
+            setPlaces(showPlaces(fetchedData.data));
         })
         .catch((error) => {
             console.log(error);
@@ -141,23 +142,71 @@ export default function UpcomingEventPane() {
                         <p style={{fontWeight: 700, fontSize: 17, marginTop: 2}}>{upcomingEvent.freeTickets + " tickets left"}</p>
                     </div>
                 </div> 
-                <button onClick={() => handleBuyWindow(true)} className="purchaseButton">Buy</button> 
+                <button onClick={() => handleBuyWindow(true, upcomingEvent)} className="purchaseButton">Buy</button> 
                 </div>
         </div>
-
-        setDetailedUpcomingEvent(event)
+        setCurrent(upcomingEvent);
+        setDetailedUpcomingEvent(event);
     }
 
     const handleEventVisibility = (visibility) => {
         setEventVisibility(visibility)
     }
 
-    const handleBuyWindow = (visibility) => {
+    const handleBuyWindow = (visibility, upcomingEvent) => {
+        if(visibility == true) {
+            fetchPlaces(upcomingEvent.id);
+        }
         setBuyWindowVisibility(visibility);
     }
 
-    let showPlaces = (upcomingEvent) => {
-        fetchPlaces(upcomingEvent.id)
+    let getBalconyPlaces = (places) => {
+        const balconyPlaces = places.filter(x => x.placeType == 'BALCONY');
+        let placeElements = [];
+        for(let balconyPlace of balconyPlaces) {
+            placeElements.push(<div className="balconyPlace" style={{key: balconyPlace.place,  backgroundColor: balconyPlace.occupied == false ? 'greenyellow' : 'red'}}>
+                {balconyPlace.place}
+            </div>)
+        }
+
+        return <div style={{width: "100%", height: "32%" , border: "none"}}>
+            {placeElements} 
+        </div>
+    }
+
+    let getParterPlaces = (places) => {
+        const parterPlaces = places.places.filter(x => x.placeType == 'PARTER' || x.placeType == 'FUNZONE');
+        let placeElements;
+        if(places.roomId == 1) {
+            placeElements = [];
+            placeElements.push(<div className="funZone">
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <p style={{fontWeight: 700, fontSize: 16}}>FUNZONE</p>
+                                    <p style={{fontWeight: 700, fontSize: 16}}>
+                                        Places left: {places.placeCount - parterPlaces.filter(x => x.occupied == true).length}
+                                    </p>
+                                </div>
+            )
+            return placeElements;
+        } else {
+            placeElements = [];
+            for(let place of parterPlaces) {
+                placeElements.push(<div className="balconyPlace" style={{key: place.place,  backgroundColor: place.occupied == false ? 'greenyellow' : 'red'}}>
+                    {place.place}
+                </div>)
+            }
+    
+            return <div style={{width: "100%", height: "67%" , border: "3px solid black", 
+                        borderRight: "none", borderLeft: "none", borderTop: "none", textAlign:'center'}}>
+                        <div style={{width: "95%", marginLeft: 10, height: "99%"}}>{placeElements}</div>
+            </div>
+        }
+    }
+
+    let showPlaces = (data) => {
         let placeLayout = <div className="buyPopUp" style={{height: fullHeight.headerHeight + fullHeight.bodyHeight}}>
             <div className="upcomingEventPopUpWindow" style={{height: 600, width: 620, top: '10%'}}>
                 <button className="myProfilePopUpClose" onClick={() => handleBuyWindow(false)}>X</button>
@@ -169,12 +218,8 @@ export default function UpcomingEventPane() {
                 </div>
                 <div style={{width: "100%", height: "65%", textAlign: "center", marginTop: 25}}>
                     <div style={{width: "70%", height: "100%", marginLeft: "14%" , border: "3px solid black", borderRadius: 30}}>
-                        <div style={{width: "100%", height: "67%" , border: "3px solid black", borderRight: "none", borderLeft: "none", borderTop: "none"}}>
-
-                        </div>
-                        <div style={{width: "100%", height: "32%" , border: "none"}}>
-
-                        </div>
+                        {getParterPlaces(data)}
+                        {getBalconyPlaces(data.places)}
                     </div>
                 </div>
             </div>
@@ -210,7 +255,7 @@ export default function UpcomingEventPane() {
                     </fieldset>
                 </div>
                 {eventVisibility == 'visible' ? detailedUpcomingEvent : null}
-                {buyWindowVisibility == true ? showPlaces() : null}
+                {buyWindowVisibility == true ? places : null}
         </div>
     )
 }

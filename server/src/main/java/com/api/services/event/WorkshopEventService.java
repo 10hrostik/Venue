@@ -4,6 +4,7 @@ import com.api.dao.EventDao;
 import com.api.dto.event.DetailedEventResponseDto;
 import com.api.dto.event.EventResponseDto;
 import com.api.dto.event.builder.EventBuilder;
+import com.api.entities.attachments.Attachment;
 import com.api.entities.events.Event;
 import com.api.entities.events.EventType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class WorkshopEventService implements EventService{
     @Override
     public List<DetailedEventResponseDto> getMostRecentEvents() {
         List<Event> events = dao.getMostRecent(eventType);
+
         return events.stream().map(EventBuilder::getDetailedDto).toList();
     }
 
@@ -50,5 +52,11 @@ public class WorkshopEventService implements EventService{
     @Override
     public Object deleteEvent() {
         return null;
+    }
+
+    private void setImageUrl(List<Event> events, List<EventResponseDto> dtos) {
+        for(int i = 0; i < events.size(); i++) {
+            dtos.get(i).setImageUrl(events.get(i).getImages().get(0).getImageURL());
+        }
     }
 }

@@ -45,7 +45,7 @@ public interface EventBuilder {
             target.setPrice(event.getPrice());
             target.setCity(event.getCity());
             target.setAdress(event.getAdress());
-            target.setImageUrl(event.getImages().size() == 0 ? "no-photo.jpg" : event.getImages().get(0).getImageURL());
+            target.setImageUrl(event.getImages().size() == 0 ? "no-photo.png" : event.getImages().get(0).getImageURL());
             target.setFreeTickets(event.getRoom().getPlacecount() - event.getPlaces().stream()
                     .filter(Place::getOccupated).map(x -> 1).reduce(0, Integer::sum));
         }
