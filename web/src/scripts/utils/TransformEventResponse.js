@@ -1,9 +1,13 @@
 import { useState } from "react";
 import apiServer from "../Config";
 
-export default function transformEventResponse(response, detailedEventCallback) {
+export default function transformEventResponse(response, detailedEventCallback, buyWindowCallback, user) {
     let items = [];
     let id = 1;
+    const green = 'green';
+    const endarkedGreen = "rgb(12, 71, 18)";
+    let pickedPlace;
+    let current;
 
     const handleDetailedEvent = (event, id, objectType) => {
         event.preventDefault();
@@ -32,9 +36,10 @@ export default function transformEventResponse(response, detailedEventCallback) 
             )
         }
         return <ul style={{marginTop: 2}}>{list}</ul>
-    }  
+    }
 
     let transformDetailedEvent = (detailedEvent) => {
+        current = detailedEvent;
         let layout = <div id={"event" + detailedEvent.name}>
             <div className="displayEvent" style={{marginTop: 10, marginLeft: 10, width: "35%", height: 245}}>
                 <img style={{ width: "100%", height: 245}} src={apiServer.public + '/' + detailedEvent.imageUrl} alt="not found"></img>
@@ -76,10 +81,148 @@ export default function transformEventResponse(response, detailedEventCallback) 
                     <p style={{fontWeight: 700, fontSize: 17, marginTop: 2}}>{detailedEvent.freeTickets + " tickets left"}</p>
                 </div>
             </div> 
-            <button className="purchaseButton">Buy</button>   
+            <button onClick={() => handleBuyWindow(detailedEvent)} className="purchaseButton">Buy</button>
         </div>
 
         return layout;
+    }
+
+    const handleBuyWindow = (detailedEvent) => {
+        fetchPlaces(detailedEvent.id);
+    }
+
+    const fetchPlaces = (id) => {
+        fetch(apiServer.public + '/room/place/get/' + id, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+        .then((response) => response.json())
+        .then((fetchedData) => {
+            console.log(fetchedData.message);
+            buyWindowCallback(getPlaces(fetchedData.data));
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
+
+    let getPlaces = (data) => {
+        let placeLayout = [];
+        placeLayout.push(<div style={{width: "100%", height: "60%", textAlign: "center", marginTop: 25}}>
+            <div style={{width: "70%", height: "100%", marginLeft: "14%" , border: "3px solid black", borderRadius: 30}}>
+                {getParterPlaces(data)}
+                {getBalconyPlaces(data.places)}
+            </div>
+        </div>)                 
+        placeLayout.push(<button onClick={createTicket} className="buyTicketButton">Buy</button>)                    
+                                
+        return placeLayout;
+    }
+
+    let getBalconyPlaces = (places) => {
+        const balconyPlaces = places.filter(x => x.placeType == 'BALCONY');
+        let placeElements = [];
+        for(let balconyPlace of balconyPlaces) {
+            placeElements.push(<div id={balconyPlace.id} className="balconyPlace" onClick={() => handlePickedPlace(balconyPlace)} style={{key: balconyPlace.place,  backgroundColor: balconyPlace.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
+                {balconyPlace.place}
+            </div>)
+        }
+
+        return <div style={{width: "100%", height: "32%" , border: "none"}}>
+            {placeElements} 
+        </div>
+    }
+
+    let getParterPlaces = (places) => {
+        const parterPlaces = places.places.filter(x => x.placeType == 'PARTER' || x.placeType == 'FUNZONE');
+        let placeElements;
+        if(places.roomId == 1) {
+            placeElements = [];
+            placeElements.push(<div id={"searchedFunzone"} onClick={() => handleFunZonePlace(parterPlaces)} className="funZone">
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <p style={{fontWeight: 700, fontSize: 16}}>FUNZONE</p>
+                                    <p style={{fontWeight: 700, fontSize: 16}}>
+                                        Places left: {places.placeCount - parterPlaces.filter(x => x.occupied == true).length}
+                                    </p>
+                                </div>
+            )
+            return placeElements;
+        } else {
+            placeElements = [];
+            for(let place of parterPlaces) {
+                placeElements.push(<div id={place.id} className="balconyPlace" onClick={() => handlePickedPlace(place)} 
+                    style={{key: place.place,  backgroundColor: place.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
+                    {place.place}
+                </div>)
+            }
+    
+            return <div style={{width: "100%", height: "67%" , border: "3px solid black", 
+                        borderRight: "none", borderLeft: "none", borderTop: "none", textAlign:'center'}}>
+                        <div style={{width: "95%", marginLeft: 10, height: "99%"}}>{placeElements}</div>
+            </div>
+        }
+    }
+
+    let handlePickedPlace = (place) => {
+        let element = document.getElementById(place.id).style.backgroundColor;
+        
+        if(place.occupied == false) {
+            if(pickedPlace == null || pickedPlace.placeType == 'FUNZONE') {
+                if(pickedPlace && pickedPlace.placeType == 'FUNZONE')  document.getElementById("searchedFunzone").style.backgroundColor = "rgb(195, 20, 20)";
+                if(element == endarkedGreen) {
+                    pickedPlace = null;
+                    document.getElementById(place.id).style.backgroundColor = green;
+                } else {
+                    pickedPlace = place;
+                    document.getElementById(place.id).style.backgroundColor = endarkedGreen;
+                }   
+            } else {
+                document.getElementById(pickedPlace.id).style.backgroundColor = green;
+                pickedPlace = place;
+                document.getElementById(place.id).style.backgroundColor = endarkedGreen;
+            }
+        } 
+    }
+
+    let handleFunZonePlace = (places) => {
+        if(pickedPlace) document.getElementById(pickedPlace.id).style.backgroundColor = green;
+
+        document.getElementById("searchedFunzone").style.backgroundColor = "rgb(139, 13, 13)";
+        pickedPlace = places.filter(x => x.occupied == false)[0];
+    }
+
+    let createTicket = () => {
+        if(user) {
+            const request = {
+                username: user.data.username,
+                placeId: pickedPlace.id,
+                eventId: current.id
+            }
+            fetch(apiServer.secured + '/tickets/create', {
+                method: 'POST',
+                body: JSON.stringify(request),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(() => {
+                alert("Successfull! Check your cabinet");
+                handleBuyWindow(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+        else {
+            alert("Login or Register first!");
+        }
     }
 
     if(response != null) {

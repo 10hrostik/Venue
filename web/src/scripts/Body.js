@@ -17,6 +17,7 @@ export default function Body() {
     });
     const [user, setUser] = useState(null);
     const [userSettings, setUserSettings] = useState(null);
+    const [buyWindow, setBuyWindow] = useState(null);
 
     useEffect(() => {
         if(user != null) setUserSettings(user.data.userSettings);
@@ -30,6 +31,10 @@ export default function Body() {
 
     const handleDetailedEvent = (detailedEvent) => {
         setDetailedEvent(detailedEvent);
+    }
+
+    const handleBuyWindow = (buyWindow) => {
+        setBuyWindow(buyWindow);
     }
 
     const toggleLayout = (prop) => {
@@ -47,11 +52,13 @@ export default function Body() {
         <div>
             <Header handlePane = {handlePaneVisibility} layoutCallback = {toggleLayout} insertData = {insertDataToPane}
                     handleType = {handleObjectType} user = {user} setUser = {setUser} 
-                    detailedEventCallback = {handleDetailedEvent} criteria = {userSettings} setCriteria = {setUserSettings}/>
+                    detailedEventCallback = {handleDetailedEvent} criteria = {userSettings} setCriteria = {setUserSettings}
+                    buyWindowCallback = {handleBuyWindow}/>
             <Pane mode = {mode} events = {data} type = {objectType} 
                 insertData = {insertDataToPane} detailedEvent = {detailedEvent} detailedEventCallback = {handleDetailedEvent}
                 objectTypeVisibility = {objectTypeVisibility} userSettings = {user} handleCriteriaVisibility = {setObjectTypeVisibility} 
-                objectType = {objectType} userCriteria = {userSettings} setUserCriteria = {setUserSettings}/>
+                objectType = {objectType} userCriteria = {userSettings} setUserCriteria = {setUserSettings}
+                buyWindow = {buyWindow} buyWindowCallback = {handleBuyWindow}/>
             <Footer />
         </div>
    )

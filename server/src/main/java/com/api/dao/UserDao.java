@@ -42,7 +42,9 @@ public class UserDao {
         syncDatabase();
     }
 
-
+    public User getUserById(Integer id) {
+        return em.find(User.class, id);
+    }
     public User getUserByUsername(String username) {
         try{
             Query query = em.createQuery("SELECT c FROM User c WHERE c.username = '" + username

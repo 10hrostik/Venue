@@ -239,7 +239,7 @@ top: 37.5%;
   bottom: 0;
   top: 0; 
   width: 100vw;
-  z-index: 92;
+  z-index: 122;
   text-align: center;
 }
 .upcomingEventPopUpWindow{
@@ -285,10 +285,13 @@ top: 37.5%;
   border-right: none;                                         
   border-left: none; 
   border-top: none;
-  background-color: red;
+  background-color: rgb(195, 20, 20);
   border-top-left-radius: 30px; 
   border-top-right-radius: 30px;
   cursor: pointer;
+}
+.funZone:hover{
+  background-color: rgb(139, 13, 13);
 }
 .buyPopUp{
   position: absolute;
@@ -297,8 +300,23 @@ top: 37.5%;
   bottom: 0;
   top: 0; 
   width: 100vw;
-  z-index: 93;
+  z-index: 123;
   text-align: center;
+}
+.buyTicketButton{
+  margin-top: 35px;
+  width: 100px;
+  height: 35px;
+  cursor: pointer;
+  background-image: url("../logos/Header1.jpg"); 
+  border: 3px solid black;
+  font-size: 16px;
+  font-weight: 800;
+  border-radius: 10px;
+}
+.buyTicketButton:hover{
+  width: 102px;
+  height: 37px;
 }
 @keyframes fadeEffect {
   from {opacity: 0;}

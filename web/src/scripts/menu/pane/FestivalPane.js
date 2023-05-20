@@ -13,6 +13,7 @@ export default function FestivalPane(props) {
     const detailedEventCallback = props.detailedEventCallback;
     const criteria = props.criteria;
     const setCriteria = props.setCriteria;
+    const buyWindowCallBack = props.buyWindowCallBack;
 
     useEffect(() => {
         fetch(apiServer.public + "/filter/get/FESTIVAL",
@@ -62,7 +63,7 @@ export default function FestivalPane(props) {
         })
         .then((response) => response.json())
         .then((fetchedData) => {
-            props.insertData(transformEventResponse(fetchedData.data, detailedEventCallback));
+            props.insertData(transformEventResponse(fetchedData.data, detailedEventCallback, buyWindowCallBack, user));
         })
         .catch((error) => {
             console.log(error);

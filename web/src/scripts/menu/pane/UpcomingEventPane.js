@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import fullHeight from "../../utils/BlockHeights";
 import apiServer from "../../Config";
+import Body from "../../Body";
 
-export default function UpcomingEventPane() {
+export default function UpcomingEventPane(props) {
     const [upcomingFestival, setUpcomingFestival] = useState();
     const [upcomingTheatre, setUpcomingTheatre] = useState();
     const [upcomingWorkshop, setUpcomingWorkshop] = useState();
@@ -12,7 +13,12 @@ export default function UpcomingEventPane() {
     const [eventVisibility, setEventVisibility] = useState('hidden');
     const [buyWindowVisibility, setBuyWindowVisibility] = useState(false);
     const [places, setPlaces] = useState();
-    const [current, setCurrent] = useState();
+    let current;
+    let pickedPlace;
+    const green = 'green';
+    const endarkedGreen = "rgb(12, 71, 18)";
+    
+    let user = props.user;
     let fetched = false;
     
     useEffect(() => {
@@ -70,7 +76,7 @@ export default function UpcomingEventPane() {
     }
 
     const fetchPlaces = (id) => {
-        fetch(apiServer.public + '/room/place/get/' + id,{
+        fetch(apiServer.public + '/room/place/get/' + id, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -145,7 +151,7 @@ export default function UpcomingEventPane() {
                 <button onClick={() => handleBuyWindow(true, upcomingEvent)} className="purchaseButton">Buy</button> 
                 </div>
         </div>
-        setCurrent(upcomingEvent);
+        current = upcomingEvent;
         setDetailedUpcomingEvent(event);
     }
 
@@ -164,7 +170,7 @@ export default function UpcomingEventPane() {
         const balconyPlaces = places.filter(x => x.placeType == 'BALCONY');
         let placeElements = [];
         for(let balconyPlace of balconyPlaces) {
-            placeElements.push(<div className="balconyPlace" style={{key: balconyPlace.place,  backgroundColor: balconyPlace.occupied == false ? 'greenyellow' : 'red'}}>
+            placeElements.push(<div id={balconyPlace.id} className="balconyPlace" onClick={() => handlePickedPlace(balconyPlace)} style={{key: balconyPlace.place,  backgroundColor: balconyPlace.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
                 {balconyPlace.place}
             </div>)
         }
@@ -179,7 +185,7 @@ export default function UpcomingEventPane() {
         let placeElements;
         if(places.roomId == 1) {
             placeElements = [];
-            placeElements.push(<div className="funZone">
+            placeElements.push(<div id={"funzone"} onClick={() => handleFunZonePlace(parterPlaces)} className="funZone">
                                     <br/>
                                     <br/>
                                     <br/>
@@ -194,7 +200,8 @@ export default function UpcomingEventPane() {
         } else {
             placeElements = [];
             for(let place of parterPlaces) {
-                placeElements.push(<div className="balconyPlace" style={{key: place.place,  backgroundColor: place.occupied == false ? 'greenyellow' : 'red'}}>
+                placeElements.push(<div id={place.id} className="balconyPlace" onClick={() => handlePickedPlace(place)} 
+                    style={{key: place.place,  backgroundColor: place.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
                     {place.place}
                 </div>)
             }
@@ -206,22 +213,79 @@ export default function UpcomingEventPane() {
         }
     }
 
+    let createTicket = () => {
+        if(props.user) {
+            const request = {
+                username: props.user.data.username,
+                placeId: pickedPlace.id,
+                eventId: current.id
+            }
+            fetch(apiServer.secured + '/tickets/create', {
+                method: 'POST',
+                body: JSON.stringify(request),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(() => {
+                alert("Successfull! Check your cabinet");
+                handleBuyWindow(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+        else {
+            alert("Login or Register first!");
+        }
+    }
+
+    let handlePickedPlace = (place) => {
+        let element = document.getElementById(place.id).style.backgroundColor;
+        
+        if(place.occupied == false) {
+            if(pickedPlace == null || pickedPlace.placeType == 'FUNZONE') {
+                if(pickedPlace && pickedPlace.placeType == 'FUNZONE')  document.getElementById("funzone").style.backgroundColor = "rgb(195, 20, 20)";
+                if(element == endarkedGreen) {
+                    pickedPlace = null;
+                    document.getElementById(place.id).style.backgroundColor = green;
+                } else {
+                    pickedPlace = place;
+                    document.getElementById(place.id).style.backgroundColor = endarkedGreen;
+                }   
+            } else {
+                document.getElementById(pickedPlace.id).style.backgroundColor = green;
+                pickedPlace = place;
+                document.getElementById(place.id).style.backgroundColor = endarkedGreen;
+            }
+        } 
+    }
+
+    let handleFunZonePlace = (places) => {
+        if(pickedPlace) document.getElementById(pickedPlace.id).style.backgroundColor = green;
+
+        document.getElementById("funzone").style.backgroundColor = "rgb(139, 13, 13)";
+        pickedPlace = places.filter(x => x.occupied == false)[0];
+    }
+
     let showPlaces = (data) => {
         let placeLayout = <div className="buyPopUp" style={{height: fullHeight.headerHeight + fullHeight.bodyHeight}}>
             <div className="upcomingEventPopUpWindow" style={{height: 600, width: 620, top: '10%'}}>
                 <button className="myProfilePopUpClose" onClick={() => handleBuyWindow(false)}>X</button>
-                <h1><u>Choose Place</u></h1>
+                <h1 style={{marginTop: 1}}><u>Choose Place</u></h1>
                 <div style={{width: "100%", height: "10%", textAlign: "center"}}>
                     <div style={{width: "70%", height: "100%", marginLeft: "14%" , border: "3px solid black", borderRadius: 30, textAlign: 'center'}}>
                         <h2 style={{marginTop: 10}}>Stage</h2>
                     </div>
                 </div>
-                <div style={{width: "100%", height: "65%", textAlign: "center", marginTop: 25}}>
+                <div style={{width: "100%", height: "60%", textAlign: "center", marginTop: 25}}>
                     <div style={{width: "70%", height: "100%", marginLeft: "14%" , border: "3px solid black", borderRadius: 30}}>
                         {getParterPlaces(data)}
                         {getBalconyPlaces(data.places)}
                     </div>
                 </div>
+                <button onClick={createTicket} className="buyTicketButton">Buy</button>
             </div>
         </div>
 

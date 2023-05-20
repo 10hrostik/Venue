@@ -13,6 +13,7 @@ export default function TheatrePane(props) {
     const detailedEventCallback = props.detailedEventCallback;
     let visible = props.visible;
     let user = props.user;
+    const buyWindowCallBack = props.buyWindowCallBack;
 
     useEffect(() => {
         fetch(apiServer.public + "/filter/get/THEATRE",
@@ -61,7 +62,7 @@ export default function TheatrePane(props) {
         })
         .then((response) => response.json())
         .then((fetchedData) => {
-            props.insertData(transformEventResponse(fetchedData.data, detailedEventCallback));
+            props.insertData(transformEventResponse(fetchedData.data, detailedEventCallback, buyWindowCallBack, user));
         })
         .catch((error) => {
             console.log(error);

@@ -23,7 +23,9 @@ export default function Header(props) {
                   <img className='reactLogo' onClick={handleHome} style={{cursor: 'pointer'}} src={require('../../logos/icon1.png')} alt="" />  
             </div> 
             <Events handlePaneVisibility = {props.handlePane} callback = {toggleCallback} 
-                  eventCallback = {insertDataToPane} handleObjectType = {handleType} detailedEventCallback = {detailedEventCallback}/>
+                  eventCallback = {insertDataToPane} handleObjectType = {handleType}
+                  detailedEventCallback = {detailedEventCallback} buyWindowCallback = {props.buyWindowCallback}
+                  user = {user}/>
             <LoginButtons user = {user} setUser = {setUser} 
                   criteria = {props.criteria} setCriteria = {props.setCriteria}/>
       </div>

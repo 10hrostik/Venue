@@ -32,13 +32,20 @@ public class TicketDao {
         }
     }
 
+    public Ticket getTicket(Integer id) {
+        return em.find(Ticket.class, id);
+    }
+
+    public void persistTicket(Ticket ticket) {
+        em.getTransaction().begin();
+        em.persist(ticket);
+        em.getTransaction().commit();
+    }
+
+
     private void syncDatabase() {
         em.getTransaction().begin();
         em.flush();
         em.getTransaction().commit();
-    }
-
-    public Ticket getTicket(Integer id) {
-        return em.find(Ticket.class, id);
     }
 }

@@ -19,6 +19,9 @@ export default function Pane(props) {
     const [detailedEventImage, setDetailedEventImage] = useState(null);
     const userCriteria = props.userCriteria;
     const handleCriteria = props.setUserCriteria;
+    const buyWindow = props.buyWindow;
+    const buyWindowCallBack = props.buyWindowCallback;
+    const [buyWindowVisibility, setBuyWindowVisibility] = useState("hidden");
 
     useEffect(() => {
         if(detailedEvent != null) {
@@ -33,7 +36,15 @@ export default function Pane(props) {
             setSpan(384);
             setDetailsWidthVisibility("hidden");
         }
-    }, [detailedEvent])
+    }, [detailedEvent]);
+
+    useEffect(() => {
+        if(buyWindow != null) {
+            setBuyWindowVisibility('visible')
+        } else {
+            setBuyWindowVisibility('hidden');
+        }
+    }, [buyWindow]);
 
     const handleSubmit = (event, readyData) => {
         let dataToSave;
@@ -56,7 +67,7 @@ export default function Pane(props) {
             })
             .then((response) => response.json())
             .then((fetchedData) => {
-                props.insertData(transformEventResponse(fetchedData.data, detailedEventCallback));
+                props.insertData(transformEventResponse(fetchedData.data, detailedEventCallback, buyWindowCallBack, user));
             })
             .catch((error) => {
                 console.log(error);
@@ -124,6 +135,10 @@ export default function Pane(props) {
         detailedEventCallback(null);
     }
 
+    const handleBuyWindow = () => {
+       buyWindowCallBack(null);
+    }
+
     const handleSwipeRight = (event) => {
         let images = event.images;
         event.imageUrl = images[1];
@@ -132,43 +147,58 @@ export default function Pane(props) {
     if (props.mode === "inherit") {
         return(
             <div id="eventCriteria" className="eventPane" style={{height: fullHeight.bodyHeight}}>
-                <div id="eventPane" style={{alignItems: "center", visibility: "visible", height: fullHeight.bodyHeight, width: "30%", float: "left"}}>
-                
+                <div id="eventPane" style={{alignItems: "center", visibility: "visible", height: fullHeight.bodyHeight, width: "30%", float: "left"}}>               
                     <FestivalPane submit = {handleSubmit} 
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
                             visible = {visiblility.festival} user = {user} type = {'festival'}  currentType = {props.objectType}
-                            criteria = {userCriteria} setCriteria = {handleCriteria}/>
+                            criteria = {userCriteria} setCriteria = {handleCriteria}
+                            buyWindowCallBack={buyWindowCallBack}/>
                 
                 
                     <TheatrePane submit = {handleSubmit} 
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
                             visible = {visiblility.theatre} user = {user} type = {'theatre'} currentType = {props.objectType}
-                            criteria = {userCriteria} setCriteria = {handleCriteria}/>
+                            criteria = {userCriteria} setCriteria = {handleCriteria}
+                            buyWindowCallBack={buyWindowCallBack}/>
                 
                 
                     <WorkshopPane submit = {handleSubmit} 
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
                             visible = {visiblility.workshop} user = {user} type = {'workshop'}
-                            criteria = {userCriteria} setCriteria = {handleCriteria}/>
+                            criteria = {userCriteria} setCriteria = {handleCriteria}
+                            buyWindowCallBack={buyWindowCallBack}/>
                 
                 
                     <ConcertPane submit = {handleSubmit} 
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData}
                             visible = {visiblility.concert} user = {user} type = {'concert'}
-                            criteria = {userCriteria} setCriteria = {handleCriteria}/>
+                            criteria = {userCriteria} setCriteria = {handleCriteria}
+                            buyWindowCallBack = {buyWindowCallBack}/>
                      
                 </div>
                 <div id="eventList" style={{height: fullHeight.bodyHeight, width: "46.7%", position: "absolute", left: span, borderLeft: "2.5px solid black", float: "left",
                             overflow: "auto", whiteSpace: "pre-wrap"}}>{props.events}</div>
-                <div id="detaild" style={{position: "absolute", width: "50%", visibility: detailsWidthVisibility, border: "3px solid black", borderRadius: 10, left: "49vw", height: fullHeight.bodyHeight - 15, marginTop: 5}}>
+                <div id="detailed" style={{position: "absolute", width: "50%", visibility: detailsWidthVisibility, border: "3px solid black", borderRadius: 10, left: "49vw", height: fullHeight.bodyHeight - 15, marginTop: 5}}>
                         <button style={{position: 'absolute', right: 0, top: -5}} className="donationPopUpClose" onClick={handleDetailsClose}>X</button>
                         {detailedEvent}
+                </div>
+                <div className="buyPopUp" style={{visibility: buyWindowVisibility, height: fullHeight.headerHeight + fullHeight.bodyHeight}}>
+                    <div className="upcomingEventPopUpWindow" style={{height: 600, width: 620, top: '10%'}}>
+                        <button className="myProfilePopUpClose" onClick={handleBuyWindow}>X</button>
+                        <h1 style={{marginTop: 1}}><u>Choose Place</u></h1>
+                        <div style={{width: "100%", height: "10%", textAlign: "center"}}>
+                            <div style={{width: "70%", height: "100%", marginLeft: "14%" , border: "3px solid black", borderRadius: 30, textAlign: 'center'}}>
+                                <h2 style={{marginTop: 10}}>Stage</h2>
+                            </div>
+                        </div>
+                        {buyWindow}
+                    </div>
                 </div>
             </div>
         )
     } else {
         return(
-            <UpcomingEventPane />
+            <UpcomingEventPane user = {props.userSettings}/>
         )
     }
    

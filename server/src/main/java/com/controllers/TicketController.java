@@ -3,14 +3,12 @@ package com.controllers;
 import java.util.List;
 
 import com.api.dto.BatchResponseDto;
+import com.api.dto.ticket.RequestCreateTicketDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import com.api.dto.ticket.TicketDto;
 import com.api.services.ticket.TicketService;
@@ -34,5 +32,19 @@ public class TicketController {
         response.setMessage("Fetched Successfully!");
 
         return response;
+    }
+
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> createTicket(@RequestBody RequestCreateTicketDto requestDto) {
+        try{
+            ticketService.createTicket(requestDto);
+            String okStatus = "Created Successfully";
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(okStatus);
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }
