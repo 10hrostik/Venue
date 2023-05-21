@@ -15,6 +15,7 @@ export default function UpcomingEventPane(props) {
     const [places, setPlaces] = useState();
     let current;
     let pickedPlace;
+    let currentImage;
     const green = 'green';
     const endarkedGreen = "rgb(12, 71, 18)";
     
@@ -105,11 +106,12 @@ export default function UpcomingEventPane(props) {
 
     let showEvent = (upcomingEvent) => {
         handleEventVisibility('visible');
+        currentImage = upcomingEvent.images[0];
         let event = <div className="upcomingEventPopUp" style={{height: fullHeight.headerHeight + fullHeight.bodyHeight}}>
             <div className="upcomingEventPopUpWindow" style={{height: 600, width: 620, top: '10%'}}>
                 <button className="myProfilePopUpClose" onClick={() => handleEventVisibility('hidden')}>X</button>
                 <div className="displayEvent" style={{marginTop: 10, marginLeft: 10, width: "35%", height: 245}}>
-                    <img style={{ width: "100%", height: 245}} src={apiServer.public + '/' + upcomingEvent.imageUrl} alt="not found"></img>
+                    <img id="byMainImage" style={{ width: "100%", height: 245}} src={apiServer.public + '/' + upcomingEvent.imageUrl} alt="not found"></img>
                 </div>
                 <div className="displayEvent" style={{ width: "60.3%", marginLeft: 2}}>
                     <label className="detailEventLabel">Title: </label>    
@@ -131,8 +133,8 @@ export default function UpcomingEventPane(props) {
                     <input readOnly={true} className="detailedInput" style={{marginTop: 19}} value={upcomingEvent.date}></input> 
                 </div>
                 <div id="imageSwipe" style={{width: "35%", height: 15}}>
-                    <img className="swipeButton" style={{marginLeft: "3.2vw"}} src={require('../../../logos/swipeLeft.png')}></img>
-                    <img onClick={() => handleSwipeRight(detailedEvent)} className="swipeButton" style={{marginLeft: "1.7em"}} src={require('../../../logos/swipeRight.png')}></img>
+                    <img onClick={() => handleSwipeLeft(upcomingEvent)} className="swipeButton" style={{marginLeft: "3.2vw"}} src={require('../../../logos/swipeLeft.png')}></img>
+                    <img onClick={() => handleSwipeRight(upcomingEvent)} className="swipeButton" style={{marginLeft: "1.7em"}} src={require('../../../logos/swipeRight.png')}></img>
                 </div>
                 <div style={{}}>
                     <div style={{float: "left", width: "65%", textAlign: "left", marginLeft: 8}}>
@@ -155,6 +157,44 @@ export default function UpcomingEventPane(props) {
         setDetailedUpcomingEvent(event);
     }
 
+    const handleSwipeRight = (detailedEvent) => {
+        const images = detailedEvent.images;
+        if(detailedEvent.images.length > 1) {
+            for(let i = 0; i < images.length; i++) {
+                if(images[i] == currentImage) {
+                    if(images[i] != images[images.length - 1]) {
+                        document.getElementById("byMainImage").src = apiServer.public + '/' + images[i + 1];
+                        currentImage = images[i + 1];
+                        break;
+                    } else {
+                        document.getElementById("byMainImage").src = apiServer.public + '/' + images[0];
+                        currentImage = images[0];
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    const handleSwipeLeft = (detailedEvent) => {
+        const images = detailedEvent.images;
+        if(detailedEvent.images.length > 1) {
+            for(let i = 0; i < images.length; i++) {
+                if(images[i] == currentImage) {
+                    if(images[i] != images[0]) {
+                        document.getElementById("byMainImage").src = apiServer.public + '/' + images[i - 1];
+                        currentImage = images[i - 1];
+                        break;
+                    } else {
+                        document.getElementById("byMainImage").src = apiServer.public + '/' + images[images.length - 1];
+                        currentImage = images[images.length - 1];
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     const handleEventVisibility = (visibility) => {
         setEventVisibility(visibility)
     }
@@ -170,7 +210,7 @@ export default function UpcomingEventPane(props) {
         const balconyPlaces = places.filter(x => x.placeType == 'BALCONY');
         let placeElements = [];
         for(let balconyPlace of balconyPlaces) {
-            placeElements.push(<div id={balconyPlace.id} className="balconyPlace" onClick={() => handlePickedPlace(balconyPlace)} style={{key: balconyPlace.place,  backgroundColor: balconyPlace.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
+            placeElements.push(<div key={balconyPlace.place + "main"} id={balconyPlace.id} className="balconyPlace" onClick={() => handlePickedPlace(balconyPlace)} style={{backgroundColor: balconyPlace.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
                 {balconyPlace.place}
             </div>)
         }
@@ -200,8 +240,8 @@ export default function UpcomingEventPane(props) {
         } else {
             placeElements = [];
             for(let place of parterPlaces) {
-                placeElements.push(<div id={place.id} className="balconyPlace" onClick={() => handlePickedPlace(place)} 
-                    style={{key: place.place,  backgroundColor: place.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
+                placeElements.push(<div key={place.place + "main"} id={place.id} className="balconyPlace" onClick={() => handlePickedPlace(place)} 
+                    style={{backgroundColor: place.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
                     {place.place}
                 </div>)
             }

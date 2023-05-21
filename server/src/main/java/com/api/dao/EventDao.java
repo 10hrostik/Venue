@@ -47,7 +47,7 @@ public class EventDao {
         return em.find(Event.class, id);
     }
 
-    public List<Event> getSpecific(EventType eventType) {
+    public synchronized List<Event> getSpecific(EventType eventType) {
         try {
             Query query = em.createQuery("SELECT c FROM Event c " +
                     "WHERE c.eventType = '" + eventType.toString() + "'");

@@ -4,7 +4,9 @@ import com.api.dao.AttachmentDao;
 import com.api.dao.TicketDao;
 import com.api.dto.attachment.AttachmentDto;
 import com.api.entities.attachments.Attachment;
+import com.api.entities.events.EventType;
 import com.api.entities.tickets.Ticket;
+import com.api.entities.venue.PlaceType;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -88,6 +90,8 @@ public class AttachmentService {
 
     private PDPage setInfoIntoFile(PDDocument document, Ticket ticket) throws IOException {
         PDPage page = new PDPage();
+        String position = ticket.getPlace().getPlaceType().equals(PlaceType.FUNZONE) ?
+                "" :  ticket.getPlace().getPosition().toString();
         PDPageContentStream stream = new PDPageContentStream(document, page);
 
         PDImageXObject pdImage = PDImageXObject.createFromByteArray(document,
@@ -114,7 +118,7 @@ public class AttachmentService {
         stream.newLineAtOffset(0, -17);
         stream.showText("Room: " + ticket.getEvent().getRoom().getName());
         stream.newLineAtOffset(0, -17);
-        stream.showText("Place: " + ticket.getPlace().getPlaceType());
+        stream.showText("Place: " + ticket.getPlace().getPlaceType() + " " + position);
         stream.endText();
         stream.drawImage(pdImage, (page.getMediaBox().getWidth() / 2 + 75), 520);
         stream.close();

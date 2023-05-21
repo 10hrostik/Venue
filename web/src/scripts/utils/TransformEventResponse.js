@@ -8,6 +8,7 @@ export default function transformEventResponse(response, detailedEventCallback, 
     const endarkedGreen = "rgb(12, 71, 18)";
     let pickedPlace;
     let current;
+    let currentImage;
 
     const handleDetailedEvent = (event, id, objectType) => {
         event.preventDefault();
@@ -21,7 +22,6 @@ export default function transformEventResponse(response, detailedEventCallback, 
         })
         .then((response) => response.json())
         .then((fetchedData) => {
-           // setDetailedEventImage(fetchedData.data.imageUrl)
             detailedEventCallback(transformDetailedEvent(fetchedData.data));         
         })
         .catch((error) => {
@@ -38,11 +38,50 @@ export default function transformEventResponse(response, detailedEventCallback, 
         return <ul style={{marginTop: 2}}>{list}</ul>
     }
 
+    const handleSwipeRight = (detailedEvent) => {
+        const images = detailedEvent.images;
+        if(detailedEvent.images.length > 1) {
+            for(let i = 0; i < images.length; i++) {
+                if(images[i] == currentImage) {
+                    if(images[i] != images[images.length - 1]) {
+                        document.getElementById("bySearchImage").src = apiServer.public + '/' + images[i + 1];
+                        currentImage = images[i + 1];
+                        break;
+                    } else {
+                        document.getElementById("bySearchImage").src = apiServer.public + '/' + images[0];
+                        currentImage = images[0];
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    const handleSwipeLeft = (detailedEvent) => {
+        const images = detailedEvent.images;
+        if(detailedEvent.images.length > 1) {
+            for(let i = 0; i < images.length; i++) {
+                if(images[i] == currentImage) {
+                    if(images[i] != images[0]) {
+                        document.getElementById("bySearchImage").src = apiServer.public + '/' + images[i - 1];
+                        currentImage = images[i - 1];
+                        break;
+                    } else {
+                        document.getElementById("bySearchImage").src = apiServer.public + '/' + images[images.length - 1];
+                        currentImage = images[images.length - 1];
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     let transformDetailedEvent = (detailedEvent) => {
         current = detailedEvent;
+        currentImage = detailedEvent.images[0];
         let layout = <div id={"event" + detailedEvent.name}>
             <div className="displayEvent" style={{marginTop: 10, marginLeft: 10, width: "35%", height: 245}}>
-                <img style={{ width: "100%", height: 245}} src={apiServer.public + '/' + detailedEvent.imageUrl} alt="not found"></img>
+                <img id="bySearchImage" style={{ width: "100%", height: 245}} src={apiServer.public + '/' + detailedEvent.imageUrl} alt="not found"></img>
             </div>
             <div className="displayEvent" style={{ width: "60.3%", marginLeft: 10}}>
                 <label className="detailEventLabel">Title: </label>    
@@ -64,7 +103,7 @@ export default function transformEventResponse(response, detailedEventCallback, 
                 <input readOnly={true} className="detailedInput" style={{marginTop: 19}} value={detailedEvent.date}></input> 
             </div>
             <div id="imageSwipe" style={{width: "35%", height: 15}}>
-                <img className="swipeButton" style={{marginLeft: "6.2vw"}} src={require('../../logos/swipeLeft.png')}></img>
+                <img onClick={() => handleSwipeLeft(detailedEvent)} className="swipeButton" style={{marginLeft: "6.2vw"}} src={require('../../logos/swipeLeft.png')}></img>
                 <img onClick={() => handleSwipeRight(detailedEvent)} className="swipeButton" style={{marginLeft: "1.7em"}} src={require('../../logos/swipeRight.png')}></img>
             </div>
             <div style={{}}>
@@ -126,7 +165,8 @@ export default function transformEventResponse(response, detailedEventCallback, 
         const balconyPlaces = places.filter(x => x.placeType == 'BALCONY');
         let placeElements = [];
         for(let balconyPlace of balconyPlaces) {
-            placeElements.push(<div id={balconyPlace.id} className="balconyPlace" onClick={() => handlePickedPlace(balconyPlace)} style={{key: balconyPlace.place,  backgroundColor: balconyPlace.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
+            placeElements.push(<div id={balconyPlace.id} key={balconyPlace.place} className="balconyPlace" onClick={() => handlePickedPlace(balconyPlace)} 
+                style={{backgroundColor: balconyPlace.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
                 {balconyPlace.place}
             </div>)
         }
@@ -156,8 +196,8 @@ export default function transformEventResponse(response, detailedEventCallback, 
         } else {
             placeElements = [];
             for(let place of parterPlaces) {
-                placeElements.push(<div id={place.id} className="balconyPlace" onClick={() => handlePickedPlace(place)} 
-                    style={{key: place.place,  backgroundColor: place.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
+                placeElements.push(<div id={place.id} key={place.place} className="balconyPlace" onClick={() => handlePickedPlace(place)} 
+                    style={{backgroundColor: place.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
                     {place.place}
                 </div>)
             }
