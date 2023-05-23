@@ -221,7 +221,7 @@ export default function UpcomingEventPane(props) {
     }
 
     let getParterPlaces = (places) => {
-        const parterPlaces = places.places.filter(x => x.placeType == 'PARTER' || x.placeType == 'FUNZONE');
+        const parterPlaces = places.places.filter(x => x.placeType == 'PARTER' || x.placeType == 'SEAT' || x.placeType == 'FUNZONE');
         let placeElements;
         if(places.roomId == 1) {
             placeElements = [];

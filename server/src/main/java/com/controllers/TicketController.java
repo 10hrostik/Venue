@@ -47,4 +47,18 @@ public class TicketController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<?> deleteTicket(@PathVariable(value = "id") Integer id) {
+        try{
+            ticketService.deleteTicket(id);
+            String okStatus = "Deleted Successfully";
+
+            return ResponseEntity.status(HttpStatus.OK)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(okStatus);
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 }

@@ -1,7 +1,7 @@
 import fullHeight from "./BlockHeights"
 import apiServer from "../Config";
 
-export default function TransformTicket(ticket) {
+export default function TransformTicket(ticket, closeCallback, fetchTicketsCallback) {
     let getArtistList = (artists) => {
         let list = [];
         for(let artist of artists) {
@@ -11,6 +11,25 @@ export default function TransformTicket(ticket) {
         }
         return <ul style={{marginTop: 2}}>{list}</ul>
     } 
+
+    const handleRefund = () => {
+        fetch(apiServer.secured + '/tickets/delete/' + ticket.id, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => {response.json})
+        .then((data) => {
+            alert("Money from ticket will be refunded in a few minutes");
+            fetchTicketsCallback();
+            closeCallback();
+        })
+        .catch((exception) => {
+            console.log(exception);
+        })
+    }
 
     return  <div id={"ticket" + ticket.event.name}>
                 <div id="ticketTop" style={{display: 'flex'}}>
@@ -52,7 +71,8 @@ export default function TransformTicket(ticket) {
                     </div>
                 </div>
                 <div style={{width: '100%', textAlign: 'center'}}>
-                    <a href={apiServer.secured + "/get/pdf/" + ticket.id} target="_blank"><button className="deleteProfileButton">Download PDF</button></a>  
+                    <a href={apiServer.secured + "/get/pdf/" + ticket.id} target="_blank" style={{float: 'left', marginLeft: 80}}><button className="deleteProfileButton">Download PDF</button></a>
+                    <button onClick={() => handleRefund(ticket)} style={{float: 'left', marginLeft: '10%'}} className="deleteProfileButton">Refund</button>  
                 </div>  
             </div>        
         

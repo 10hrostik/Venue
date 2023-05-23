@@ -47,6 +47,7 @@ public class UserDao {
     }
     public User getUserByUsername(String username) {
         try{
+            em.clear();
             Query query = em.createQuery("SELECT c FROM User c WHERE c.username = '" + username
                     + "'");
             return (User) query.getSingleResult();

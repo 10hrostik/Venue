@@ -42,6 +42,11 @@ public class TicketDao {
         em.getTransaction().commit();
     }
 
+    public void deleteTicket(Integer id) {
+        em.getTransaction().begin();
+        em.remove(em.find(Ticket.class, id));
+        em.getTransaction().commit();
+    }
 
     private void syncDatabase() {
         em.getTransaction().begin();

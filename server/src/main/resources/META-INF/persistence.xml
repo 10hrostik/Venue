@@ -14,8 +14,8 @@
         <class>hibernate.model.Attachment</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/market_db" />
-            <property name="jakarta.persistence.jdbc.user" value="root" />
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://venue.cemiq7xzu424.eu-central-1.rds.amazonaws.com:3306/market_db" />
+            <property name="jakarta.persistence.jdbc.user" value="admin" />
             <property name="jakarta.persistence.jdbc.password" value="houseofwolves20" />
             <property name="hibernate.show_sql" value="true" />
         </properties>

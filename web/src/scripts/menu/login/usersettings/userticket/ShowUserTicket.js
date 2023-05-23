@@ -8,23 +8,26 @@ export default  function ShowUserTicket(props) {
         const [detailedTicket, setDetailedTicket] = useState(null);
 
         useEffect(() => { 
-                fetch(apiServer.secured + "/tickets/myTickets/" + props.userProfile.username, {
+                fetchTickets();
+            }, [])
+
+        const fetchTickets = () => {
+            fetch(apiServer.secured + "/tickets/myTickets/" + props.userProfile.username, {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                },
-                })
-               .then((response) => response.json())
-               .then((data) => {
-                    console.log(data);
-                    setTickets(data);
-                })
-                .catch((error) => {
-                    console.log(error);
-                })
-            }, []
-        )
+                }
+            })
+           .then((response) => response.json())
+           .then((data) => {
+                console.log(data);
+                setTickets(data);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        }
         
         const handleTicketClick = (event, id) => {
             event.preventDefault();
@@ -77,8 +80,9 @@ export default  function ShowUserTicket(props) {
                         <h1 style={{width: 170, float: "left", marginLeft: "12.3%"}}>Ticket#{detailedTicket.id}</h1>
                     </div>
                     <div style={{textAlign: "left", overflow: "auto", whiteSpace: "pre-wrap", position: 'relative'}}>
-                        {TransformTicket(detailedTicket)}
+                        {TransformTicket(detailedTicket, handleBack, fetchTickets)}
                     </div>
+
                 </div>
             ) 
         }

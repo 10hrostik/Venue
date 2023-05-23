@@ -49,6 +49,7 @@ public class EventDao {
 
     public synchronized List<Event> getSpecific(EventType eventType) {
         try {
+            em.clear();
             Query query = em.createQuery("SELECT c FROM Event c " +
                     "WHERE c.eventType = '" + eventType.toString() + "'");
 

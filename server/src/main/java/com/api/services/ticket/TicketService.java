@@ -60,6 +60,14 @@ public class TicketService {
         roomDao.merge(place);
     }
 
+    public void deleteTicket(Integer id) {
+        Ticket ticket = ticketDao.getTicket(id);
+        Place place = ticket.getPlace();
+        place.setOccupated(false);
+        ticketDao.deleteTicket(id);
+        roomDao.merge(place);
+    }
+
     private Ticket getCreatedTicket(User user, Event event, Place place) {
         Ticket ticket = new Ticket();
         ticket.setEvent(event);
