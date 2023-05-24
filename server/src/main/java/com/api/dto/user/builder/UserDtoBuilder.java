@@ -47,7 +47,17 @@ public interface UserDtoBuilder {
     }
 
     static ResponseUserDto getEditedUser(User user) {
-        return setBasicCredential(user);
+        ResponseUserDto userDto =  setBasicCredential(user);
+        if(user.getUserSettings() != null) {
+            userDto.setUserSettings(new UserSettingsDto(user.getUserSettings()
+                    .getFestivalSettings(),
+                    user.getUserSettings().getConcertSettings(),
+                    user.getUserSettings().getWorkshopSettings(),
+                    user.getUserSettings().getTheatreSettings()));
+        } else {
+            userDto.setUserSettings(new UserSettingsDto());
+        }
+        return userDto;
     }
 
     static ResponseUserDto setBasicCredential(User user) {
