@@ -145,4 +145,14 @@
 		</plugins>
 	</build>
 
+	<profiles>
+		<profile>
+			<id>prod</id>
+			<properties>
+				<spring.profiles.active>
+					prod
+				</spring.profiles.active>
+			</properties>
+		</profile>
+	</profiles>
 </project>

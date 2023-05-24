@@ -25,7 +25,6 @@ function LoginForm (props) {
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
             if (data.data) {
                 props.setData(data);
             } else {

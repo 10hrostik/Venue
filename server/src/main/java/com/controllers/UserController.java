@@ -1,5 +1,6 @@
 package com.controllers;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +67,7 @@ public class UserController {
     @ResponseBody
     @GetMapping(value = "/api/public/users/login/{username}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> login(@PathVariable(value = "username") String username, 
-                                           @PathVariable(value = "password") String password) {
+                                           @PathVariable(value = "password") String password) throws NoSuchAlgorithmException {
         BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>();
         ResponseUserDto user = userService.getUser(username, password);
         if (user == null) {
@@ -97,7 +98,8 @@ public class UserController {
 
     @PatchMapping(value = "/api/secured/users/editpassword", consumes = MediaType.APPLICATION_JSON_VALUE,
                                                                  produces = MediaType.APPLICATION_JSON_VALUE)
-    public BatchResponseDto<ResponseUserDto> edit(@RequestBody @Valid RequestEditPasswordDto editDto, BindingResult bindingResult) {
+    public BatchResponseDto<ResponseUserDto> edit(@RequestBody @Valid RequestEditPasswordDto editDto, BindingResult bindingResult)
+            throws NoSuchAlgorithmException {
         BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>();
         if (validationService.getErrorMessages(bindingResult.getAllErrors()).length() > 1) {
             response.setMessage(validationService.getErrorMessages(bindingResult.getAllErrors()));
