@@ -16,7 +16,7 @@ export default function ConcertPane(props) {
     const buyWindowCallBack = props.buyWindowCallBack;
 
     useEffect(() => {
-        fetch(apiServer.public + "/filter/get/CONCERT",
+        fetch(apiServer.public + "filter/get/CONCERT",
         {
             method: "GET",
             headers: {
@@ -51,7 +51,7 @@ export default function ConcertPane(props) {
     }
     const fetchDefaultEvent = () => {
         let dataToSave = {objectType: props.type.toUpperCase()};
-        fetch(apiServer.public + "/filter/criteria",
+        fetch(apiServer.public + "filter/criteria",
         {
             method: "POST",
             headers: {
@@ -71,7 +71,7 @@ export default function ConcertPane(props) {
     const saveDefaultCriteria = () => {
         let defaultCriteria = {username: user.data.username, festival:  criteria.festival, theatre: criteria.theatre,
                                 workshop:  criteria.workshop, concert:  null}
-        fetch(apiServer.secured + "/userprofile/save",
+        fetch(apiServer.secured + "userprofile/save",
         {
             method: "PATCH",
             headers: {

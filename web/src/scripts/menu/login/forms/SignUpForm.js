@@ -24,7 +24,7 @@ function SignUpForm(props) {
             password, 
             email
         };
-        fetch(apiServer.public + "/users/register", {
+        fetch(apiServer.public + "users/register", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',

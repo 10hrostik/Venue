@@ -5,7 +5,7 @@ export default function Security(props) {
         const userProfile = props.userProfile;
         
         const sendData = (data) => {
-            fetch(apiServer.secured + "/users/editpassword", {
+            fetch(apiServer.secured + "users/editpassword", {
                 method: "PATCH",
                 headers: {
                     'Accept': 'application/json',
@@ -16,7 +16,6 @@ export default function Security(props) {
             .then((response) => response.json())
             .then((data) => {
                     console.log(data);
-                    props.setData(data);
                     alert("Saved!");
             })
             .catch((error) => {
@@ -37,7 +36,7 @@ export default function Security(props) {
             }           
         }
         const handleDelete = () => {
-            fetch(apiServer.secured + "/users/delete/", {
+            fetch(apiServer.secured + "users/delete/", {
                 method: "DELETE",
                 headers: {
                     'Accept': 'application/json',

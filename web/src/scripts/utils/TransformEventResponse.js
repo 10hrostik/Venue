@@ -9,10 +9,11 @@ export default function transformEventResponse(response, detailedEventCallback, 
     let pickedPlace;
     let current;
     let currentImage;
+    const url = apiServer.public.includes("localhost") ? apiServer.public : apiServer.public + 'aws/';
 
     const handleDetailedEvent = (event, id, objectType) => {
         event.preventDefault();
-        fetch(apiServer.public + "/" + objectType.toLowerCase() + "/get/" + id,
+        fetch(apiServer.public + objectType.toLowerCase() + "/get/" + id,
         {
             method: "GET",
             headers: {
@@ -44,11 +45,11 @@ export default function transformEventResponse(response, detailedEventCallback, 
             for(let i = 0; i < images.length; i++) {
                 if(images[i] == currentImage) {
                     if(images[i] != images[images.length - 1]) {
-                        document.getElementById("bySearchImage").src = apiServer.public + '/' + images[i + 1];
+                        document.getElementById("bySearchImage").src = apiServer.public + images[i + 1];
                         currentImage = images[i + 1];
                         break;
                     } else {
-                        document.getElementById("bySearchImage").src = apiServer.public + '/' + images[0];
+                        document.getElementById("bySearchImage").src = apiServer.public + images[0];
                         currentImage = images[0];
                         break;
                     }
@@ -63,11 +64,11 @@ export default function transformEventResponse(response, detailedEventCallback, 
             for(let i = 0; i < images.length; i++) {
                 if(images[i] == currentImage) {
                     if(images[i] != images[0]) {
-                        document.getElementById("bySearchImage").src = apiServer.public + '/' + images[i - 1];
+                        document.getElementById("bySearchImage").src = apiServer.public + images[i - 1];
                         currentImage = images[i - 1];
                         break;
                     } else {
-                        document.getElementById("bySearchImage").src = apiServer.public + '/' + images[images.length - 1];
+                        document.getElementById("bySearchImage").src = apiServer.public + images[images.length - 1];
                         currentImage = images[images.length - 1];
                         break;
                     }
@@ -81,7 +82,7 @@ export default function transformEventResponse(response, detailedEventCallback, 
         currentImage = detailedEvent.images[0];
         let layout = <div id={"event" + detailedEvent.name}>
             <div className="displayEvent" style={{marginTop: 10, marginLeft: 10, width: "35%", height: 245}}>
-                <img id="bySearchImage" style={{ width: "100%", height: 245}} src={apiServer.public + '/' + detailedEvent.imageUrl} alt="not found"></img>
+                <img id="bySearchImage" style={{ width: "100%", height: 245}} src={url + detailedEvent.imageUrl} alt="not found"></img>
             </div>
             <div className="displayEvent" style={{ width: "60.3%", marginLeft: 10}}>
                 <label className="detailEventLabel">Title: </label>    
@@ -133,7 +134,7 @@ export default function transformEventResponse(response, detailedEventCallback, 
     }
 
     const fetchPlaces = (id) => {
-        fetch(apiServer.public + '/room/place/get/' + id, {
+        fetch(apiServer.public + 'room/place/get/' + id, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -246,7 +247,7 @@ export default function transformEventResponse(response, detailedEventCallback, 
                 placeId: pickedPlace.id,
                 eventId: current.id
             }
-            fetch(apiServer.secured + '/tickets/create', {
+            fetch(apiServer.secured + 'tickets/create', {
                 method: 'POST',
                 body: JSON.stringify(request),
                 headers: {
@@ -271,7 +272,7 @@ export default function transformEventResponse(response, detailedEventCallback, 
             items.push(
                 <div onClick={() => handleDetailedEvent(event, eventVenue.id, eventVenue.eventType, user)} key={"event" + id} style={{marginTop: 8, width: "100%"}} className="eventBlock">
                     <div className="displayEvent" style={{marginTop: 10, marginLeft: 5, width: "30%", height: 195}}>
-                        <img style={{ width: "100%", height: 195}} src={apiServer.public + '/' + eventVenue.imageUrl} alt="not found"></img>
+                        <img style={{ width: "100%", height: 195}} src={url + eventVenue.imageUrl} alt="not found"></img>
                     </div>
                     <div className="displayEvent" style={{ width: "68.3%"}}>
                         <div>

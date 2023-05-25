@@ -16,7 +16,7 @@ export default function WorkshopPane(props) {
     const buyWindowCallBack = props.buyWindowCallBack;
 
     useEffect(() => {
-        fetch(apiServer.public + "/filter/get/WORKSHOP",
+        fetch(apiServer.public + "filter/get/WORKSHOP",
         {
             method: "GET",
             headers: {
@@ -52,7 +52,7 @@ export default function WorkshopPane(props) {
 
     const fetchDefaultEvent = () => {
         let dataToSave = {objectType: props.type.toUpperCase()};
-        fetch(apiServer.public + "/filter/criteria",
+        fetch(apiServer.public + "filter/criteria",
         {
             method: "POST",
             headers: {
@@ -72,7 +72,7 @@ export default function WorkshopPane(props) {
     const saveDefaultCriteria = () => {
         let defaultCriteria = {username: user.data.username, festival: criteria.festival, theatre: criteria.theatre,
                                 workshop:  null, concert:  criteria.concert}
-        fetch(apiServer.secured + "/userprofile/save",
+        fetch(apiServer.secured + "userprofile/save",
         {
             method: "PATCH",
             headers: {

@@ -56,7 +56,7 @@ export default function Pane(props) {
             dataToSave = readyData;
         }
         if(dataToSave != null) {
-            fetch(apiServer.public + "/filter/criteria",
+            fetch(apiServer.public + "filter/criteria",
             {
                 method: "POST",
                 headers: {
@@ -84,7 +84,7 @@ export default function Pane(props) {
             username: user.data.username
         }
         
-        fetch(apiServer.secured + "/userprofile/save",
+        fetch(apiServer.secured + "userprofile/save",
         {
             method: "PATCH",
             headers: {

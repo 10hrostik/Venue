@@ -2,6 +2,9 @@ import fullHeight from "./BlockHeights"
 import apiServer from "../Config";
 
 export default function TransformTicket(ticket, closeCallback, fetchTicketsCallback) {
+    const urlPublic = apiServer.public.includes("localhost") ? apiServer.public : apiServer.public + 'aws/';
+    const urlSecured = apiServer.secured.includes("localhost") ? apiServer.secured : apiServer.secured + 'aws/';
+
     let getArtistList = (artists) => {
         let list = [];
         for(let artist of artists) {
@@ -13,7 +16,7 @@ export default function TransformTicket(ticket, closeCallback, fetchTicketsCallb
     } 
 
     const handleRefund = () => {
-        fetch(apiServer.secured + '/tickets/delete/' + ticket.id, {
+        fetch(apiServer.secured + 'tickets/delete/' + ticket.id, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -34,7 +37,7 @@ export default function TransformTicket(ticket, closeCallback, fetchTicketsCallb
     return  <div id={"ticket" + ticket.event.name}>
                 <div id="ticketTop" style={{display: 'flex'}}>
                     <div className="displayEvent" style={{width: "43%", height: 205}}>
-                        <img style={{ width: "100%", height: 205}} src={apiServer.public + '/' + ticket.mainImageUrl} alt="not found"></img>
+                        <img style={{ width: "100%", height: 205}} src={urlPublic + ticket.mainImageUrl} alt="not found"></img>
                     </div>
                     <div className="displayEvent" style={{ width: "60.3%", marginLeft: 10}}>
                         <label className="detailTicketLabel">Title: </label>    
@@ -71,7 +74,7 @@ export default function TransformTicket(ticket, closeCallback, fetchTicketsCallb
                     </div>
                 </div>
                 <div style={{width: '100%', textAlign: 'center'}}>
-                    <a href={apiServer.secured + "/get/pdf/" + ticket.id} target="_blank" style={{float: 'left', marginLeft: 80}}><button className="deleteProfileButton">Download PDF</button></a>
+                    <a href={urlSecured + "get/pdf/" + ticket.id} target="_blank" style={{float: 'left', marginLeft: 80}}><button className="deleteProfileButton">Download PDF</button></a>
                     <button onClick={() => handleRefund(ticket)} style={{float: 'left', marginLeft: '10%'}} className="deleteProfileButton">Refund</button>  
                 </div>  
             </div>        

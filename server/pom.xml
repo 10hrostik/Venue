@@ -125,6 +125,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.amazonaws</groupId>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<version>1.12.472</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
 			<version>1.0.2.Final</version>
@@ -137,6 +143,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>venue</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

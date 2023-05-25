@@ -13,6 +13,7 @@ export default function UpcomingEventPane(props) {
     const [eventVisibility, setEventVisibility] = useState('hidden');
     const [buyWindowVisibility, setBuyWindowVisibility] = useState(false);
     const [places, setPlaces] = useState();
+    const url = apiServer.public.includes("localhost") ? apiServer.public : apiServer.public + 'aws/';
     let current;
     let pickedPlace;
     let currentImage;
@@ -33,7 +34,7 @@ export default function UpcomingEventPane(props) {
     },[])
 
     const fetchUpcoming = (objectType) => {
-        fetch(apiServer.public + "/" + objectType + "/get/recent",
+        fetch(apiServer.public + objectType + "/get/recent",
         {
             method: "GET",
             headers: {
@@ -66,7 +67,7 @@ export default function UpcomingEventPane(props) {
             for(let event of events) {
                 list.push( 
                     <div key={event.name} onClick={() => showEvent(event)} className="upcomingEvent">
-                        <img style={{ width: "70%", height: "83%", marginTop: 7}} src={apiServer.public + '/' + event.imageUrl}></img>
+                        <img style={{ width: "70%", height: "83%", marginTop: 7}} src={url + event.imageUrl}></img>
                         <h3 style={{marginTop: 3}}>{event.name}</h3>
                     </div>
                 )
@@ -77,7 +78,7 @@ export default function UpcomingEventPane(props) {
     }
 
     const fetchPlaces = (id) => {
-        fetch(apiServer.public + '/room/place/get/' + id, {
+        fetch(apiServer.public + 'room/place/get/' + id, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -111,7 +112,7 @@ export default function UpcomingEventPane(props) {
             <div className="upcomingEventPopUpWindow" style={{height: 600, width: 620, top: '10%'}}>
                 <button className="myProfilePopUpClose" onClick={() => handleEventVisibility('hidden')}>X</button>
                 <div className="displayEvent" style={{marginTop: 10, marginLeft: 10, width: "35%", height: 245}}>
-                    <img id="byMainImage" style={{ width: "100%", height: 245}} src={apiServer.public + '/' + upcomingEvent.imageUrl} alt="not found"></img>
+                    <img id="byMainImage" style={{ width: "100%", height: 245}} src={url + upcomingEvent.imageUrl} alt="not found"></img>
                 </div>
                 <div className="displayEvent" style={{ width: "60.3%", marginLeft: 2}}>
                     <label className="detailEventLabel">Title: </label>    
@@ -163,11 +164,11 @@ export default function UpcomingEventPane(props) {
             for(let i = 0; i < images.length; i++) {
                 if(images[i] == currentImage) {
                     if(images[i] != images[images.length - 1]) {
-                        document.getElementById("byMainImage").src = apiServer.public + '/' + images[i + 1];
+                        document.getElementById("byMainImage").src = apiServer.public + images[i + 1];
                         currentImage = images[i + 1];
                         break;
                     } else {
-                        document.getElementById("byMainImage").src = apiServer.public + '/' + images[0];
+                        document.getElementById("byMainImage").src = apiServer.public + images[0];
                         currentImage = images[0];
                         break;
                     }
@@ -182,11 +183,11 @@ export default function UpcomingEventPane(props) {
             for(let i = 0; i < images.length; i++) {
                 if(images[i] == currentImage) {
                     if(images[i] != images[0]) {
-                        document.getElementById("byMainImage").src = apiServer.public + '/' + images[i - 1];
+                        document.getElementById("byMainImage").src = apiServer.public + images[i - 1];
                         currentImage = images[i - 1];
                         break;
                     } else {
-                        document.getElementById("byMainImage").src = apiServer.public + '/' + images[images.length - 1];
+                        document.getElementById("byMainImage").src = apiServer.public + images[images.length - 1];
                         currentImage = images[images.length - 1];
                         break;
                     }
@@ -260,7 +261,7 @@ export default function UpcomingEventPane(props) {
                 placeId: pickedPlace.id,
                 eventId: current.id
             }
-            fetch(apiServer.secured + '/tickets/create', {
+            fetch(apiServer.secured + 'tickets/create', {
                 method: 'POST',
                 body: JSON.stringify(request),
                 headers: {

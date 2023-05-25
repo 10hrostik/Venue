@@ -6,7 +6,7 @@ export default function Credentials(props) {
     const userProfile = props.userProfile;
 
     const sendRequest = (data) => {
-        fetch(apiServer.secured + "/users/edit", {
+        fetch(apiServer.secured + "users/edit", {
             method: "PATCH",
             headers: {
                 'Accept': 'application/json',

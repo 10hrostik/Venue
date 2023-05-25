@@ -35,7 +35,35 @@ public class AttachmentController {
     @Transactional
     public ResponseEntity<?> getImage(@PathVariable(value = "filepath") String filepath) throws IOException {
         AttachmentDto imageDto = attachmentService.getImage(filepath);
+        return getResponseEntity(imageDto);
+    }
 
+    @GetMapping(value = "api/secured/get/pdf/{id}")
+    public ResponseEntity<?> getPdf(@PathVariable(value = "id") Integer id) {
+        AttachmentDto pdfFile = attachmentService.getPDF(id);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfFile.getFile());
+    }
+
+    @GetMapping(value = "api/public/aws/{filepath}")
+    @Transactional
+    public ResponseEntity<?> getAwsImage(@PathVariable(value = "filepath") String filepath) throws IOException {
+        AttachmentDto imageDto = attachmentService.getAWSImage(filepath);
+        return getResponseEntity(imageDto);
+    }
+
+    @GetMapping(value = "api/secured/aws/get/pdf/{id}")
+    public ResponseEntity<?> getAwsPdf(@PathVariable(value = "id") Integer id) {
+        AttachmentDto pdfFile = attachmentService.getAwsPDF(id);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfFile.getFile());
+    }
+
+    private ResponseEntity<?> getResponseEntity(AttachmentDto imageDto) {
         if(imageDto.getType().equals("image/png")) {
             return ResponseEntity.status(HttpStatus.OK)
                     .contentType(MediaType.IMAGE_PNG)
@@ -51,12 +79,4 @@ public class AttachmentController {
         }
     }
 
-    @GetMapping(value = "api/secured/get/pdf/{id}")
-    public ResponseEntity<?> getPdf(@PathVariable(value = "id") Integer id) {
-        AttachmentDto pdfFile = attachmentService.getPDF(id);
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_PDF)
-                .body(pdfFile.getFile());
-    }
 }

@@ -19,7 +19,7 @@ function events (props) {
         callback("inherit");
         props.handlePaneVisibility(getPaneVisibility(objectType))
         props.handleObjectType(objectType);
-        fetch(apiServer.public + "/" + objectType + "/getAll",
+        fetch(apiServer.public + objectType + "/getAll",
         {
             method: "GET",
             headers: {

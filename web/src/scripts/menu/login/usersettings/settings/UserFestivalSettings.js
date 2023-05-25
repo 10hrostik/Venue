@@ -13,7 +13,7 @@ export default function UserFestivalSettings(props) {
     let setCriteria = props.setCriteria;
 
     useEffect(() => {
-        fetch(apiServer.public + "/filter/get/FESTIVAL",
+        fetch(apiServer.public + "filter/get/FESTIVAL",
         {
             method: "GET",
             headers: {
@@ -45,7 +45,7 @@ export default function UserFestivalSettings(props) {
     const saveDefaultCriteria = () => {
         let defaultCriteria = {username: user.data.username, festival: null, theatre: criteria.theatre,
                                 workshop:  criteria.workshop, concert:  criteria.concert}
-        fetch(apiServer.secured + "/userprofile/save",
+        fetch(apiServer.secured + "userprofile/save",
         {
             method: "PATCH",
             headers: {

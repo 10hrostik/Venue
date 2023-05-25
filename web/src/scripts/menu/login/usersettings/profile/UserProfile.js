@@ -37,7 +37,7 @@ export default function UserProfile(props) {
             theatre: criteria.objectType === 'THEATRE' ? JSON.stringify(criteria) : userCriteria.theatre  === null ? null : userCriteria.theatre,
             username: user.data.username
         }
-        fetch(apiServer.secured + "/userprofile/save",
+        fetch(apiServer.secured + "userprofile/save",
         {
             method: "PATCH",
             headers: {

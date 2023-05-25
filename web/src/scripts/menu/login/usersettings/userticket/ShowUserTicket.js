@@ -12,7 +12,7 @@ export default  function ShowUserTicket(props) {
             }, [])
 
         const fetchTickets = () => {
-            fetch(apiServer.secured + "/tickets/myTickets/" + props.userProfile.username, {
+            fetch(apiServer.secured + "tickets/myTickets/" + props.userProfile.username, {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',
@@ -32,7 +32,7 @@ export default  function ShowUserTicket(props) {
         const handleTicketClick = (event, id) => {
             event.preventDefault();
 
-            fetch(apiServer.secured + "/tickets/myTicket/" + id, {
+            fetch(apiServer.secured + "tickets/myTicket/" + id, {
                 method: "GET",
                 headers: {
                     'Accept': 'application/json',
