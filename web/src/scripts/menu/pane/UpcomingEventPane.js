@@ -164,11 +164,11 @@ export default function UpcomingEventPane(props) {
             for(let i = 0; i < images.length; i++) {
                 if(images[i] == currentImage) {
                     if(images[i] != images[images.length - 1]) {
-                        document.getElementById("byMainImage").src = apiServer.public + images[i + 1];
+                        document.getElementById("byMainImage").src = url + images[i + 1];
                         currentImage = images[i + 1];
                         break;
                     } else {
-                        document.getElementById("byMainImage").src = apiServer.public + images[0];
+                        document.getElementById("byMainImage").src = url + images[0];
                         currentImage = images[0];
                         break;
                     }
@@ -183,11 +183,11 @@ export default function UpcomingEventPane(props) {
             for(let i = 0; i < images.length; i++) {
                 if(images[i] == currentImage) {
                     if(images[i] != images[0]) {
-                        document.getElementById("byMainImage").src = apiServer.public + images[i - 1];
+                        document.getElementById("byMainImage").src = url + images[i - 1];
                         currentImage = images[i - 1];
                         break;
                     } else {
-                        document.getElementById("byMainImage").src = apiServer.public + images[images.length - 1];
+                        document.getElementById("byMainImage").src = url + images[images.length - 1];
                         currentImage = images[images.length - 1];
                         break;
                     }
