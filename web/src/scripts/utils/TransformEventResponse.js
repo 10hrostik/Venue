@@ -1,6 +1,8 @@
 import { useState } from "react";
 import apiServer from "../Config";
 
+let userData;
+
 export default function transformEventResponse(response, detailedEventCallback, buyWindowCallback, user) {
     let items = [];
     let id = 1;
@@ -45,11 +47,11 @@ export default function transformEventResponse(response, detailedEventCallback, 
             for(let i = 0; i < images.length; i++) {
                 if(images[i] == currentImage) {
                     if(images[i] != images[images.length - 1]) {
-                        document.getElementById("bySearchImage").src = apiServer.public + images[i + 1];
+                        document.getElementById("bySearchImage").src = url + images[i + 1];
                         currentImage = images[i + 1];
                         break;
                     } else {
-                        document.getElementById("bySearchImage").src = apiServer.public + images[0];
+                        document.getElementById("bySearchImage").src = url + images[0];
                         currentImage = images[0];
                         break;
                     }
@@ -64,11 +66,11 @@ export default function transformEventResponse(response, detailedEventCallback, 
             for(let i = 0; i < images.length; i++) {
                 if(images[i] == currentImage) {
                     if(images[i] != images[0]) {
-                        document.getElementById("bySearchImage").src = apiServer.public + images[i - 1];
+                        document.getElementById("bySearchImage").src = url + images[i - 1];
                         currentImage = images[i - 1];
                         break;
                     } else {
-                        document.getElementById("bySearchImage").src = apiServer.public + images[images.length - 1];
+                        document.getElementById("bySearchImage").src = url + images[images.length - 1];
                         currentImage = images[images.length - 1];
                         break;
                     }
@@ -127,10 +129,8 @@ export default function transformEventResponse(response, detailedEventCallback, 
         return layout;
     }
 
-    const handleBuyWindow = (detailedEvent, user) => {
-        
+    const handleBuyWindow = (detailedEvent, user) => {       
         fetchPlaces(detailedEvent.id);
-        
     }
 
     const fetchPlaces = (id) => {
@@ -241,9 +241,9 @@ export default function transformEventResponse(response, detailedEventCallback, 
     }
 
     let createTicket = () => {
-        if(user) {
+        if(userData && pickedPlace) {
             const request = {
-                username: user.data.username,
+                username: userData.username,
                 placeId: pickedPlace.id,
                 eventId: current.id
             }
@@ -263,9 +263,18 @@ export default function transformEventResponse(response, detailedEventCallback, 
                 console.log(error);
             });
         } else {
-            alert("Login or Register first!")
+            if(!userData) alert("Login or Register First!");
+            else if(!pickedPlace) alert("Choose place!");
         }
     }
+
+    const setUser = () => {
+        if(user) {
+            userData = user.data;
+        }
+    }
+
+    setUser();
 
     if(response != null) {
         for(let eventVenue of response) {
