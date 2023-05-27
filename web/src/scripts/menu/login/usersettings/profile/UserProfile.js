@@ -104,7 +104,7 @@ export default function UserProfile(props) {
                     </div>
                     <Credentials visible = {props.details.myProfile} 
                                 userProfile = {props.userProfile.data}
-                                setData = {(data) => props.setData(data)}/>
+                                setData = {props.setData}/>
                     <div id="myTicketsPane" className="detailsWindow" style={{visibility: props.details.myTickets, overflow: "auto", whiteSpace: "pre-wrap"}}>
                         <ShowUserTicket visible = {props.details.myTickets} 
                                         userProfile = {props.userProfile.data} />
@@ -112,7 +112,7 @@ export default function UserProfile(props) {
                     <div id="securityPane" className="detailsWindow" style={{visibility: props.details.mySecurity}}>
                         <Security visible = {props.details.mySecurity} 
                                         userProfile = {props.userProfile.data}
-                                        setData = {(data) => props.setData(data)}/>
+                                        setData = {props.setData}/>
                     </div>
                     <div id="settingsPane" className="detailsWindow" style={{visibility: props.details.mySettings, overflow: "auto", whiteSpace: "pre-wrap"}}>
                         <div>

@@ -42,8 +42,7 @@ public class UserController {
     private final String INVALID_FORM = "Username is already in use";
 
     private final String CHANGED_ACCOUNT = "Your account is updated successfully!";
-    
-    @ResponseBody
+
     @PostMapping(value = "/api/public/users/register", consumes = MediaType.APPLICATION_JSON_VALUE
                                        , produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> register(@RequestBody @Valid RegisterUserDto client, 
@@ -64,7 +63,6 @@ public class UserController {
         return response;
     }
 
-    @ResponseBody
     @GetMapping(value = "/api/public/users/login/{username}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> login(@PathVariable(value = "username") String username, 
                                            @PathVariable(value = "password") String password) throws NoSuchAlgorithmException {
@@ -79,13 +77,13 @@ public class UserController {
 
         return response;
     }
-    
-    @ResponseBody
+
     @PatchMapping(value = "/api/secured/users/edit" , produces = MediaType.APPLICATION_JSON_VALUE
                                      , consumes = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> edit(@RequestBody @Valid EditUserDto editUserDto, BindingResult bindingResult) {
-        BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>(); 
-        if (validationService.getErrorMessages(bindingResult.getAllErrors()).length() > 1) {
+        BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>();
+        String error = validationService.getErrorMessages(bindingResult.getAllErrors());
+        if (error.length() > 1 && !error.contains("Password")) {
             response.setMessage(validationService.getErrorMessages(bindingResult.getAllErrors()));
         } else {
             ResponseUserDto user = userService.edit(editUserDto);
@@ -112,13 +110,11 @@ public class UserController {
         return response;
     }
 
-    @ResponseBody
     @GetMapping(value = "/api/secured/users/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<FullUserDto> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @ResponseBody
     @DeleteMapping(value = "/api/secured/users/delete/", produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> delete(@RequestBody String username) {
         Map<String, String> response = new HashMap<>();

@@ -78,7 +78,7 @@ export default function UserSettings(props) {
                                 userProfile = {props.userProfile} 
                                 callback = {() => handleMyProfile()} 
                                 switchCallback = {(settings) => handleSwitchTabs(settings)} 
-                                setData = {(data) => props.setData(data)}
+                                setData = {props.setData}
                                 settingsVisibility = {settingsVisibility}
                                 setSettingsVisibility = {setSettingsVisibility}
                                 criteria = {props.criteria}
