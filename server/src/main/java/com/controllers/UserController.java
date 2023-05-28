@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.api.dto.user.*;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,6 @@ import com.api.services.user.UserService;
 import com.api.services.ValidationService;
 
 @RestController
-@CrossOrigin
 public class UserController {
     @Autowired
     private UserService userService;
@@ -46,7 +47,7 @@ public class UserController {
     @PostMapping(value = "/api/public/users/register", consumes = MediaType.APPLICATION_JSON_VALUE
                                        , produces = MediaType.APPLICATION_JSON_VALUE)
     public BatchResponseDto<ResponseUserDto> register(@RequestBody @Valid RegisterUserDto client, 
-                                                      BindingResult bindingResult) throws Exception {
+                                                      BindingResult bindingResult, HttpServletRequest request) throws Exception {
         BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>(); 
         if (validationService.getErrorMessages(bindingResult.getAllErrors()).length() > 1) {
             response.setMessage(validationService.getErrorMessages(bindingResult.getAllErrors()));
@@ -64,8 +65,8 @@ public class UserController {
     }
 
     @GetMapping(value = "/api/public/users/login/{username}/{password}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BatchResponseDto<ResponseUserDto> login(@PathVariable(value = "username") String username, 
-                                           @PathVariable(value = "password") String password) throws NoSuchAlgorithmException {
+    public BatchResponseDto<ResponseUserDto> login(@PathVariable(value = "username") String username,
+                                                   @PathVariable(value = "password") String password, HttpServletRequest request) throws ServletException {
         BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>();
         ResponseUserDto user = userService.getUser(username, password);
         if (user == null) {
@@ -96,8 +97,7 @@ public class UserController {
 
     @PatchMapping(value = "/api/secured/users/editpassword", consumes = MediaType.APPLICATION_JSON_VALUE,
                                                                  produces = MediaType.APPLICATION_JSON_VALUE)
-    public BatchResponseDto<ResponseUserDto> edit(@RequestBody @Valid RequestEditPasswordDto editDto, BindingResult bindingResult)
-            throws NoSuchAlgorithmException {
+    public BatchResponseDto<ResponseUserDto> edit(@RequestBody @Valid RequestEditPasswordDto editDto, BindingResult bindingResult) {
         BatchResponseDto<ResponseUserDto> response = new BatchResponseDto<>();
         if (validationService.getErrorMessages(bindingResult.getAllErrors()).length() > 1) {
             response.setMessage(validationService.getErrorMessages(bindingResult.getAllErrors()));

@@ -1,6 +1,8 @@
 package com.api.services.attachment;
 
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
@@ -26,6 +28,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.List;
 import java.io.IOException;
+import com.amazonaws.regions.Region;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 
@@ -43,7 +46,7 @@ public class AttachmentService {
     private final AmazonS3 s3;
 
     {
-        s3 = AmazonS3ClientBuilder.defaultClient();
+        s3 = AmazonS3Client.builder().withRegion(Regions.EU_CENTRAL_1).build();
     }
 
     private final String folderPath = "/opt/venue/";

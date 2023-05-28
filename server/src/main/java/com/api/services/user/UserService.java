@@ -4,6 +4,8 @@ import com.api.dto.user.*;
 import com.config.EntityManagerConfig;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.api.dao.UserDao;
@@ -22,6 +24,10 @@ import java.util.stream.Collectors;
 public class UserService {
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private final EntityManager em;
 
     {
@@ -31,7 +37,7 @@ public class UserService {
     public ResponseUserDto save(RegisterUserDto user) throws Exception {
         User newUser = UserBuilder.getRegisteredUser(user);
         if (userDao.getUserByUsername(user.getUsername()) == null) {
-            newUser.setPassword(toHexString(getSHA(newUser.getPassword())));
+            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
             userDao.save(newUser);
             return UserDtoBuilder.getRegisteredUser(user);
         } else {
@@ -49,7 +55,7 @@ public class UserService {
         return result;
     }
 
-    public ResponseUserDto editPassword(RequestEditPasswordDto user) throws NoSuchAlgorithmException {
+    public ResponseUserDto editPassword(RequestEditPasswordDto user){
         User foundUser = userDao.getUserByUsername(user.getUsername());
         em.detach(foundUser);
         editPassword(user, foundUser);
@@ -59,8 +65,8 @@ public class UserService {
         return result;
     }
 
-    public ResponseUserDto getUser(String username, String password) throws NoSuchAlgorithmException {
-        User user = userDao.getUser(username, toHexString(getSHA(password)));
+    public ResponseUserDto getUser(String username, String password){
+        User user = userDao.getUser(username, passwordEncoder.encode(password));
         return UserDtoBuilder.getLogginedUser(user);
     }
 
@@ -83,25 +89,8 @@ public class UserService {
         user.setPhone(dto.getPhone());
     }
 
-    private void editPassword(RequestEditPasswordDto dto, User user) throws NoSuchAlgorithmException {
-         user.setPassword(toHexString(getSHA(dto.getPassword())));
+    private void editPassword(RequestEditPasswordDto dto, User user) {
+         user.setPassword(passwordEncoder.encode(dto.getPassword()));
     }
 
-    private byte[] getSHA(String input) throws NoSuchAlgorithmException
-    {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        return md.digest(input.getBytes(StandardCharsets.UTF_8));
-    }
-
-    private String toHexString(byte[] hash)
-    {
-        BigInteger number = new BigInteger(1, hash);
-        StringBuilder hexString = new StringBuilder(number.toString(16));
-        while (hexString.length() < 32)
-        {
-            hexString.insert(0, '0');
-        }
-
-        return hexString.toString();
-    }
 }
