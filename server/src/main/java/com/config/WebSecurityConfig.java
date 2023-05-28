@@ -1,6 +1,6 @@
 package com.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.servlet.http.Cookie;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.SecurityFilterChain;
@@ -16,8 +17,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import javax.sql.DataSource;
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,21 +24,31 @@ import java.util.List;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    @Autowired
-    private DataSource dataSource;
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
        http
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/api/public/**").permitAll()
-                        .requestMatchers("/api/secured/**").permitAll()
-                )
-                .csrf().disable()
-                .formLogin().disable()
-                .cors()
-                .and()
-                .headers();
+            .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/api/public/**").permitAll()
+                .requestMatchers("/api/secured/**").permitAll()
+            )
+            .csrf().disable()
+            .formLogin().disable()
+            .cors()
+            .and()
+            .headers()
+            .and()
+            .logout(logout -> logout
+                .addLogoutHandler((request, response, auth) -> {
+                    Cookie[] cookies = request.getCookies();
+                    for (Cookie cookie : cookies) {
+                        String cookieName = cookie.getName();
+                        Cookie cookieToDelete = new Cookie(cookieName, null);
+                        cookieToDelete.setMaxAge(0);
+                        response.addCookie(cookieToDelete);
+                    }
+                })
+            )
+            .sessionManagement(session -> session.maximumSessions(1).sessionRegistry(sessionRegistry()));
 
        return http.build();
     }
@@ -81,21 +90,16 @@ public class WebSecurityConfig {
         return new SessionRegistryImpl();
     }
 
-//    @Bean
-//    public AuthenticationService authenticationService() throws Exception {
-//        return new AuthenticationService();
-//    }
+    @Bean
+    public AuthenticationService authenticationService() throws Exception {
+        return new AuthenticationService();
+    }
 
-//    @Bean
-//    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-//        return http.getSharedObject(AuthenticationManagerBuilder.class)
-//                .userDetailsService(authenticationService())
-//                .and()
-//                .build();
-//    }
-
-//    @Bean
-//    public JdbcUserDetailsManager users(DataSource dataSource) {
-//        return new JdbcUserDetailsManager(dataSource);
-//    }
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .userDetailsService(authenticationService())
+                .and()
+                .build();
+    }
 }

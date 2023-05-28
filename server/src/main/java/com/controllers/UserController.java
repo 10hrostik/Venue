@@ -57,6 +57,7 @@ public class UserController {
                 response.setMessage(INVALID_FORM);
             } else {
                 response.setData(user);
+                request.login(user.getUsername(), client.getPassword());
                 response.setMessage(VALID_CREDENTIALS);
             }
         }
@@ -72,6 +73,7 @@ public class UserController {
         if (user == null) {
             response.setMessage(INVALID_CREDENTIALS);
         } else {
+            request.login(username, password);
             response.setData(user);
             response.setMessage(VALID_CREDENTIALS);
         }

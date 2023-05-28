@@ -23,8 +23,12 @@ function LoginForm (props) {
                 'Content-Type': 'application/json'
             },
         })
-        .then((response) => response.json())
-        .then((data) => {
+        .then((response) => {
+            if(response.status == 200) {
+                return Promise.all([response.json(), response.headers])
+            }
+        })
+        .then(([data, headers]) => {
             if (data.data) {
                 props.setData(data);
             } else {

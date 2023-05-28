@@ -1,5 +1,6 @@
 package com.api.entities.accounts;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -7,10 +8,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import com.api.entities.tickets.Ticket;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -50,109 +53,124 @@ public class User {
     @OneToOne(mappedBy = "user")
     private UserSettings userSettings;
 
-    public UserSettings getUserSettings() {
-        return userSettings;
-    }
-
-    public void setUserSettings(UserSettings userSettings) {
-        this.userSettings = userSettings;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getName() {
-        return name;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setPhone(Long phone) {
         this.phone = phone;
-    }
-
-    public Long getPhone() {
-        return phone;
-    }
-
-    public String getSurname() {
-        return surname;
     }
 
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
 
-    public void setTicket(Ticket ticket) {
-        this.tickets.add(ticket);
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
-    public Ticket getTicket(Integer index) {
-        return this.tickets.get(index);
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setUserSettings(UserSettings userSettings) {
+        this.userSettings = userSettings;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Long getPhone() {
+        return phone;
     }
 
     public List<Ticket> getTickets() {
-        return this.tickets;
+        return tickets;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public UserSettings getUserSettings() {
+        return userSettings;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
     @Override
     public String toString() {
-        return id + " " + username + " " + password + " " + name + " " 
-        + surname + " " + phone + " " + email;
+        return id + " " + username + " " + password + " " + name + " "
+                + surname + " " + phone + " " + email;
     }
 }
