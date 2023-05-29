@@ -13,6 +13,7 @@ function events (props) {
     const detailedEventCallback = props.detailedEventCallback;
     const buyWindowCallback = props.buyWindowCallback;
     const user = props.user;
+    const jwtToken = props.jwt;
 
     const fetchData = (event, objectType) => {
         event.preventDefault();
@@ -30,7 +31,7 @@ function events (props) {
         .then((response) => response.json())
         .then((fetchedData) => {
             console.log(fetchedData);
-            eventCallback(transformEventResponse(fetchedData.data, detailedEventCallback, buyWindowCallback, user));
+            eventCallback(transformEventResponse(fetchedData.data, detailedEventCallback, buyWindowCallback, user, jwtToken));
             detailedEventCallback(null);
         })
         .catch((error) => {

@@ -1,6 +1,8 @@
 package com.venue;
 
 import com.api.dao.EventDao;
+import com.api.dao.TicketDao;
+import com.api.dao.UserDao;
 import com.api.dto.BatchResponseDto;
 import com.api.dto.event.EventResponseDto;
 import com.api.dto.search.SearchCriteriaDto;
@@ -24,7 +26,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ContextConfiguration(classes = {FilterController.class, GeneralEventService.class,
-       EventDao.class})
+       EventDao.class, TicketDao.class, UserDao.class})
 public class FilterControllerTest {
 
     @Mock

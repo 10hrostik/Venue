@@ -4,11 +4,14 @@ import "../../../../../styles/Credential.css"
 
 export default function Credentials(props) {
     const userProfile = props.userProfile;
+    const jwtToken = props.jwt;
 
     const sendRequest = (data) => {
         fetch(apiServer.secured + "users/edit", {
             method: "PATCH",
             headers: {
+                'Authorization': 'Bearer ${jwtToken}',
+                'X-CSRF-TOKEN': jwtToken,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },

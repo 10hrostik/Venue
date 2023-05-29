@@ -33,44 +33,50 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         request.setAttribute(HttpServletResponse.class.getName(), response);
-        CsrfToken csrfToken = this.tokenRepository.loadToken(request);
-        boolean missingToken = csrfToken == null;
-        if (missingToken) {
-            csrfToken = this.tokenRepository.generateToken(request);
-            this.tokenRepository.saveToken(csrfToken, request, response);
-        }
-
-        request.setAttribute(CsrfToken.class.getName(), csrfToken);
-        request.setAttribute(csrfToken.getParameterName(), csrfToken);
-        if (request.getServletPath().equals("/users/login") || request.getServletPath().equals("/users/register")) {
-            try {
-                filterChain.doFilter(request, response);
-            } catch (Exception e) {
-                resolver.resolveException(request, response, null, new MissingCsrfTokenException(csrfToken.getToken()));
-            }
+        String servletPath = request.getServletPath();
+        if ((servletPath.contains("public") && !servletPath.contains("login")
+                && !servletPath.contains("register")) || servletPath.contains("/get/pdf")) {
+            filterChain.doFilter(request, response);
         } else {
-            String actualToken = request.getHeader(csrfToken.getHeaderName());
-            if (actualToken == null) {
-                actualToken = request.getParameter(csrfToken.getParameterName());
+            CsrfToken csrfToken = this.tokenRepository.loadToken(request);
+            boolean missingToken = csrfToken == null;
+            if (missingToken) {
+                csrfToken = this.tokenRepository.generateToken(request);
+                this.tokenRepository.saveToken(csrfToken, request, response);
             }
-            try {
-                if (!StringUtils.isEmpty(actualToken)) {
-                    Jwts.parser()
-                            .setSigningKey(((JwtTokenRepository) tokenRepository).getSecret())
-                            .parseClaimsJws(actualToken);
 
+            request.setAttribute(CsrfToken.class.getName(), csrfToken);
+            request.setAttribute(csrfToken.getParameterName(), csrfToken);
+            if (servletPath.contains("/users/login") || servletPath.contains("/users/register")) {
+                try {
                     filterChain.doFilter(request, response);
-                } else
-                    resolver.resolveException(request, response, null, new InvalidCsrfTokenException(csrfToken, actualToken));
-            } catch (JwtException e) {
-                if (this.logger.isDebugEnabled()) {
-                    this.logger.debug("Invalid CSRF token found for " + UrlUtils.buildFullRequestUrl(request));
+                } catch (Exception e) {
+                    resolver.resolveException(request, response, null, new MissingCsrfTokenException(csrfToken.getToken()));
                 }
+            } else if (servletPath.contains("/secured")) {
+                String actualToken = request.getHeader(csrfToken.getHeaderName());
+                if (actualToken == null) {
+                    actualToken = request.getParameter(csrfToken.getParameterName());
+                }
+                try {
+                    if (!StringUtils.isEmpty(actualToken)) {
+                        Jwts.parser()
+                                .setSigningKey(((JwtTokenRepository) tokenRepository).getSecret())
+                                .parseClaimsJws(actualToken);
 
-                if (missingToken) {
-                    resolver.resolveException(request, response, null, new MissingCsrfTokenException(actualToken));
-                } else {
-                    resolver.resolveException(request, response, null, new InvalidCsrfTokenException(csrfToken, actualToken));
+                        filterChain.doFilter(request, response);
+                    } else
+                        resolver.resolveException(request, response, null, new InvalidCsrfTokenException(csrfToken, actualToken));
+                } catch (JwtException e) {
+                    if (this.logger.isDebugEnabled()) {
+                        this.logger.debug("Invalid CSRF token found for " + UrlUtils.buildFullRequestUrl(request));
+                    }
+
+                    if (missingToken) {
+                        resolver.resolveException(request, response, null, new MissingCsrfTokenException(actualToken));
+                    } else {
+                        resolver.resolveException(request, response, null, new InvalidCsrfTokenException(csrfToken, actualToken));
+                    }
                 }
             }
         }

@@ -3,6 +3,7 @@ package com.controllers.events.utils;
 import com.api.dao.JwtTokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.session.SessionAuthenticationException;
 import org.springframework.security.web.csrf.InvalidCsrfTokenException;
@@ -15,11 +16,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private final JwtTokenRepository tokenRepository;
-
-    public GlobalExceptionHandler(JwtTokenRepository tokenRepository) {
-        this.tokenRepository = tokenRepository;
-    }
+    @Autowired
+    private JwtTokenRepository tokenRepository;
 
     @ExceptionHandler({AuthenticationException.class, MissingCsrfTokenException.class, InvalidCsrfTokenException.class, SessionAuthenticationException.class})
     public ErrorInfo handleAuthenticationException(RuntimeException ex, HttpServletRequest request, HttpServletResponse response){

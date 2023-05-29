@@ -5,6 +5,7 @@ import apiServer from '../../../Config';
 function LoginForm (props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const setJwtToken = props.setJwt;
 
     let handleUserChange = (event) => {
         setUsername(event.target.value);
@@ -31,12 +32,16 @@ function LoginForm (props) {
         .then(([data, headers]) => {
             if (data.data) {
                 props.setData(data);
+                setJwtToken(headers.get('x-csrf-token'));
+                sessionStorage.setItem('user', JSON.stringify(data));
+                sessionStorage.setItem('jwt', headers.get('x-csrf-token'))
             } else {
                 alert("Invalid username or password")
             }
         })
         .catch((error) => {
             console.log(error);
+            alert("Invalid username or password")
         });     
     }
     let visible = {

@@ -2,8 +2,9 @@ import { useState } from "react";
 import apiServer from "../Config";
 
 let userData;
+let jwtToken;
 
-export default function transformEventResponse(response, detailedEventCallback, buyWindowCallback, user) {
+export default function transformEventResponse(response, detailedEventCallback, buyWindowCallback, user, jwt) {
     let items = [];
     let id = 1;
     const green = 'green';
@@ -159,7 +160,7 @@ export default function transformEventResponse(response, detailedEventCallback, 
                 {getBalconyPlaces(data.places)}
             </div>
         </div>)                 
-        placeLayout.push(<button onClick={() => createTicket()} className="buyTicketButton">Buy</button>)                    
+        placeLayout.push(<div style={{width: "100%", height: "10%", textAlign: 'center', marginTop: 10}}><button onClick={() => createTicket()} className="buyTicketButton">Buy</button></div>)                    
                                 
         return placeLayout;
     }
@@ -168,7 +169,7 @@ export default function transformEventResponse(response, detailedEventCallback, 
         const balconyPlaces = places.filter(x => x.placeType == 'BALCONY');
         let placeElements = [];
         for(let balconyPlace of balconyPlaces) {
-            placeElements.push(<div id={balconyPlace.id} key={balconyPlace.place} className="balconyPlace" onClick={() => handlePickedPlace(balconyPlace)} 
+            placeElements.push(<div id={balconyPlace.id} key={balconyPlace.place + "event"} className="balconyPlace" onClick={() => handlePickedPlace(balconyPlace)} 
                 style={{backgroundColor: balconyPlace.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
                 {balconyPlace.place}
             </div>)
@@ -199,7 +200,7 @@ export default function transformEventResponse(response, detailedEventCallback, 
         } else {
             placeElements = [];
             for(let place of parterPlaces) {
-                placeElements.push(<div id={place.id} key={place.place} className="balconyPlace" onClick={() => handlePickedPlace(place)} 
+                placeElements.push(<div id={place.id} key={place.place + "event"} className="balconyPlace" onClick={() => handlePickedPlace(place)} 
                     style={{backgroundColor: place.occupied == false ? 'green' : 'rgb(195, 20, 20)'}}>
                     {place.place}
                 </div>)
@@ -251,6 +252,8 @@ export default function transformEventResponse(response, detailedEventCallback, 
                 method: 'POST',
                 body: JSON.stringify(request),
                 headers: {
+                    'Authorization': 'Bearer ${jwtToken}',
+                    'X-CSRF-TOKEN': jwtToken,
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
@@ -263,6 +266,7 @@ export default function transformEventResponse(response, detailedEventCallback, 
                 console.log(error);
             });
         } else {
+            pickedPlace = null;
             if(!userData) alert("Login or Register First!");
             else if(!pickedPlace) alert("Choose place!");
         }
@@ -274,6 +278,13 @@ export default function transformEventResponse(response, detailedEventCallback, 
         }
     }
 
+    const setJwt = () => {
+        if(jwt) {
+            jwtToken = jwt;
+        }
+    }
+
+    setJwt();
     setUser();
 
     if(response != null) {

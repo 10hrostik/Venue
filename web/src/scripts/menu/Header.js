@@ -25,9 +25,9 @@ export default function Header(props) {
             <Events handlePaneVisibility = {props.handlePane} callback = {toggleCallback} 
                   eventCallback = {insertDataToPane} handleObjectType = {handleType}
                   detailedEventCallback = {detailedEventCallback} buyWindowCallback = {props.buyWindowCallback}
-                  user = {user}/>
+                  user = {user} setJwt = {props.setJwt} jwt = {props.jwt}/>
             <LoginButtons user = {user} setUser = {setUser} 
-                  criteria = {props.criteria} setCriteria = {props.setCriteria}/>
+                  criteria = {props.criteria} setCriteria = {props.setCriteria} setJwt = {props.setJwt} jwt = {props.jwt}/>
       </div>
     );
   

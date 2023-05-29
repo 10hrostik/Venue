@@ -54,11 +54,13 @@ function LoginButtons(props) {
             <div className="login-section" align="center">
                 <div style={{height: "100%", width: "50%", float: 'left'}}>
                     <button onClick={showRegisterForm} style = {registerStyle} className="btn-sign">Sign up</button>
-                    <SignUpForm setData = {props.setUser} visibility = {registerVisibility}/> 
+                    <SignUpForm setData = {props.setUser} visibility = {registerVisibility} 
+                        setJwt = {props.setJwt}/> 
                 </div>
                 <div style={{height: "100%", width: "50%", float: 'left'}}>
                     <button onClick={showLoginForm} style = {loginStyle} className="btn-log">Log in</button>
-                    <LoginForm setData = {props.setUser} visibility = {loginVisibility}/>  
+                    <LoginForm setData = {props.setUser} visibility = {loginVisibility}
+                        setJwt = {props.setJwt} />  
                 </div>                 
             </div>
         );
@@ -70,7 +72,7 @@ function LoginButtons(props) {
                     <button onClick={showUserSettings} className="btn-sign">{user.data.name + " " + user.data.surname}</button>
                     <div style={{height: "100%", width: "100%"}}>
                         <UserSettings visibility = {visible} userProfile = {user} setData = {props.setUser}
-                            criteria = {props.criteria} setCriteria = {props.setCriteria}/> 
+                            criteria = {props.criteria} setCriteria = {props.setCriteria} jwt = {props.jwt}/> 
                     </div>                                
                 </div>
             ) 
@@ -81,7 +83,7 @@ function LoginButtons(props) {
                     <button onClick={showUserSettings} className="btn-sign">{user.data.username}</button> 
                     <div style={{height: "100%", width: "100%"}}>
                         <UserSettings visibility = {visible} userProfile = {user} setData = {props.setUser}
-                            criteria = {props.criteria} setCriteria = {props.setCriteria}/> 
+                            criteria = {props.criteria} setCriteria = {props.setCriteria} jwt = {props.jwt}/> 
                     </div>               
                 </div>
             ) 

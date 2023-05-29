@@ -18,9 +18,26 @@ export default function Body() {
     const [user, setUser] = useState(null);
     const [userSettings, setUserSettings] = useState(null);
     const [buyWindow, setBuyWindow] = useState(null);
+    const [jwt, setJWT] = useState(null);
 
     useEffect(() => {
-        if(user != null) setUserSettings(user.data.userSettings);
+        if (sessionStorage.getItem('user')) {
+            let user = JSON.parse(sessionStorage.getItem('user')) 
+            setUser(user);
+        }
+        if (sessionStorage.getItem('jwt')) {
+            let jwt = sessionStorage.getItem('jwt');
+            setJWT(jwt);
+        }
+    }, [])
+
+    useEffect(() => {
+        if (sessionStorage.getItem('userSettings')) {
+            let userSettings = JSON.parse(sessionStorage.getItem('userSettings')) 
+            setUserSettings(userSettings);
+        }
+        else if (user)
+            setUserSettings(user.data.userSettings);
     }, [user]);
 
     const handlePaneVisibility = (visibility) => {
@@ -53,12 +70,12 @@ export default function Body() {
             <Header handlePane = {handlePaneVisibility} layoutCallback = {toggleLayout} insertData = {insertDataToPane}
                     handleType = {handleObjectType} user = {user} setUser = {setUser} 
                     detailedEventCallback = {handleDetailedEvent} criteria = {userSettings} setCriteria = {setUserSettings}
-                    buyWindowCallback = {handleBuyWindow}/>
+                    buyWindowCallback = {handleBuyWindow} setJwt = {setJWT} jwt = {jwt}/>
             <Pane mode = {mode} events = {data} type = {objectType} 
                 insertData = {insertDataToPane} detailedEvent = {detailedEvent} detailedEventCallback = {handleDetailedEvent}
                 objectTypeVisibility = {objectTypeVisibility} userSettings = {user} handleCriteriaVisibility = {setObjectTypeVisibility} 
                 objectType = {objectType} userCriteria = {userSettings} setUserCriteria = {setUserSettings}
-                buyWindow = {buyWindow} buyWindowCallback = {handleBuyWindow}/>
+                buyWindow = {buyWindow} buyWindowCallback = {handleBuyWindow} jwt = {jwt}/>
             <Footer />
         </div>
    )

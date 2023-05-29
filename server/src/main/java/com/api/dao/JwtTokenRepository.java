@@ -21,11 +21,7 @@ import static org.springframework.http.HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS
 @Repository
 public class JwtTokenRepository implements CsrfTokenRepository {
 
-    private String secret;
-
-    public JwtTokenRepository() {
-        this.secret = "puppetTheatreToken";
-    }
+    private String secret = "puppetTheatreVenueProjectJsonWebTokenToPassToClient";;
 
     @Override
     public CsrfToken generateToken(HttpServletRequest httpServletRequest) {

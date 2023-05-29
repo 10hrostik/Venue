@@ -102,7 +102,7 @@ public class AttachmentService {
             document.setDocumentInformation(information);
             document.addPage(setInfoIntoFile(document, ticket, false));
             document.save(new File(folderPath + document.getDocumentInformation().getTitle() + ".pdf"));
-            AttachmentDto attachmentDto = createAttachmentDto(document.getDocumentInformation().getTitle());
+            AttachmentDto attachmentDto = createAttachmentDto(folderPath + document.getDocumentInformation().getTitle() + ".pdf");
             deleteFile(document.getDocumentInformation().getTitle());
 
             return attachmentDto;

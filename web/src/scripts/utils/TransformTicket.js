@@ -1,7 +1,9 @@
 import fullHeight from "./BlockHeights"
 import apiServer from "../Config";
 
-export default function TransformTicket(ticket, closeCallback, fetchTicketsCallback) {
+let jwtToken;
+
+export default function TransformTicket(ticket, closeCallback, fetchTicketsCallback, jwt) {
     const urlPublic = apiServer.public.includes("localhost") ? apiServer.public : apiServer.public + 'aws/';
     const urlSecured = apiServer.secured.includes("localhost") ? apiServer.secured : apiServer.secured + 'aws/';
 
@@ -9,7 +11,7 @@ export default function TransformTicket(ticket, closeCallback, fetchTicketsCallb
         let list = [];
         for(let artist of artists) {
             list.push(
-                <li key={artist.name} style={{fontWeight: 600, fontSize: 15}}>{artist.name}</li>
+                <li key={artist.name + "ticket"} style={{fontWeight: 600, fontSize: 15}}>{artist.name}</li>
             )
         }
         return <ul style={{marginTop: 2}}>{list}</ul>
@@ -19,6 +21,8 @@ export default function TransformTicket(ticket, closeCallback, fetchTicketsCallb
         fetch(apiServer.secured + 'tickets/delete/' + ticket.id, {
             method: 'DELETE',
             headers: {
+                'Authorization': 'Bearer ${jwtToken}',
+                'X-CSRF-TOKEN': jwtToken,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
@@ -33,6 +37,12 @@ export default function TransformTicket(ticket, closeCallback, fetchTicketsCallb
             console.log(exception);
         })
     }
+
+    const setJwtToken = () => {
+        if (jwt != null) jwtToken = jwt;
+    }
+
+    setJwtToken();
 
     return  <div id={"ticket" + ticket.event.name}>
                 <div id="ticketTop" style={{display: 'flex'}}>

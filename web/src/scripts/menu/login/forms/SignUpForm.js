@@ -6,6 +6,8 @@ function SignUpForm(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const setJwtToken = props.setJwt;
+
 
     let handleUserChange = (event) => {
         setUsername(event.target.value);
@@ -32,16 +34,24 @@ function SignUpForm(props) {
             },
             body: JSON.stringify(userProfile)
         })
-        .then((response) => response.json())
-        .then((data) => {
+        .then((response) => {
+            if(response.status == 200) {
+                return Promise.all([response.json(), response.headers])
+            }
+        })
+        .then(([data, headers]) => {
                 if (data.data) {
                     props.setData(data);
+                    let date = new Date(Date.now() + 86400e3);
+                    date = date.toUTCString();
+                    setJwtToken(headers.get('x-csrf-token'));
                 } else {
                     alert(data.message)
                 }
         })
         .catch((error) => {
-            alert(error);
+            console.log(error)
+            alert("Username is already in use");
         });
     }
     let visible = {

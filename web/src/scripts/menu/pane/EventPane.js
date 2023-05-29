@@ -22,6 +22,7 @@ export default function Pane(props) {
     const buyWindow = props.buyWindow;
     const buyWindowCallBack = props.buyWindowCallback;
     const [buyWindowVisibility, setBuyWindowVisibility] = useState("hidden");
+    const jwtToken = props.jwt;
 
     useEffect(() => {
         if(detailedEvent != null) {
@@ -67,7 +68,7 @@ export default function Pane(props) {
             })
             .then((response) => response.json())
             .then((fetchedData) => {
-                props.insertData(transformEventResponse(fetchedData.data, detailedEventCallback, buyWindowCallBack, user));
+                props.insertData(transformEventResponse(fetchedData.data, detailedEventCallback, buyWindowCallBack, user, jwtToken));
             })
             .catch((error) => {
                 console.log(error);
@@ -83,11 +84,14 @@ export default function Pane(props) {
             theatre: criteria.objectType === 'THEATRE' ? JSON.stringify(criteria) : userCriteria.theatre  === null ? null : userCriteria.theatre,
             username: user.data.username
         }
+        sessionStorage.setItem('userSettings', JSON.stringify(settings))
         
         fetch(apiServer.secured + "userprofile/save",
         {
             method: "PATCH",
             headers: {
+                'Authorization': 'Bearer ${jwtToken}',
+                'X-CSRF-TOKEN': jwtToken,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
@@ -139,11 +143,6 @@ export default function Pane(props) {
        buyWindowCallBack(null);
     }
 
-    const handleSwipeRight = (event) => {
-        let images = event.images;
-        event.imageUrl = images[1];
-    }
-
     if (props.mode === "inherit") {
         return(
             <div id="eventCriteria" className="eventPane" style={{height: fullHeight.bodyHeight}}>
@@ -152,28 +151,32 @@ export default function Pane(props) {
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
                             visible = {visiblility.festival} user = {user} type = {'festival'}  currentType = {props.objectType}
                             criteria = {userCriteria} setCriteria = {handleCriteria}
-                            buyWindowCallBack={buyWindowCallBack}/>
+                            buyWindowCallBack={buyWindowCallBack}
+                            jwt = {jwtToken}/>
                 
                 
                     <TheatrePane submit = {handleSubmit} 
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
                             visible = {visiblility.theatre} user = {user} type = {'theatre'} currentType = {props.objectType}
                             criteria = {userCriteria} setCriteria = {handleCriteria}
-                            buyWindowCallBack={buyWindowCallBack}/>
+                            buyWindowCallBack={buyWindowCallBack}
+                            jwt = {jwtToken}/>
                 
                 
                     <WorkshopPane submit = {handleSubmit} 
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData} 
                             visible = {visiblility.workshop} user = {user} type = {'workshop'}
                             criteria = {userCriteria} setCriteria = {handleCriteria}
-                            buyWindowCallBack={buyWindowCallBack}/>
+                            buyWindowCallBack={buyWindowCallBack}
+                            jwt = {jwtToken}/>
                 
                 
                     <ConcertPane submit = {handleSubmit} 
                             detailedEvent = {detailedEvent} detailedEventCallback = {detailedEventCallback} insertData = {props.insertData}
                             visible = {visiblility.concert} user = {user} type = {'concert'}
                             criteria = {userCriteria} setCriteria = {handleCriteria}
-                            buyWindowCallBack = {buyWindowCallBack}/>
+                            buyWindowCallBack = {buyWindowCallBack}
+                            jwt = {jwtToken}/>
                      
                 </div>
                 <div id="eventList" style={{height: fullHeight.bodyHeight, width: "46.7%", position: "absolute", left: span, borderLeft: "2.5px solid black", float: "left",
@@ -198,7 +201,7 @@ export default function Pane(props) {
         )
     } else {
         return(
-            <UpcomingEventPane user = {props.userSettings}/>
+            <UpcomingEventPane user = {props.userSettings} jwt = {jwtToken}/>
         )
     }
    

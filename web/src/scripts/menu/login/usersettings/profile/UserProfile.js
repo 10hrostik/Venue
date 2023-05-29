@@ -26,6 +26,7 @@ export default function UserProfile(props) {
     const handleMyProfile = (argument) => {
         props.switchCallback(argument)
     }
+    const jwtToken = props.jwt;
     
     const saveCriteria = (event, type) => {
         event.preventDefault();
@@ -37,10 +38,13 @@ export default function UserProfile(props) {
             theatre: criteria.objectType === 'THEATRE' ? JSON.stringify(criteria) : userCriteria.theatre  === null ? null : userCriteria.theatre,
             username: user.data.username
         }
+
+        sessionStorage.setItem('userSettings', JSON.stringify(settings))
         fetch(apiServer.secured + "userprofile/save",
         {
             method: "PATCH",
             headers: {
+                'x-csrf-token': jwtToken,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
@@ -104,15 +108,18 @@ export default function UserProfile(props) {
                     </div>
                     <Credentials visible = {props.details.myProfile} 
                                 userProfile = {props.userProfile.data}
-                                setData = {props.setData}/>
+                                setData = {props.setData}
+                                jwt = {jwtToken}/>
                     <div id="myTicketsPane" className="detailsWindow" style={{visibility: props.details.myTickets, overflow: "auto", whiteSpace: "pre-wrap"}}>
                         <ShowUserTicket visible = {props.details.myTickets} 
-                                        userProfile = {props.userProfile.data} />
+                                        userProfile = {props.userProfile.data} 
+                                        jwt = {jwtToken}/>
                     </div>
                     <div id="securityPane" className="detailsWindow" style={{visibility: props.details.mySecurity}}>
                         <Security visible = {props.details.mySecurity} 
                                         userProfile = {props.userProfile.data}
-                                        setData = {props.setData}/>
+                                        setData = {props.setData}
+                                        jwt = {jwtToken}/>
                     </div>
                     <div id="settingsPane" className="detailsWindow" style={{visibility: props.details.mySettings, overflow: "auto", whiteSpace: "pre-wrap"}}>
                         <div>
@@ -121,13 +128,13 @@ export default function UserProfile(props) {
                             <img onClick={() => switchCriteria('next', settingsVisibility, setSettingsVisibility)} className="swipeButtonSettings" style={{marginTop: 27}} src={require('../../../../../logos/swipeRight.png')}></img>
                         </div> 
                         <UserFestivalSettings visibility = {settingsVisibility.festival} user = {props.userProfile} handleApply = {saveCriteria}
-                            criteria = {userCriteria} setCriteria = {setCriteria}/>
+                            criteria = {userCriteria} setCriteria = {setCriteria} jwt = {jwtToken}/>
                         <UserTheatreSettings visibility = {settingsVisibility.theatre} user = {props.userProfile} handleApply = {saveCriteria}
-                            criteria = {userCriteria} setCriteria = {setCriteria}/>
+                            criteria = {userCriteria} setCriteria = {setCriteria} jwt = {jwtToken}/>
                         <UserWorkshopSettings visibility = {settingsVisibility.workshop} user = {props.userProfile} handleApply = {saveCriteria}
-                            criteria = {userCriteria} setCriteria = {setCriteria}/>
+                            criteria = {userCriteria} setCriteria = {setCriteria} jwt = {jwtToken}/>
                         <UserConcertSettings visibility = {settingsVisibility.concert} user = {props.userProfile} handleApply = {saveCriteria}
-                            criteria = {userCriteria} setCriteria = {setCriteria}/>
+                            criteria = {userCriteria} setCriteria = {setCriteria} jwt = {jwtToken}/>
                     </div>
                 </div>
         </div>

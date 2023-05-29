@@ -6,6 +6,7 @@ import TransformTicket from "../../../../utils/TransformTicket";
 export default  function ShowUserTicket(props) {
         const [tickets, setTickets] = useState(null);
         const [detailedTicket, setDetailedTicket] = useState(null);
+        const jwtToken = props.jwt;
 
         useEffect(() => { 
                 fetchTickets();
@@ -15,6 +16,8 @@ export default  function ShowUserTicket(props) {
             fetch(apiServer.secured + "tickets/myTickets/" + props.userProfile.username, {
                 method: "GET",
                 headers: {
+                    'Authorization': 'Bearer ${jwtToken}',
+                    'X-CSRF-TOKEN': jwtToken,
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
@@ -35,6 +38,8 @@ export default  function ShowUserTicket(props) {
             fetch(apiServer.secured + "tickets/myTicket/" + id, {
                 method: "GET",
                 headers: {
+                    'Authorization': 'Bearer ${jwtToken}',
+                    'X-CSRF-TOKEN': jwtToken,
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
@@ -51,7 +56,7 @@ export default  function ShowUserTicket(props) {
         let items = [];
         if(tickets != null) {
             for(let ticket of tickets) {
-                items.push(<div onClick={() => handleTicketClick(event, ticket.id)} style={{marginTop: 20 }} key={ticket.event.name} className="ticketBlock">
+                items.push(<div onClick={() => handleTicketClick(event, ticket.id)} style={{marginTop: 20 }} key={ticket.event.name + "ticketmod"} className="ticketBlock">
                     <h2 style={{alignSelf: "right"}}>{ticket.event.name}</h2>
                     <p>{ticket.description}</p>
                     <p>Adress: {ticket.event.city} {ticket.event.adress} {ticket.event.date}</p>                   
@@ -80,7 +85,7 @@ export default  function ShowUserTicket(props) {
                         <h1 style={{width: 170, float: "left", marginLeft: "12.3%"}}>Ticket#{detailedTicket.id}</h1>
                     </div>
                     <div style={{textAlign: "left", overflow: "auto", whiteSpace: "pre-wrap", position: 'relative'}}>
-                        {TransformTicket(detailedTicket, handleBack, fetchTickets)}
+                        {TransformTicket(detailedTicket, handleBack, fetchTickets, jwtToken)}
                     </div>
 
                 </div>

@@ -1,6 +1,6 @@
 const apiServer = {
-   public: "http://localhost:5000/api/public/",
-   secured: "http://localhost:5000/api/secured/"
+   public: "http://test-puppet.eu-central-1.elasticbeanstalk.com/api/public/",
+   secured: "http://test-puppet.eu-central-1.elasticbeanstalk.com/api/secured/"
 }
 
 export default apiServer

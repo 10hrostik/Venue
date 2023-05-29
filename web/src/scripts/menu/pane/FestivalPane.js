@@ -14,6 +14,7 @@ export default function FestivalPane(props) {
     const criteria = props.criteria;
     const setCriteria = props.setCriteria;
     const buyWindowCallBack = props.buyWindowCallBack;
+    const jwtToken = props.jwt;
 
     useEffect(() => {
         fetch(apiServer.public + "filter/get/FESTIVAL",
@@ -63,7 +64,7 @@ export default function FestivalPane(props) {
         })
         .then((response) => response.json())
         .then((fetchedData) => {
-            props.insertData(transformEventResponse(fetchedData.data, detailedEventCallback, buyWindowCallBack, user));
+            props.insertData(transformEventResponse(fetchedData.data, detailedEventCallback, buyWindowCallBack, user, jwtToken));
         })
         .catch((error) => {
             console.log(error);
@@ -72,10 +73,13 @@ export default function FestivalPane(props) {
     const saveDefaultCriteria = () => {
         let defaultCriteria = {username: user.data.username, festival: null, theatre: criteria.theatre,
                                 workshop:  criteria.workshop, concert:  criteria.concert}
+        sessionStorage.setItem('userSettings', JSON.stringify(defaultCriteria))
         fetch(apiServer.secured + "userprofile/save",
         {
             method: "PATCH",
             headers: {
+                'Authorization': 'Bearer ${jwtToken}',
+                'X-CSRF-TOKEN': jwtToken,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },

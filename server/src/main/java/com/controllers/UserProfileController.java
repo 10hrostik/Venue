@@ -1,6 +1,5 @@
 package com.controllers;
 
-import com.api.dao.UserDao;
 import com.api.dao.UserProfileDao;
 import com.api.dto.user.UserSettingsDto;
 import org.springframework.beans.factory.annotation.Autowired;

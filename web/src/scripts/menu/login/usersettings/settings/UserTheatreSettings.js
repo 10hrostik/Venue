@@ -11,6 +11,7 @@ export default function UserTheatreSettings(props) {
     let visible = props.visibility;
     let criteria = props.criteria;
     let setCriteria = props.setCriteria;
+    const jwtToken = props.jwt;
 
     useEffect(() => {
         fetch(apiServer.public + "filter/get/THEATRE",
@@ -45,10 +46,14 @@ export default function UserTheatreSettings(props) {
     const saveDefaultCriteria = () => {
         let defaultCriteria = {username: user.data.username, festival: criteria.festival, theatre: null,
             workshop: criteria.workshop, concert:  criteria.concert}
+            
+        sessionStorage.setItem('userSettings', JSON.stringify(defaultCriteria))
         fetch(apiServer.secured + "userprofile/save",
         {
             method: "PATCH",
             headers: {
+                'Authorization': 'Bearer ${jwtToken}',
+                'X-CSRF-TOKEN': jwtToken,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },

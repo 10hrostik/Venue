@@ -19,6 +19,7 @@ export default function UpcomingEventPane(props) {
     let currentImage;
     const green = 'green';
     const endarkedGreen = "rgb(12, 71, 18)";
+    const jwtToken = props.jwt;
     
     let user = props.user;
     let fetched = false;
@@ -66,7 +67,7 @@ export default function UpcomingEventPane(props) {
         if(events != null) {
             for(let event of events) {
                 list.push( 
-                    <div key={event.name} onClick={() => showEvent(event)} className="upcomingEvent">
+                    <div key={event.name + "upcoming"} onClick={() => showEvent(event)} className="upcomingEvent">
                         <img style={{ width: "70%", height: "83%", marginTop: 7}} src={url + event.imageUrl}></img>
                         <h3 style={{marginTop: 3}}>{event.name}</h3>
                     </div>
@@ -255,7 +256,7 @@ export default function UpcomingEventPane(props) {
     }
 
     let createTicket = () => {
-        if(props.user) {
+        if(props.user && pickedPlace) {
             const request = {
                 username: props.user.data.username,
                 placeId: pickedPlace.id,
@@ -265,6 +266,8 @@ export default function UpcomingEventPane(props) {
                 method: 'POST',
                 body: JSON.stringify(request),
                 headers: {
+                    'Authorization': 'Bearer ${jwtToken}',
+                    'X-CSRF-TOKEN': jwtToken,
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 }
@@ -278,7 +281,9 @@ export default function UpcomingEventPane(props) {
             });
         }
         else {
-            alert("Login or Register first!");
+            pickedPlace = null;
+            if(!userData) alert("Login or Register First!");
+            else if(!pickedPlace) alert("Choose place!");
         }
     }
 
@@ -326,7 +331,7 @@ export default function UpcomingEventPane(props) {
                         {getBalconyPlaces(data.places)}
                     </div>
                 </div>
-                <button onClick={createTicket} className="buyTicketButton">Buy</button>
+                <div style={{width: "100%", height: "10%", textAlign: 'center', marginTop: 10}}><button onClick={() => createTicket()} className="buyTicketButton">Buy</button></div>
             </div>
         </div>
 

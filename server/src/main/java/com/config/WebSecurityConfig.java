@@ -1,6 +1,9 @@
 package com.config;
 
+import com.api.dao.JwtTokenRepository;
 import jakarta.servlet.http.Cookie;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,13 +12,17 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,31 +31,34 @@ import java.util.List;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
+    @Autowired
+    private JwtTokenRepository tokenRepository;
+
+    @Autowired
+    @Qualifier("handlerExceptionResolver")
+    private HandlerExceptionResolver resolver;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
        http
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.NEVER)
+            .and()
             .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/api/public/**").permitAll()
                 .requestMatchers("/api/secured/**").permitAll()
             )
+            .addFilterAt(new JwtCsrfFilter(tokenRepository, resolver), CsrfFilter.class)
             .csrf().disable()
             .formLogin().disable()
             .cors()
             .and()
             .headers()
             .and()
-            .logout(logout -> logout
-                .addLogoutHandler((request, response, auth) -> {
-                    Cookie[] cookies = request.getCookies();
-                    for (Cookie cookie : cookies) {
-                        String cookieName = cookie.getName();
-                        Cookie cookieToDelete = new Cookie(cookieName, null);
-                        cookieToDelete.setMaxAge(0);
-                        response.addCookie(cookieToDelete);
-                    }
-                })
-            )
-            .sessionManagement(session -> session.maximumSessions(1).sessionRegistry(sessionRegistry()));
+            .httpBasic()
+            .authenticationEntryPoint(((request, response, e) -> resolver.resolveException(request, response, null, e)))
+            .and()
+            .logout();
 
        return http.build();
     }

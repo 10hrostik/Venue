@@ -18,6 +18,8 @@ export default function UserSettings(props) {
         concert: 'hidden'
     });
 
+    const jwtToket = props.jwt;
+
     let handleSwitchTabs = (settings) => {
         handleSettingsCriteria(settings);
         setDetailsVisibility({
@@ -55,6 +57,9 @@ export default function UserSettings(props) {
     }
 
     const handleLogout = () => {
+        sessionStorage.removeItem('user');
+        sessionStorage.removeItem('jwt');
+        sessionStorage.removeItem('userSettings');
         window.location.reload(false);
     }
     let userSettingsStyle = {
@@ -82,7 +87,8 @@ export default function UserSettings(props) {
                                 settingsVisibility = {settingsVisibility}
                                 setSettingsVisibility = {setSettingsVisibility}
                                 criteria = {props.criteria}
-                                setCriteria = {props.setCriteria}/>
+                                setCriteria = {props.setCriteria}
+                                jwt = {jwtToket}/>
     }
    
 }

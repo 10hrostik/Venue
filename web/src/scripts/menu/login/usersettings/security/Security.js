@@ -3,11 +3,14 @@ import apiServer from "../../../../Config";
 
 export default function Security(props) {
         const userProfile = props.userProfile;
+        const jwtToken = props.jwt;
         
         const sendData = (data) => {
             fetch(apiServer.secured + "users/editpassword", {
                 method: "PATCH",
                 headers: {
+                    'Authorization': 'Bearer ${jwtToken}',
+                    'X-CSRF-TOKEN': jwtToken,
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
@@ -39,6 +42,8 @@ export default function Security(props) {
             fetch(apiServer.secured + "users/delete/", {
                 method: "DELETE",
                 headers: {
+                    'Authorization': 'Bearer ${jwtToken}',
+                    'X-CSRF-TOKEN': jwtToken,
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
